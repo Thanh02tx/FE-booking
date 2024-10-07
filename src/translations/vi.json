@@ -1,0 +1,121 @@
+{   
+    "homeheader":{
+        "specialty": "Chuyên khoa",
+        "searchdoctor" : "Tìm bác sĩ theo chuyên khoa",
+        "health-facility": "Cơ sở y tế",
+        "select-room": "Chọn phòng khám",
+        "doctor": "Bác sĩ",
+        "select-doctor":"Chọn bác sĩ giỏi",
+        "fee": "Gói khám",
+        "check-health":"Khám sức khoẻ tổng quát",
+        "support":"Hỗ trợ",
+        "welcome":"Xin chào "
+
+    },
+
+    "banner": {
+        "healthcare-paltform":"NỀN TẢNG Y TẾ",
+        "comprehensive-healthcare":"CHĂM SÓC SỨC KHOẺ TOÀN DIỆN",
+        "find-specialty" :"Tìm chuyên khoa",
+        "specialist-consultation":"Khám chuyên khoa",
+        "remote-consultation":"Khám từ xa",
+        "general-checkup" :"Khám tổng quát",
+        "medical-testing" :"Xét nghiệm ý học",
+        "mantal-health" : "Sức khoẻ tinh thần",
+        "dental-checkup" :"Khám nha khoa"
+
+    },
+    "menu": {
+        "admin":{
+            "manage-user":"Người dùng",
+            "manage-doctor":"Quản lý bác sĩ",
+            "manage-admin":"Quản lý admin",
+            "crud":"CRUD user",
+            "crud-redux":"CRUD redux",
+            "clinic":"Phòng khám",
+            "manage-clinic":"Quản lý phòng khám",
+            "specialty":"Chuyên khoa",
+            "manage-specialty":"Quản lý chuyên khoa",
+            "handbook":"Cẩm nang",
+            "manage-handbook":"Quản lý cẩm nang"
+        },
+        "doctor": {
+            "manage-schedule": "Quản lý kế hoạch khám bệnh",
+            "manage-patient": "Quản lý bệnh nhân khám bệnh"
+        }
+    },
+    "manage-user":{
+        "add": "Thêm mới người dùng",
+        "password":"Mật khẩu",
+        "email":"Email",
+        "first-name":"Tên",
+        "last-name":"Họ",
+        "phone-number":"Số điện thoại",
+        "address":"Địa chỉ",
+        "gender":"Giới tính",
+        "position": "Chức danh",
+        "role":"Vai trò",
+        "save":"Lưu người dùng",
+        "image":"Ảnh đại diện",
+        "edit": "Lưu thay đổi"
+    },
+    "homepage":{
+        "outstanding-doctor":"Bác sĩ nổi bật tuần qua",
+        "more-infor":"Xem thêm",
+        "specialty-popular":"Chuyên khoa phổ biến"
+    },
+    "manage-schedule":{
+        "title":"Quản lý kế hoạch khám bệnh của bác sĩ",
+        "choose-doctor":"Chọn bác sĩ",
+        "choose-date": "Chọn ngày",
+        "save":"Lưu thông tin"
+    },
+    "patient":{
+        "detail-doctor":{
+           "schedule": "Lịch khám" ,
+           "no-schedule":"Bác sĩ không có lịch hẹn tron thời gian này!",
+           "choose":"Chọn ",
+            "book-free":" và đặt (miễn phí)"
+        },
+        "extra-infor-doctor":{
+            "text-address":"Địa chỉ khám",
+            "price":"Giá khám",
+            "detail":"Xem chi tiết",
+            "payment":"Người bệnh có thể thanh toán chi phí bằng: ",
+            "hide-price":"Ẩn bảng giá"
+        },
+        "booking-modal":{
+            "title":"Thông tin đặt lịch khám bệnh",
+            "firstName":"Họ",
+            "lastName":"Tên",
+            "phoneNumber":"Số điện thoại",
+            "email":"Email",
+            "address":"Địa chỉ",
+            "reason":"Lý do khám",
+            "gender":"Giới tính",
+            "btnConfirm":"Xác nhận",
+            "btnCancel":"Huỷ",
+            "price":"Giá: ",
+            "priceBooking":"Miễn phí đặt lịch",
+             "more-infor":"Xem thêm"
+
+        }
+    },
+    "admin":{
+        "manage-doctor":{
+            "title":"Tạo thêm thông tin bác sĩ",
+            "select-doctor":"Chọn bác sĩ",
+            "intro":"Thông tin giới thiệu",
+            "add":"Tạo thông tin",
+            "save":"Lưu thông tin",
+            "price":"Giá khám bệnh",
+            "payment":"Phương thức thanh toán",
+            "province":"Tỉnh thành",
+            "name-clinic": "Tên phòng khám",
+            "address-clinic":"Địa chỉ phòng khám",
+            "note":"Ghi chú",
+            "select-specialty":"Chọn chuyên khoa",
+            "select-clinic":"Chọn phòng khám"
+        }
+    }
+}
