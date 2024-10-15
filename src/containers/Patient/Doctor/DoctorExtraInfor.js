@@ -44,12 +44,13 @@ class DoctorExtraInfor extends Component {
     render() {
         let { isShowDetailInfor, extraInfor } = this.state;
         let { language } = this.props
+        console.log('md',extraInfor)
         return (
             <div className='doctor-extra-infor-container'>
                 <div className='content-up'>
                     <div className='text-address'><FormattedMessage id='patient.extra-infor-doctor.text-address'/></div>
-                    <div className='name-clinic'>{extraInfor && extraInfor.nameClinic ? extraInfor.nameClinic : ''}</div>
-                    <div className='detail-address'>{extraInfor && extraInfor.addressClinic ? extraInfor.addressClinic : ''}</div>
+                    <div className='name-clinic'>{extraInfor && extraInfor.Clinic&&extraInfor.Clinic.name ? extraInfor.Clinic.name : ''}</div>
+                    <div className='detail-address'>{extraInfor && extraInfor.Clinic&& extraInfor.Clinic.address ? extraInfor.Clinic.address : ''}</div>
                 </div>
                 <div className='content-down'>
                     {isShowDetailInfor === false &&
@@ -75,7 +76,7 @@ class DoctorExtraInfor extends Component {
                             }
 
 
-                            <span className='detail' onClick={() => this.showHideDetailInfor(true)}> Xem chi tiết</span>
+                            <span className='detail' onClick={() => this.showHideDetailInfor(true)}> <FormattedMessage id='patient.extra-infor-doctor.detail'/> </span>
                         </div>
                     }
                     {isShowDetailInfor === true &&
@@ -105,7 +106,14 @@ class DoctorExtraInfor extends Component {
                                         }
                                     </span>
                                 </div>
-                                <div className='note'>{extraInfor && extraInfor.note ? extraInfor.note: ''}</div>
+                                <div className='note'>
+                                    {extraInfor &&(
+                                    <>
+                                        {extraInfor.noteVi&&language===LANGUAGES.VI ? extraInfor.noteVi:''}
+                                        {extraInfor.noteVi&&language===LANGUAGES.EN ? extraInfor.noteEn:''}
+                                    </>
+                                    )}
+                                </div>
                             </div>
                             <div className='payment'>
                                 <FormattedMessage id='patient.extra-infor-doctor.payment'/> 

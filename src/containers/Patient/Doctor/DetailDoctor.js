@@ -12,7 +12,7 @@ class DetailDoctor extends Component {
         super(props);
         this.state = {
             detailDoctor: {},
-            currentDoctorId:-1
+            currentDoctorId: -1
 
         }
     }
@@ -20,14 +20,14 @@ class DetailDoctor extends Component {
         if (this.props.match && this.props.match.params && this.props.match.params.id) {
             let id = this.props.match.params.id;
             this.setState({
-                currentDoctorId:id
+                currentDoctorId: id
             })
             let res = await getDetailInforDoctor(id);
             console.log("dd", res)
             if (res && res.errCode === 0) {
                 this.setState({
                     detailDoctor: res.data,
-                 
+
                 })
             }
 
@@ -35,17 +35,18 @@ class DetailDoctor extends Component {
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.language !== this.props.language) {
-            
+
         }
     }
     render() {
         let { detailDoctor } = this.state;
-        let {language} =this.props;
-        let nameVi='',nameEn='';
+        let { language } = this.props;
+        let nameVi = '', nameEn = '';
         if (detailDoctor && detailDoctor.positionData) {
             nameVi = `${detailDoctor.positionData.valueVi}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
             nameEn = `${detailDoctor.positionData.valueEn}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
         }
+        console.log('sd', detailDoctor)
         return (
             <React.Fragment>
                 <HomeHeader isShowBanner={false} />
@@ -58,32 +59,48 @@ class DetailDoctor extends Component {
                         </div>
                         <div className='content-right'>
                             <div className='up'>
-                                {language === LANGUAGES.VI ? nameVi :nameEn}
+                                {language === LANGUAGES.VI ? nameVi : nameEn}
                             </div>
                             <div className='down'>
-                                {detailDoctor.Markdown && detailDoctor.Markdown.description &&
-                                    <span>
-                                        {detailDoctor.Markdown.description}
-                                    </span>
+                                {detailDoctor && detailDoctor.Doctor_Infor && (
+                                    <>
+                                    {detailDoctor.Doctor_Infor.descriptionVi && language === LANGUAGES.VI && (
+                                            <span>{detailDoctor.Doctor_Infor.descriptionVi} </span>
+                                        )
+                                    }
+                                    {detailDoctor.Doctor_Infor.descriptionEn && language === LANGUAGES.EN && (
+                                            <span>{detailDoctor.Doctor_Infor.descriptionEn} </span>
+                                        )
+                                    }
+                                    </>
+
+                                )
+
                                 }
                             </div>
                         </div>
                     </div>
                     <div className='schedule-doctor'>
                         <div className='content-left'>
-                            <DoctorSchedule doctorIdFromParent ={this.state.currentDoctorId}/>
+                            <DoctorSchedule doctorIdFromParent={this.state.currentDoctorId} />
                         </div>
                         <div className='content-right'>
-                        <DoctorExtraInfor doctorIdFromParent ={this.state.currentDoctorId}/>
+                            <DoctorExtraInfor doctorIdFromParent={this.state.currentDoctorId} />
                         </div>
                     </div>
                     <div className='detail-infor-doctor'>
-                        {detailDoctor.Markdown && detailDoctor.Markdown.contentHTML &&
-                            <div dangerouslySetInnerHTML={{__html:detailDoctor.Markdown.contentHTML}}>
-
-                            </div>
-                        }
+                        {detailDoctor && detailDoctor.Doctor_Infor && (
+                            <>
+                                {language === LANGUAGES.VI && detailDoctor.Doctor_Infor.contentHTMLVi && (
+                                    <div dangerouslySetInnerHTML={{ __html: detailDoctor.Doctor_Infor.contentHTMLVi }} />
+                                )}
+                                {language === LANGUAGES.EN && detailDoctor.Doctor_Infor.contentHTMLEn && (
+                                    <div dangerouslySetInnerHTML={{ __html: detailDoctor.Doctor_Infor.contentHTMLEn }} />
+                                )}
+                            </>
+                        )}
                     </div>
+
                     <div className='comment-doctor'>
 
                     </div>
@@ -96,7 +113,7 @@ class DetailDoctor extends Component {
 
 const mapStateToProps = state => {
     return {
-        language : state.app.language,
+        language: state.app.language,
     };
 };
 

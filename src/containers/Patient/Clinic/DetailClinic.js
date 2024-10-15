@@ -100,8 +100,17 @@ class DetailClinic extends Component {
                     <div className='bg-description'>
                         <div className='description-specialty container'>
                             {dataDetailClinic && !_.isEmpty(dataDetailClinic)
-                                &&
-                                <div dangerouslySetInnerHTML={{ __html: dataDetailClinic.descriptionHTML }}></div>
+                                &&(
+                                    <>
+                                        {language===LANGUAGES.VI&&dataDetailClinic.descriptionHTMLVi&&
+                                            <div dangerouslySetInnerHTML={{ __html: dataDetailClinic.descriptionHTMLVi }}></div>
+                                        }
+                                        {language===LANGUAGES.EN&&dataDetailClinic.descriptionHTMLEn&&
+                                            <div dangerouslySetInnerHTML={{ __html: dataDetailClinic.descriptionHTMLEn }}></div>
+                                        }
+                                    </>
+                                )
+            
                             }
                         </div>
                     </div>

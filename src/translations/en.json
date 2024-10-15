@@ -101,17 +101,37 @@
         "manage-doctor": {
             "title": "Add information for the doctor",
             "select-doctor": "Select doctor:",
-            "intro": "Introduction:",
-            "add": "Create infor",
-            "save": "Save infor",
-            "price": "Price",
-            "payment": "Payment",
-            "province": "Province",
-            "name-clinic": "Clinic's name",
-            "address-clinic": "Clinic's address",
-            "note": "Note",
-             "select-specialty":"Specialty",
-            "select-clinic":"Clinic"
+            "intro-VI": "Introduction VI:",
+            "intro-EN": "Introduction EN:",
+            "add": "Create infor:",
+            "save": "Save infor:",
+            "price": "Price:",
+            "payment": "Payment:",
+            "province": "Province:",
+            "name-clinic": "Clinic's name:",
+            "address-clinic": "Clinic's address:",
+            "note-VI": "Note VI:",
+            "note-EN": "Note EN:",
+             "select-specialty":"Specialty:",
+            "select-clinic":"Clinic:"
+        },
+        "manage-specialty":{
+            "title":"Specialty management",
+            "specialty-name-VI":"Specialty's name VI:",
+            "specialty-name-EN":"Specialty's name EN:",
+            "description-VI":"Description VI:",
+            "description-EN":"Description EN:",
+            "specialty-image":"Specialty's image:"
+        },
+        "manage-clinic":{
+            "title":"Clinic management",
+            "clinic-image":"Clinic's image:",
+            "clinic-name":"Clinic's name:",
+            "clinic-province":"Province:",
+            "clinic-address":"Address:",
+            "clinic-address-map":"Address map:",
+            "description-VI":"Description VI:",
+            "description-EN":"Description EN:"
         }
     }
 }

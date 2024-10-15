@@ -16,8 +16,10 @@ class ManageSpecialty extends Component {
             nameVi: '',
             nameEn: '',
             imageBase64: '',
-            descriptionHTML: '',
-            descriptionMarkdown: ''
+            descriptionHTMLVi: '',
+            descriptionMarkdownVi: '',
+            descriptionHTMLEn: '',
+            descriptionMarkdownEn: ''
 
         }
     }
@@ -34,10 +36,16 @@ class ManageSpecialty extends Component {
             ...copyState
         })
     }
-    handleEditorChange = ({ html, text }) => {
+    handleEditorChangeVi = ({ html, text }) => {
         this.setState({
-            descriptionHTML: html,
-            descriptionMarkdown: text
+            descriptionHTMLVi: html,
+            descriptionMarkdownVi: text
+        })
+    }
+    handleEditorChangeEn = ({ html, text }) => {
+        this.setState({
+            descriptionHTMLEn: html,
+            descriptionMarkdownEn: text
         })
     }
     handleOnChangeImage = async (event) => {
@@ -59,8 +67,10 @@ class ManageSpecialty extends Component {
                 nameVi: '',
                 nameEn: '',
                 imageBase64: '',
-                descriptionHTML: '',
-                descriptionMarkdown: ''
+                descriptionHTMLVi: '',
+                descriptionMarkdownVi: '',
+                descriptionHTMLEn: '',
+                descriptionMarkdownEn: ''
             })
         } else {
             toast.error("Something wrongs....")
@@ -71,36 +81,48 @@ class ManageSpecialty extends Component {
 
         return (
             <div className='mange-specialty-contianer'>
-                <div className='ms-title'>Quản lý chuyên khoa</div>
+                <div className='ms-title'><FormattedMessage id="admin.manage-specialty.title"/></div>
 
                 <div className='add-new-specialty row'>
                     <div className='col-4 form-group'>
-                        <label>Tên chuyên khoa VI</label>
+                        <label><FormattedMessage id="admin.manage-specialty.specialty-name-VI"/></label>
                         <input className='form-control' type='text'
                             onChange={(event) => this.handleOnChangeInput(event, 'nameVi')}
                             value={this.state.nameVi}
+                            placeholder='...'
                         ></input>
                     </div>
                     <div className='col-4 form-group'>
-                        <label>Tên chuyên khoa EN</label>
+                        <label><FormattedMessage id="admin.manage-specialty.specialty-name-EN"/></label>
                         <input className='form-control' type='text'
                             onChange={(event) => this.handleOnChangeInput(event, 'nameEn')}
                             value={this.state.nameEn}
+                            placeholder='...'
                         ></input>
                     </div>
                     <div className='col-4 form-group'>
-                        <label>Ảnh chuyên khoa</label>
+                        <label><FormattedMessage id="admin.manage-specialty.specialty-image"/></label>
                         <input className='form-control-file' type="file"
 
                             onChange={(event) => this.handleOnChangeImage(event)}
                         ></input>
                     </div>
                     <div className='col-12'>
+                        <label><FormattedMessage id="admin.manage-specialty.description-VI"/> </label>
                         <MdEditor
-                            style={{ height: '350px' }}
+                            style={{ height: '150px' }}
                             renderHTML={text => mdParser.render(text)}
-                            onChange={this.handleEditorChange}
-                            value={this.state.descriptionMarkdown}
+                            onChange={this.handleEditorChangeVi}
+                            value={this.state.descriptionMarkdownVi}
+                        />
+                    </div>
+                    <div className='col-12'>
+                        <label><FormattedMessage id="admin.manage-specialty.description-EN"/></label>
+                        <MdEditor
+                            style={{ height: '150px' }}
+                            renderHTML={text => mdParser.render(text)}
+                            onChange={this.handleEditorChangeEn}
+                            value={this.state.descriptionMarkdownEn}
                         />
                     </div>
                     <div className='col-12'>

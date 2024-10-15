@@ -104,18 +104,38 @@
     "admin":{
         "manage-doctor":{
             "title":"Tạo thêm thông tin bác sĩ",
-            "select-doctor":"Chọn bác sĩ",
-            "intro":"Thông tin giới thiệu",
-            "add":"Tạo thông tin",
-            "save":"Lưu thông tin",
-            "price":"Giá khám bệnh",
-            "payment":"Phương thức thanh toán",
-            "province":"Tỉnh thành",
-            "name-clinic": "Tên phòng khám",
-            "address-clinic":"Địa chỉ phòng khám",
-            "note":"Ghi chú",
-            "select-specialty":"Chọn chuyên khoa",
-            "select-clinic":"Chọn phòng khám"
+            "select-doctor":"Chọn bác sĩ:",
+            "intro-VI":"Thông tin giới thiệu VI:",
+            "intro-EN":"Thông tin giới thiệu EN:",
+            "add":"Tạo thông tin:",
+            "save":"Lưu thông tin:",
+            "price":"Giá khám bệnh:",
+            "payment":"Phương thức thanh toán:",
+            "province":"Tỉnh thành:",
+            "name-clinic": "Tên phòng khám:",
+            "address-clinic":"Địa chỉ phòng khám:",
+            "note-VI":"Ghi chú VI:",
+            "note-EN":"Ghi chú EN:",
+            "select-specialty":"Chọn chuyên khoa:",
+            "select-clinic":"Chọn phòng khám:"
+        },
+        "manage-specialty":{
+            "title":"Quản lý chuyên khoa",
+            "specialty-name-VI":"Tên chuyên khoa VI:",
+            "specialty-name-EN":"Tên chuyên khoa EN:",
+            "description-VI":"Mô tả chi tiết VI:",
+            "description-EN":"Mô tả chi tiết EN:",
+            "specialty-image":"Ảnh chuyên khoa:"
+        },
+        "manage-clinic":{
+            "title":"Quản lý phòng khám",
+            "clinic-image":"Ảnh phòng khám:",
+            "clinic-name":"Tên phòng khám/ bệnh viện:",
+            "clinic-province":"Tỉnh thành:",
+            "clinic-address":"Địa chỉ:",
+            "clinic-address-map":"Địa chỉ map:",
+            "description-VI":"Mô tả chi tiết VI:",
+            "description-EN":"Mô tả ci tiết EN:"
         }
     }
 }

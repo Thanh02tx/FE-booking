@@ -23,8 +23,8 @@ class DetailSpecialty extends Component {
     async componentDidMount() {
         if (this.props.match && this.props.match.params && this.props.match.params.id) {
             let id = this.props.match.params.id;
+            
             let resProvince = await getAllCodeService('PROVINCE');
-
             let res = await getDetailSpecialtyById({
                 id: id,
                 location: 'ALL'
@@ -55,6 +55,7 @@ class DetailSpecialty extends Component {
                     arrDoctorId: arrDoctorId,
                     listProvince:dataProvince
                 })
+                console.log('sfdf',this.state)
             }
         }
     }
@@ -65,6 +66,7 @@ class DetailSpecialty extends Component {
         if (this.props.match && this.props.match.params && this.props.match.params.id) {
             let id = this.props.match.params.id;
             let location = event.target.value;
+            console.log('sfds',location)
             let res = await getDetailSpecialtyById({
                 id: id,
                 location: location
@@ -93,6 +95,7 @@ class DetailSpecialty extends Component {
     render() {
         let { language } = this.props;
         let { arrDoctorId, dataDetailSpecialty, listProvince } = this.state
+        console.log('sdfdf'.listProvince)
         return (
             <div className='detail-specialty-container'>
                 <HomeHeader />
@@ -100,8 +103,17 @@ class DetailSpecialty extends Component {
                     <div className='bg-description'>
                         <div className='description-specialty container'>
                             {dataDetailSpecialty && !_.isEmpty(dataDetailSpecialty)
-                                &&
-                                <div dangerouslySetInnerHTML={{ __html: dataDetailSpecialty.descriptionHTML }}></div>
+                                &&(
+                                    <>
+                                        {dataDetailSpecialty.descriptionHTMLVi && language===LANGUAGES.VI &&
+                                            <div dangerouslySetInnerHTML={{ __html: dataDetailSpecialty.descriptionHTMLVi }}></div>
+                                        }
+                                        {dataDetailSpecialty.descriptionHTMLEn && language===LANGUAGES.EN &&
+                                            <div dangerouslySetInnerHTML={{ __html: dataDetailSpecialty.descriptionHTMLEn }}></div>
+                                        }
+                                    </>
+                                )
+                                
                             }
                         </div>
                     </div>

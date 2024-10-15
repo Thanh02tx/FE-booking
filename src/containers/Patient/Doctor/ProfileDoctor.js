@@ -40,7 +40,9 @@ class ProfileDoctor extends Component {
                 result = res.data;
             }
         }
+        console.log('sfdf',result)
         return result;
+        
     }
     renderTimeBooking = (dataTime) => {
         let { language } = this.props;
@@ -77,9 +79,22 @@ class ProfileDoctor extends Component {
                         <div className='down'>
                             {isShowDescription === true ?
                                 <>
-                                    {dataProfile && dataProfile.Markdown && dataProfile.Markdown.description
-                                        && <span>{dataProfile.Markdown.description}</span>
+                                    <div>
+                                    {dataProfile && dataProfile.Doctor_Infor && (
+                                        <>  
+                                            {dataProfile.Doctor_Infor.descriptionVi&&language===LANGUAGES.VI&&
+                                                <span>{dataProfile.Doctor_Infor.descriptionVi}</span>}
+                                            {dataProfile.Doctor_Infor.descriptionEn&&language===LANGUAGES.EN&&
+                                                <span>{dataProfile.Doctor_Infor.descriptionEn}</span>}
+                                        </>
+                                    )
+                                        
                                     }
+                                    </div>
+                                    <div><i className="fas fa-map-marker-alt"></i>
+                                    {dataProfile &&dataProfile.Doctor_Infor&&dataProfile.Doctor_Infor.Clinic&&dataProfile.Doctor_Infor.Clinic.provinceData?dataProfile.Doctor_Infor.Clinic.provinceData.valueVi:'' }
+                                    </div>
+
                                 </>
                                 : <>
                                     {this.renderTimeBooking(dataTime)}
