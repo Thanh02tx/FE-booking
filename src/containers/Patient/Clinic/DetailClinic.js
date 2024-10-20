@@ -29,8 +29,8 @@ class DetailClinic extends Component {
                 id: id,
                 specialtyId: 'ALL'
             })
-           
-            if (res && res.errCode === 0 && resSpecialty && resSpecialty.errCode === 0 ) {
+
+            if (res && res.errCode === 0 && resSpecialty && resSpecialty.errCode === 0) {
                 let data = res.data;
                 let arrDoctorId = [];
                 if (data && !_.isEmpty(res.data)) {
@@ -41,18 +41,18 @@ class DetailClinic extends Component {
                         })
                     }
                 }
-                let dataSpecialty=resSpecialty.data;
-                if(dataSpecialty&&dataSpecialty.length>0){
+                let dataSpecialty = resSpecialty.data;
+                if (dataSpecialty && dataSpecialty.length > 0) {
                     dataSpecialty.unshift({
-                        id:'ALL',
-                        nameVi:'Tất cả chuyên khoa',
-                        nameEn:'All Specialty'
+                        id: 'ALL',
+                        nameVi: 'Tất cả chuyên khoa',
+                        nameEn: 'All Specialty'
                     })
                 }
                 this.setState({
                     dataDetailClinic: res.data,
                     arrDoctorId: arrDoctorId,
-                    listSpecialty:dataSpecialty
+                    listSpecialty: dataSpecialty
                 })
             }
         }
@@ -60,7 +60,7 @@ class DetailClinic extends Component {
     async componentDidUpdate(prevProps, prevState, snaphot) {
 
     }
-    handleOnchangeSelect = async(event) => {
+    handleOnchangeSelect = async (event) => {
         if (this.props.match && this.props.match.params && this.props.match.params.id) {
             let id = this.props.match.params.id;
             let specialtyId = event.target.value;
@@ -68,7 +68,7 @@ class DetailClinic extends Component {
                 id: id,
                 specialtyId: specialtyId
             })
-            if (res && res.errCode === 0 ) {
+            if (res && res.errCode === 0) {
                 let data = res.data;
                 let arrDoctorId = [];
                 if (data && !_.isEmpty(res.data)) {
@@ -79,55 +79,46 @@ class DetailClinic extends Component {
                         })
                     }
                 }
-                
+
                 this.setState({
                     dataDetailClinic: res.data,
                     arrDoctorId: arrDoctorId,
-        
+
                 })
             }
         }
-        
+
     }
     render() {
-        console.log('ssđ',this.state)
+        console.log('ssđ', this.state)
         let { language } = this.props;
         let { arrDoctorId, dataDetailClinic, listSpecialty } = this.state
         return (
-            <div className='detail-specialty-container'>
+            <div className='detail-clinic-container'>
                 <HomeHeader />
+                <div className='image-clinic' style={{ background: `url(${dataDetailClinic && dataDetailClinic.image ? dataDetailClinic.image : ''})` }}>
+
+                </div>
                 <div className='detail-specialty-body '>
-                    <div className='bg-description'>
-                        <div className='description-specialty container'>
-                            {dataDetailClinic && !_.isEmpty(dataDetailClinic)
-                                &&(
-                                    <>
-                                        {language===LANGUAGES.VI&&dataDetailClinic.descriptionHTMLVi&&
-                                            <div dangerouslySetInnerHTML={{ __html: dataDetailClinic.descriptionHTMLVi }}></div>
-                                        }
-                                        {language===LANGUAGES.EN&&dataDetailClinic.descriptionHTMLEn&&
-                                            <div dangerouslySetInnerHTML={{ __html: dataDetailClinic.descriptionHTMLEn }}></div>
-                                        }
-                                    </>
-                                )
-            
-                            }
-                        </div>
-                    </div>
+
                     <div className='bg-doctor'>
                         <div className='container'>
-                            <div className='search-sp-doctor'>
-                                <select onChange={(event) => this.handleOnchangeSelect(event)}>
-                                    {listSpecialty && listSpecialty.length > 0 &&
-                                        listSpecialty.map((item, index) => {
-                                            return (
-                                                <option key={index} value={item.id}>
-                                                    {language === LANGUAGES.VI ? item.nameVi : item.nameEn}
-                                                </option>
-                                            )
-                                        })
-                                    }
-                                </select>
+                            <div className='search-sp-doctor d-flex '>
+                                <div>
+                                    <select onChange={(event) => this.handleOnchangeSelect(event)}>
+                                        {listSpecialty && listSpecialty.length > 0 &&
+                                            listSpecialty.map((item, index) => {
+                                                return (
+                                                    <option key={index} value={item.id}>
+                                                        {language === LANGUAGES.VI ? item.nameVi : item.nameEn}
+                                                    </option>
+                                                )
+                                            })
+                                        }
+                                    </select>
+                                </div>
+                                <div className='mx-3 px-3 bg-white rounded'><a className='text-decoration-none text-dark' href='#des-clinic'><FormattedMessage id='patient.detail-clinic.clinic-information'/></a></div>
+                                <div className='px-3 bg-white rounded'><a className='text-decoration-none text-dark' href='#address-clinic'><FormattedMessage id='patient.detail-clinic.clinic-address'/></a></div>
                             </div>
                             {arrDoctorId && arrDoctorId.length > 0
                                 && arrDoctorId.map((item, index) => {
@@ -139,7 +130,7 @@ class DetailClinic extends Component {
                                                         doctorId={item}
                                                         isShowDescription={true}
                                                         isShowLinkDetail={true}
-    
+
                                                     />
                                                 </div>
                                             </div>
@@ -164,6 +155,37 @@ class DetailClinic extends Component {
                                     )
                                 })
                             }
+                        </div>
+                    </div>
+                    <div className='bg-description'>
+
+                        <div className='description-specialty container'>
+                            <div id='des-clinic'><h4><FormattedMessage id='patient.detail-clinic.clinic-information'/></h4></div>
+
+
+                            {dataDetailClinic && !_.isEmpty(dataDetailClinic)
+                                && (
+                                    <>
+                                        {language === LANGUAGES.VI && dataDetailClinic.descriptionHTMLVi &&
+                                            <div dangerouslySetInnerHTML={{ __html: dataDetailClinic.descriptionHTMLVi }}></div>
+                                        }
+                                        {language === LANGUAGES.EN && dataDetailClinic.descriptionHTMLEn &&
+                                            <div dangerouslySetInnerHTML={{ __html: dataDetailClinic.descriptionHTMLEn }}></div>
+                                        }
+                                    </>
+                                )
+
+                            }
+
+                        </div>
+                        <div className='bg-address-clinic'>
+                            <div className='address-clinic container'>
+                                <div id='address-clinic'><h4><FormattedMessage id='patient.detail-clinic.clinic-address'/></h4></div>
+                                <div>{dataDetailClinic && dataDetailClinic.address ? dataDetailClinic.address : ''}</div>
+                                {dataDetailClinic && dataDetailClinic.addressMap &&
+                                    <div dangerouslySetInnerHTML={{ __html: dataDetailClinic.addressMap }}></div>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>

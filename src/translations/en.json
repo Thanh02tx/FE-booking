@@ -74,6 +74,14 @@
             "choose": "Choose ",
             "book-free": " and book (free)"
         },
+        "detail-clinic":{
+            "clinic-information":"Clinic information",
+            "clinic-address": "Clinic address"
+        },
+        "detail-specialty":{
+            "more-infor":"See more",
+            "hide":"Hide"
+        },
         "extra-infor-doctor": {
             "text-address": "Address of examination",
             "price": "Examination price",

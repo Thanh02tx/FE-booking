@@ -190,9 +190,7 @@ class ManageClinic extends Component {
                             value={this.state.descriptionMarkdownEn}
                         />
                     </div>
-                    <div className='col-12'>
-                    <div ><iframe width={"100%"} height={"600"} frameBorder="0" scrolling="no" marginHeight="0" marginWidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=b%C3%AAnh%20vi%E1%BB%87n%20h%E1%BB%93ng%20ng%E1%BB%8Dc%20h%C3%A0%20n%E1%BB%99+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.gps.ie/">gps devices</a></iframe></div>
-                    </div>
+                    
                     <div className='col-12'>
                         <button className='btn-save-specialty'
                             onClick={() => this.handleSaveNewClinic()}

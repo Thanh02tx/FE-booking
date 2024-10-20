@@ -16,7 +16,8 @@ class DetailSpecialty extends Component {
         this.state = {
             arrDoctorId: [],
             dataDetailSpecialty: {},
-            listProvince: []
+            listProvince: [],
+            hidden_des:true
 
         }
     }
@@ -66,7 +67,6 @@ class DetailSpecialty extends Component {
         if (this.props.match && this.props.match.params && this.props.match.params.id) {
             let id = this.props.match.params.id;
             let location = event.target.value;
-            console.log('sfds',location)
             let res = await getDetailSpecialtyById({
                 id: id,
                 location: location
@@ -92,6 +92,11 @@ class DetailSpecialty extends Component {
         }
         console.log('ssđ',this.state)
     }
+    handleUnHiddenDes=()=>{
+        this.setState({
+            hidden_des: ! this.state.hidden_des
+        })
+    }
     render() {
         let { language } = this.props;
         let { arrDoctorId, dataDetailSpecialty, listProvince } = this.state
@@ -101,7 +106,14 @@ class DetailSpecialty extends Component {
                 <HomeHeader />
                 <div className='detail-specialty-body '>
                     <div className='bg-description'>
-                        <div className='description-specialty container'>
+                        <div className='description-specialty container'
+                            style={{
+                                height: this.state.hidden_des===true ? '150px' : 'auto',
+                                overflow: 'hidden',
+                                whiteSpace: 'nowrap',
+                                textOverflow: 'ellipsis'
+                            }}
+                        >
                             {dataDetailSpecialty && !_.isEmpty(dataDetailSpecialty)
                                 &&(
                                     <>
@@ -115,6 +127,13 @@ class DetailSpecialty extends Component {
                                 )
                                 
                             }
+                            
+                        </div>
+                        <div style={{color: 'blue',  cursor: 'pointer',
+                            textAlign: 'center',
+                         }} 
+                            onClick={()=>this.handleUnHiddenDes()}>
+                                {this.state.hidden_des===true?<FormattedMessage id='patient.detail-specialty.more-infor'/>:<FormattedMessage id='patient.detail-specialty.hide'/>}
                         </div>
                     </div>
                     <div className='bg-doctor'>

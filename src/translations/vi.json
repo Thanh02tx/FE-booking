@@ -77,6 +77,14 @@
            "choose":"Chọn ",
             "book-free":" và đặt (miễn phí)"
         },
+        "detail-clinic":{
+            "clinic-information":"Thông tin phong khám",
+            "clinic-address": "Địa chỉ phòng khám"
+        },
+        "detail-specialty":{
+            "more-infor":"Xem thêm",
+            "hide":"Ẩn bớt"
+        },
         "extra-infor-doctor":{
             "text-address":"Địa chỉ khám",
             "price":"Giá khám",
