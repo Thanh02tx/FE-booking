@@ -7,15 +7,18 @@ import { LANGUAGES } from '../../../utils';
 import './ManageHandbook.scss';
 import { createNewHandbook } from '../../../services/userService';
 import { toast } from 'react-toastify';
-import {CommonUtils} from '../../../utils';
+import { CommonUtils } from '../../../utils';
+import { getAllHandbook, putEditHandbook, deleteHandbook } from '../../../services/userService';
 const mdParser = new MarkdownIt();
 
 class ManageHandbook extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nameVi:'',
-            nameEn:'',
+            id: '',
+            listHandbook: [],
+            nameVi: '',
+            nameEn: '',
             headingVi: '',
             headingEn: '',
             contentHTMLVi: '',
@@ -28,7 +31,17 @@ class ManageHandbook extends Component {
             editingIndex: ''
         };
     }
-
+    async componentDidMount() {
+        this.getAllDataHandbook()
+    }
+    getAllDataHandbook = async () => {
+        let res = await getAllHandbook();
+        if (res && res.errCode === 0) {
+            this.setState({
+                listHandbook: res.data
+            })
+        }
+    }
     // Hàm xử lý khi nhập dữ liệu cho trường 'x'
     handleInputChange = (event, id) => {
         let copyState = { ...this.state }
@@ -103,14 +116,14 @@ class ManageHandbook extends Component {
             contentMarkdownEn: itemToEdit.contentMarkdownEn,
             contentHTMLVi: itemToEdit.contentHTMLVi,
             contentHTMLEn: itemToEdit.contentHTMLEn,
-            editingIndex: index ,
-            isCreate:false, 
+            editingIndex: index,
+            isCreate: false,
         });
     }
     handleSaveItem = () => {
-        if (this.state.editingIndex!=='') {
+        if (this.state.editingIndex !== '') {
             let updatedList = [...this.state.listHeading]; // Tạo bản sao của listHeading
-    
+
             // Cập nhật lại thông tin của item đang chỉnh sửa
             updatedList[this.state.editingIndex] = {
                 headingVi: this.state.headingVi,
@@ -129,41 +142,101 @@ class ManageHandbook extends Component {
                 contentHTMLVi: '',
                 contentHTMLEn: '',
                 editingIndex: '',
-                isCreate:true
+                isCreate: true
             });
         }
     }
-    
-    handleAddnewHandbook = async() => {
+
+    handleAddnewHandbook = async () => {
         let res = await createNewHandbook({
-            nameVi:this.state.nameVi,
+            nameVi: this.state.nameVi,
             nameEn: this.state.nameEn,
-            image:this.state.image,
-            listHeading:this.state.listHeading
+            image: this.state.image,
+            listHeading: this.state.listHeading
         })
-        if(res&&res.errCode===0){
-            toast.success('Succed!')
+        if (res && res.errCode === 0) {
+            this.getAllDataHandbook()
             this.setState({
-                nameVi:'',
-                nameEn:'',
-                image:'',
-                listHeading:[],
-                isShow:false
+                nameVi: '',
+                nameEn: '',
+                image: '',
+                listHeading: [],
+                isShow: false
             })
+            toast.success('Succed!')
         }
-        else{
+        else {
             toast.error('Error!')
         }
-        
+
     }
     handleShow = () => {
         this.setState({
-            isShow: !this.state.isShow
+            isShow: !this.state.isShow,
+        })
+    }
+    handleUpdateHandbook = (item) => {
+        let imageBase64 = ''
+        if (item.image) {
+            imageBase64 = new Buffer.from(item.image, 'base64').toString('binary');
+        }
+        this.setState({
+            id: item.id,
+            image: imageBase64,
+            nameVi: item.nameVi,
+            nameEn: item.nameEn,
+            listHeading: item.Handbook_Contents,
+            isCreate: false,
+            isShow: true,
+        })
+    }
+    handleSaveHandbook = async () => {
+        console.log('dfsf', this.state)
+        let res = await putEditHandbook({
+            id: this.state.id,
+            nameVi: this.state.nameVi,
+            nameEn: this.state.nameEn,
+            image: this.state.image,
+            listHeading: this.state.listHeading
+        })
+        if (res && res.errCode === 0) {
+            this.getAllDataHandbook()
+            this.setState({
+                nameVi: '',
+                nameEn: '',
+                image: '',
+                listHeading: [],
+                isShow: false
+            })
+            toast.success('Succed!')
+        }
+        else {
+            toast.error('Error!')
+        }
+
+    }
+    handleDeleteHandbook = async (item) => {
+        let res = await deleteHandbook(item.id)
+        if (res && res.errCode === 0) {
+            this.getAllDataHandbook()
+            toast.success('Succed!')
+        } else {
+            toast.error('Error!')
+        }
+    }
+    handleCancel = () => {
+        this.setState({
+            nameVi: '',
+            nameEn: '',
+            image: '',
+            listHeading: [],
+            isCreate: true,
+            isShow: false
         })
     }
     render() {
         let { language } = this.props;
-        let { isShow,isCreate } = this.state;
+        let { isShow, isCreate, listHandbook, nameVi, nameEn } = this.state;
         return (
             <div className='manage-handbook-container container'>
                 <div className='title p-4'>
@@ -181,26 +254,28 @@ class ManageHandbook extends Component {
                         <div className='row'>
                             <div className='col-md-4  form-group'>
                                 <label>Tên VI</label>
-                                <input 
-                                    className='form-control' 
-                                    type='text' 
+                                <input
+                                    className='form-control'
+                                    type='text'
                                     onChange={(event) => this.handleInputChange(event, 'nameVi')}
+                                    value={nameVi}
                                 />
                             </div>
                             <div className='col-md-4 form-group'>
                                 <label>Tên EN</label>
-                                <input 
-                                    className='form-control' 
-                                    type='text' 
+                                <input
+                                    className='form-control'
+                                    type='text'
+                                    value={nameEn}
                                     onChange={(event) => this.handleInputChange(event, 'nameEn')}
                                 />
                             </div>
                             <div className='col-md-4 form-group'>
                                 <label>Ảnh</label>
-                                <input 
-                                    className='form-control' 
-                                    type='file' 
-                                    onChange={(event)=>this.handleOnChangeImage(event)}
+                                <input
+                                    className='form-control'
+                                    type='file'
+                                    onChange={(event) => this.handleOnChangeImage(event)}
                                 />
                             </div>
                         </div>
@@ -242,11 +317,10 @@ class ManageHandbook extends Component {
                                 />
                             </div>
                         </div>
-                        {isCreate===true ?
-                            <button className='btn btn-light my-2' onClick={this.handleAddToList}>Thêm</button>  :
-                            <button className='btn btn-dark my-2' onClick={this.handleSaveItem}>Cập nhập</button>
-                        }
-                        
+
+                        <button className='btn btn-light my-2' onClick={this.handleAddToList}>Thêm</button>
+
+
 
 
                         <div className='xy-list'>
@@ -271,17 +345,18 @@ class ManageHandbook extends Component {
 
                                                             <div>
                                                                 <button
-                                                                    className='btn btn-danger'
+                                                                    className='btn btn-danger mx-3'
                                                                     onClick={() => this.handleDeleteItem(index)}
                                                                 >
                                                                     Xóa
                                                                 </button>
-                                                                <buttion
+
+                                                                <button
                                                                     className='btn btn-warning'
                                                                     onClick={() => this.handleUpdateItem(index)}
                                                                 >
                                                                     Sửa
-                                                                </buttion>
+                                                                </button>
                                                             </div>
                                                         </li>
                                                     )}
@@ -294,15 +369,69 @@ class ManageHandbook extends Component {
                             </DragDropContext>
                         </div>
                         <div>
-                            <button
-                                className='btn btn-success m-3 px-4'
-                                onClick={() => this.handleAddnewHandbook()}
-                            >
-                                xác nhân
-                            </button>
+                            {isCreate === true ?
+                                <button
+                                    className='btn btn-success m-3 px-4'
+                                    onClick={this.handleAddnewHandbook}
+                                >
+                                    Xác nhận
+                                </button> :
+                                <button
+                                    className='btn btn-dark my-2'
+                                    onClick={this.handleSaveHandbook}
+                                >
+                                    Cập nhập
+                                </button>
+                            }
+
                         </div>
                     </div>
                 }
+                <div className='tb-handbook mt-3'>
+                    <table className='table  '>
+                        <tr>
+                            <th>STT</th>
+                            <th>Name Vi</th>
+                            <th>Name En</th>
+                            <th>Hành động</th>
+                        </tr>
+                        {listHandbook.length > 0 &&
+                            listHandbook.map((item, index) => {
+                                return (
+                                    <tr key={`handbook-${index}`}>
+                                        <td>{index + 1}</td>
+                                        <td>{item.nameVi}</td>
+                                        <td>{item.nameEn}</td>
+                                        <td>
+                                            {isCreate ?
+                                                <button
+                                                    className='btn btn-warning mx-3 px-3'
+                                                    onClick={() => this.handleUpdateHandbook(item)}
+                                                >
+                                                    Sửa
+                                                </button>
+                                                :
+                                                <button
+                                                    className='btn btn-warning mx-3 px-3'
+                                                    onClick={() => this.handleCancel()}
+                                                >
+                                                    Huỷ
+                                                </button>
+                                            }
+                                            <button
+                                                className='btn btn-danger px-3'
+                                                onClick={() => this.handleDeleteHandbook(item)}
+                                            >
+                                                Xoá
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+
+                        }
+                    </table>
+                </div>
             </div>
         );
     }
