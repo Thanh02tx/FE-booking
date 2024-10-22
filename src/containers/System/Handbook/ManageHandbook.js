@@ -178,7 +178,7 @@ class ManageHandbook extends Component {
     handleUpdateHandbook = (item) => {
         let imageBase64 = ''
         if (item.image) {
-            imageBase64 = new Buffer.from(item.image, 'base64').toString('binary');
+            imageBase64 = Buffer.from(item.image, 'base64').toString('binary');
         }
         this.setState({
             id: item.id,
@@ -376,12 +376,20 @@ class ManageHandbook extends Component {
                                 >
                                     Xác nhận
                                 </button> :
-                                <button
-                                    className='btn btn-dark my-2'
-                                    onClick={this.handleSaveHandbook}
-                                >
-                                    Cập nhập
-                                </button>
+                                <>
+                                    <button
+                                        className='btn btn-dark m-3 px-3'
+                                        onClick={this.handleSaveHandbook}
+                                    >
+                                        Cập nhập
+                                    </button>
+                                    <button
+                                        className='btn btn-warning my--3 px-3'
+                                        onClick={() => this.handleCancel()}
+                                    >
+                                        Huỷ
+                                    </button>
+                                </>
                             }
 
                         </div>
@@ -403,21 +411,13 @@ class ManageHandbook extends Component {
                                         <td>{item.nameVi}</td>
                                         <td>{item.nameEn}</td>
                                         <td>
-                                            {isCreate ?
-                                                <button
-                                                    className='btn btn-warning mx-3 px-3'
-                                                    onClick={() => this.handleUpdateHandbook(item)}
-                                                >
-                                                    Sửa
-                                                </button>
-                                                :
-                                                <button
-                                                    className='btn btn-warning mx-3 px-3'
-                                                    onClick={() => this.handleCancel()}
-                                                >
-                                                    Huỷ
-                                                </button>
-                                            }
+
+                                            <button
+                                                className='btn btn-warning mx-3 px-3'
+                                                onClick={() => this.handleUpdateHandbook(item)}
+                                            >
+                                                Sửa
+                                            </button>
                                             <button
                                                 className='btn btn-danger px-3'
                                                 onClick={() => this.handleDeleteHandbook(item)}
