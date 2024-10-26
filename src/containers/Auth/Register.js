@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from "connected-react-router";
@@ -383,6 +383,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);
-=======
-
->>>>>>> b6ec9572b05255052c111e06a77fdd97e8a21ce2

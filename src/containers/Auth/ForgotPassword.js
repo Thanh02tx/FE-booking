@@ -160,6 +160,9 @@ class ForgotPassword extends Component {
             })
         }
     }
+    handleLoginClick=()=>{
+        this.props.history.push('/login');
+    }
     render() {
         let { isShowOtp, isShowConfirm } = this.state
         return (
