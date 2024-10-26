@@ -24,6 +24,7 @@ import DetailSpecialty from './Patient/Specialty/DetailSpecialty.js';
 import DetailClinic from './Patient/Clinic/DetailClinic.js';
 import Register from './Auth/Register.js';
 import DetailHandbook from './Patient/Handbook/DetailHandbook.js';
+import ForgotPassword from './Auth/ForgotPassword.js';
 class App extends Component {
 
     handlePersistorState = () => {
@@ -66,6 +67,7 @@ class App extends Component {
                                     <Route path={path.DETAIL_CLINIC} component={DetailClinic}/>
                                     <Route path={path.VERIFY_EMAIL_BOOKING} component={VerifyEmail}/>
                                     <Route path={path.REGISTER} component={Register} />
+                                    <Route path={path.FORGOT_PASSWORD} component={ForgotPassword} />
                                 </Switch>
                             </CustomScrollbars>
                         </div>

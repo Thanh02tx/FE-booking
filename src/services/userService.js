@@ -5,6 +5,15 @@ const handleLoginApi = (userEmail, userPassword) => {
 const getAllUsers = (inputId) => {
     return axios.get(`/api/get-all-users?id=${inputId}`);
 }
+const checkUserByEmail = (email) => {
+    return axios.get(`/api/check-user-by-email?email=${email}`);
+}
+const sendMailOtp = (data) => {
+    return axios.post(`/api/send-mail-otp`,data);
+}
+const resetPassword = (data) => {
+    return axios.put(`/api/reset-password`,data);
+}
 const createNewUserService = (data) => {
     return axios.post('/api/create-new-user', data);
 }
@@ -129,6 +138,9 @@ const getDetailHandbookById = (idInput) => {
 export {
     handleLoginApi,
     getAllUsers,
+    checkUserByEmail,
+    sendMailOtp,
+    resetPassword,
     createNewUserService,
     deleteUserService,
     editUserService,

@@ -45,7 +45,7 @@ class HandBook extends Component {
                                         <div className='section-customize' key={`handbook-${index}`}
                                             onClick={()=>this.handleViewDetailHandbook(item)}
                                         >
-                                            <div className='bg-image section-medical-facility ' style={{backgroundImage:`url(${item.image})`}}></div>
+                                            <div className='bg-image  ' style={{backgroundImage:`url(${item.image})`}}></div>
                                             <div className='section-name'>{item.nameVi}</div>
                                         </div>
                                     )
