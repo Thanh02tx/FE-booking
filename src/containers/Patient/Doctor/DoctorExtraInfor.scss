@@ -1,5 +1,6 @@
 .doctor-extra-infor-container{
-    padding-left: 15px;
+    // padding-left: 15px;
+    font-size: 14px;
     .content-up{
         margin-bottom: 10px;
         .text-address{
@@ -33,6 +34,7 @@
         .detail-infor{
             border: 1px solid #ddd;
             padding: 5px;
+            box-sizing: border-box;
             background-color: #f8f8f8;
             .price{
                 padding-bottom: 5px;
@@ -45,6 +47,8 @@
         .payment{
             border: 1px solid #ddd;
             padding: 5px;
+            box-sizing: border-box;
+           
             background-color:#eee ;
         }
         .hide-price{

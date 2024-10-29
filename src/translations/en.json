@@ -74,13 +74,13 @@
             "choose": "Choose ",
             "book-free": " and book (free)"
         },
-        "detail-clinic":{
-            "clinic-information":"Clinic information",
+        "detail-clinic": {
+            "clinic-information": "Clinic information",
             "clinic-address": "Clinic address"
         },
-        "detail-specialty":{
-            "more-infor":"See more",
-            "hide":"Hide"
+        "detail-specialty": {
+            "more-infor": "See more",
+            "hide": "Hide"
         },
         "extra-infor-doctor": {
             "text-address": "Address of examination",
@@ -102,7 +102,7 @@
             "btnCancel": "Cancel",
             "price": "Price: ",
             "priceBooking": "Free booking",
-            "more-infor":"More infor"
+            "more-infor": "More infor"
         }
     },
     "admin": {
@@ -111,8 +111,10 @@
             "select-doctor": "Select doctor:",
             "intro-VI": "Introduction VI:",
             "intro-EN": "Introduction EN:",
-            "add": "Create infor:",
-            "save": "Save infor:",
+            "content-VI":"Content VI",
+            "content-EN":"Content EN",
+            "add": "Create infor",
+            "save": "Save infor",
             "price": "Price:",
             "payment": "Payment:",
             "province": "Province:",
@@ -120,26 +122,56 @@
             "address-clinic": "Clinic's address:",
             "note-VI": "Note VI:",
             "note-EN": "Note EN:",
-             "select-specialty":"Specialty:",
-            "select-clinic":"Clinic:"
+            "select-specialty": "Specialty:",
+            "select-clinic": "Clinic:"
         },
-        "manage-specialty":{
-            "title":"Specialty management",
-            "specialty-name-VI":"Specialty's name VI:",
-            "specialty-name-EN":"Specialty's name EN:",
-            "description-VI":"Description VI:",
-            "description-EN":"Description EN:",
-            "specialty-image":"Specialty's image:"
+        "manage-specialty": {
+            "title": "Specialty management",
+            "specialty-name-VI": "Specialty's name VI:",
+            "specialty-name-EN": "Specialty's name EN:",
+            "description-VI": "Description VI:",
+            "description-EN": "Description EN:",
+            "specialty-image": "Specialty's image:",
+            "add-specialty": "Add new specialty",
+            "cancel": "Cancel",
+            "save": "Save infor",
+            "serial-number": "S/N",
+            "action": "Actions",
+            "no-data":"No data"
+            
         },
-        "manage-clinic":{
-            "title":"Clinic management",
-            "clinic-image":"Clinic's image:",
-            "clinic-name":"Clinic's name:",
-            "clinic-province":"Province:",
-            "clinic-address":"Address:",
-            "clinic-address-map":"Address map:",
-            "description-VI":"Description VI:",
-            "description-EN":"Description EN:"
+        "manage-clinic": {
+            "title": "Clinic management",
+            "clinic-image": "Clinic's image:",
+            "clinic-name": "Clinic's name:",
+            "clinic-province": "Province:",
+            "clinic-address": "Address:",
+            "clinic-address-map": "Address map:",
+            "description-VI": "Description VI:",
+            "description-EN": "Description EN:",
+            "add-clinic": "Add new clinic",
+            "cancel": "Cancel",
+            "save": "Save infor",
+            "serial-number": "S/N",
+            "action": "Actions",
+            "no-data":"No data"
+        },
+        "manage-handbook":{
+            "title":"Handbook management",
+            "image":"Handbook's image",
+            "name-VI":"Handbook's name VI",
+            "name-EN":"Handbook's name EN",
+            "heading-VI":"Heading VI",
+            "heading-EN":"Heading En",
+            "content-VI":"Content VI",
+            "content-EN":"Content EN",
+            "add-handbook":"Add new handbook",
+            "add":"Add",
+            "cancel":"Cancel",
+            "save":"Save infor",
+            "serial-number":"S/N",
+            "action":"Actions",
+            "no-data":"No data"
         }
     }
 }

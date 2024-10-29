@@ -17,18 +17,19 @@ class HomePage extends Component {
             dots: false,
             infinite: false,
             speed: 500,
-            slidesToShow: 4,
+            slidesToShow: 3,
             slidesToScroll: 1,
+            touchMove: true,
         };
         return (
             <div>
-                <HomeHeader isShowBanner={true}/>
-                <Specialty settings={settings}/>
-                <MedicalFacility settings={settings}/>
-                <OutStandingDoctor settings={settings}/>
-                <HandBook settings={settings}/>
-                <About/>
-                <HomeFooter/>
+                <HomeHeader isShowBanner={true} />
+                <Specialty settings={settings} />
+                <MedicalFacility settings={settings} />
+                <OutStandingDoctor settings={settings} />
+                <HandBook settings={settings} />
+                <About />
+                <HomeFooter />
             </div>
         );
     }

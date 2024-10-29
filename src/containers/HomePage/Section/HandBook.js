@@ -10,19 +10,23 @@ class HandBook extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            listHandbook: []
+            listHandbook: [],
         }
     }
     async componentDidMount() {
-        let res = await getAllHandbook()
+        let res = await getAllHandbook();
         if (res && res.errCode === 0) {
+            let handbooks = res.data;
+            handbooks.forEach((item) => {
+                item.image = new Buffer(item.image, 'base64').toString('binary');
+            });
             this.setState({
-                listHandbook: res.data
-            })
+                listHandbook: handbooks
+            });
         }
     }
-    handleViewDetailHandbook=(handbook)=>{
-        if(this.props.history){
+    handleViewDetailHandbook = (handbook) => {
+        if (this.props.history) {
             this.props.history.push(`/detail-handbook/${handbook.id}`)
         }
     }
@@ -36,22 +40,18 @@ class HandBook extends Component {
                         <span className='title-section'>Cẩm nang</span>
                         <button className='btn-section'>Xem thêm</button>
                     </div>
-                    <div className='section-body'>
-                        <Slider {...this.props.settings}>
+                    <div className='section-body scrollable-container'>
+                        
+                        <Slider {...this.props.settings} className="slider-container">
                             {listHandbook.length > 0 &&
-                                listHandbook.map((item, index) => {
-                                    return (
-                                        
-                                        <div className='section-customize' key={`handbook-${index}`}
-                                            onClick={()=>this.handleViewDetailHandbook(item)}
-                                        >
-                                            <div className='bg-image  ' style={{backgroundImage:`url(${item.image})`}}></div>
-                                            <div className='section-name'>{item.nameVi}</div>
-                                        </div>
-                                    )
-                                })
-                            }
-
+                                listHandbook.map((item, index) => (
+                                    <div className='section-customize' key={`handbook-${index}`} 
+                                        // onClick={() => this.handleViewDetailHandbook(item)}
+                                    >
+                                        <div className='bg-image' style={{ backgroundImage: `url(${item.image})` }}></div>
+                                        <div className='section-name'>{item.nameVi}</div>
+                                    </div>
+                                ))}
                         </Slider>
                     </div>
 

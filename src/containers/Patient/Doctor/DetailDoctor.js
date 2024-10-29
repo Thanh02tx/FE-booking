@@ -49,10 +49,10 @@ class DetailDoctor extends Component {
         return (
             <React.Fragment>
                 <HomeHeader isShowBanner={false} />
-                <div className='doctor-detail-container'>
+                <div className='doctor-detail-container '>
                     <div className='intro-doctor'>
                         <div className='content-left'
-                            style={{ background: `url(${detailDoctor && detailDoctor.image ? detailDoctor.image : ''})` }}
+                            style={{ backgroundImage: `url(${detailDoctor && detailDoctor.image ? detailDoctor.image : ''})` }}
                         >
 
                         </div>
@@ -79,15 +79,16 @@ class DetailDoctor extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className='schedule-doctor'>
-                        <div className='content-left'>
+                    <div className='schedule-doctor row'>
+                        <div className='content-left col-md-6 '>
                             <DoctorSchedule doctorIdFromParent={this.state.currentDoctorId} />
+                            <div style={{height:'15px',width:'100%'}}></div>
                         </div>
-                        <div className='content-right'>
+                        <div className='content-right col-md-6'>
                             <DoctorExtraInfor doctorIdFromParent={this.state.currentDoctorId} />
                         </div>
                     </div>
-                    <div className='detail-infor-doctor'>
+                    <div className='detail-infor-doctor '>
                         {detailDoctor && detailDoctor.Doctor_Infor && (
                             <>
                                 {language === LANGUAGES.VI && detailDoctor.Doctor_Infor.contentHTMLVi && (
@@ -100,9 +101,6 @@ class DetailDoctor extends Component {
                         )}
                     </div>
 
-                    <div className='comment-doctor'>
-
-                    </div>
 
                 </div>
             </React.Fragment>

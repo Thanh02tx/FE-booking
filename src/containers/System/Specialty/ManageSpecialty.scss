@@ -1,11 +1,11 @@
 .mange-specialty-contianer {
     padding: 0 15px;
-
+    
     .ms-title {
         text-align: center;
         margin: 10px 0;
         text-transform: uppercase;
-        font-size: 17px;
+        font-size: 25px;
         font-weight: 600;
     }
     table {
@@ -30,6 +30,32 @@
             text-align: left;
             background-color: #04AA6D;
             color: white;
+        }
+    }
+    
+    .btn-edit {
+        width: 50px;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: orange;
+
+        &:hover {
+            background-color: transparent !important;
+            color: orange !important;
+        }
+    }
+
+    .btn-delete {
+        width: 50px;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: rgb(158, 29, 33);
+
+        &:hover {
+            background-color: transparent !important;
+            color: rgb(158, 29, 33);
         }
     }
 }

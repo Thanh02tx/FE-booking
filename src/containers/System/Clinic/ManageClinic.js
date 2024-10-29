@@ -6,7 +6,7 @@ import NumberFormat from 'react-number-format';
 import * as actions from '../../../store/actions';
 import './ManageClinic.scss';
 import { toast } from 'react-toastify';
-import { createNewClinic, getAllCodeService, getAllClinic ,editClinic,deleteClinic} from '../../../services/userService';
+import { createNewClinic, getAllCodeService, getAllClinic, editClinic, deleteClinic } from '../../../services/userService';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import Select from 'react-select';
@@ -16,7 +16,7 @@ class ManageClinic extends Component {
         super(props);
         this.state = {
             listClinic: [],
-            id:'',
+            id: '',
             name: '',
             address: '',
             addressMap: '',
@@ -126,7 +126,7 @@ class ManageClinic extends Component {
                 descriptionHTMLEn: '',
                 descriptionMarkdownEn: '',
                 selectedProvince: '',
-                isShow:false
+                isShow: false
             })
         } else {
             toast.error("Something wrongs....")
@@ -154,22 +154,22 @@ class ManageClinic extends Component {
             descriptionHTMLEn: '',
             descriptionMarkdownEn: '',
             selectedProvince: '',
-            isShow:false,
-            isCreate:true
+            isShow: false,
+            isCreate: true
         })
     }
-    handleEditClinic=(item)=>{
+    handleEditClinic = (item) => {
         let provinceId = item.provinceId;
         let selectedProvince = this.state.listProvince.find(proItem => {
             return proItem && proItem.value === provinceId
         })
         this.setState({
-            isShow:true,
-            isCreate:false,
-            id:item.id,
-            name:item.name,
-            address:item.address,
-            addressMap:item.addressMap,
+            isShow: true,
+            isCreate: false,
+            id: item.id,
+            name: item.name,
+            address: item.address,
+            addressMap: item.addressMap,
             imageBase64: item.image,
             descriptionHTMLVi: item.descriptionHTMLVi,
             descriptionMarkdownVi: item.descriptionMarkdownVi,
@@ -178,12 +178,12 @@ class ManageClinic extends Component {
             selectedProvince: selectedProvince,
         })
     }
-    handleSaveClinic=async()=>{
+    handleSaveClinic = async () => {
         let res = await editClinic({
-            id:this.state.id,
-            name:this.state.name,
-            address:this.state.address,
-            addressMap:this.state.addressMap,
+            id: this.state.id,
+            name: this.state.name,
+            address: this.state.address,
+            addressMap: this.state.addressMap,
             imageBase64: this.state.imageBase64,
             descriptionHTMLVi: this.state.descriptionHTMLVi,
             descriptionMarkdownVi: this.state.descriptionMarkdownVi,
@@ -191,11 +191,11 @@ class ManageClinic extends Component {
             descriptionMarkdownEn: this.state.descriptionMarkdownEn,
             provinceId: this.state.selectedProvince.value,
         })
-        if(res&&res.errCode===0){
+        if (res && res.errCode === 0) {
             this.getAllDataClinic()
             toast.success("edit succeed!")
             this.setState({
-                id:'',
+                id: '',
                 name: '',
                 address: '',
                 addressMap: '',
@@ -205,20 +205,20 @@ class ManageClinic extends Component {
                 descriptionHTMLEn: '',
                 descriptionMarkdownEn: '',
                 selectedProvince: '',
-                isShow:false,
-                isCreate:true
+                isShow: false,
+                isCreate: true
             })
         } else {
             toast.error("Something wrongs....")
         }
     }
-    handleDeleteClinic=async(item)=>{
+    handleDeleteClinic = async (item) => {
         let res = await deleteClinic(item.id)
-        if(res&&res.errCode===0){
+        if (res && res.errCode === 0) {
             this.getAllDataClinic();
             toast.success('delete clinic succed')
         }
-        else{
+        else {
             toast.error("error")
         }
     }
@@ -232,21 +232,21 @@ class ManageClinic extends Component {
                         className='btn btn-primary px-3 my-3'
                         onClick={() => this.handleShow()}
                     >
-                        Thêm phòng khám
+                        <FormattedMessage id="admin.manage-clinic.add-clinic"/>
                     </button>
                 </div>
                 {isShow &&
                     <div className='add-new-specialty row'>
-                        <div className='col-4 form-group'>
-                            <label><FormattedMessage id="admin.manage-clinic.clinic-name" /> </label>
+                        <div className='col-md-6 form-group'>
+                            <label><FormattedMessage id="admin.manage-clinic.clinic-name" /></label>
                             <input className='form-control' type='text'
                                 onChange={(event) => this.handleOnChangeInput(event, 'name')}
                                 value={this.state.name}
                                 placeholder='.....'
-                            ></input>
+                            />
                         </div>
 
-                        <div className='col-4 form-group'>
+                        <div className='col-md-6 form-group'>
                             <label><FormattedMessage id="admin.manage-clinic.clinic-province" /></label>
                             <Select
                                 value={this.state.selectedProvince}
@@ -255,86 +255,90 @@ class ManageClinic extends Component {
                                 placeholder={<FormattedMessage id="admin.manage-clinic.clinic-province" />}
                             />
                         </div>
-                        <div className='col-4 form-group'>
-                            <label><FormattedMessage id="admin.manage-clinic.clinic-image" /></label>
-                            <input className='form-control-file' type="file"
 
-                                onChange={(event) => this.handleOnChangeImage(event)}
-                            ></input>
-                        </div>
-                        <div className='col-6 form-group'>
+                        
+                        <div className='col-md-6 form-group'>
                             <label><FormattedMessage id="admin.manage-clinic.clinic-address" /></label>
                             <input className='form-control' type='text'
                                 onChange={(event) => this.handleOnChangeInput(event, 'address')}
                                 value={this.state.address}
                                 placeholder='.....'
-                            ></input>
+                            />
                         </div>
-                        <div className='col-6 form-group'>
-                            <label><FormattedMessage id="admin.manage-clinic.clinic-address-map" /> </label>
-                            <input className='form-control' type='text'
+                        <div className='col-md-6 form-group'>
+                            <label><FormattedMessage id="admin.manage-clinic.clinic-image" /></label>
+                            <input className='form-control-file' type="file"
+                                onChange={(event) => this.handleOnChangeImage(event)}
+                            />
+                        </div>
+
+
+                        <div className='col-12 form-group'>
+                            <label><FormattedMessage id="admin.manage-clinic.clinic-address-map" /></label>
+                            <textarea className='form-control' type='text'
                                 onChange={(event) => this.handleOnChangeInput(event, 'addressMap')}
                                 value={this.state.addressMap}
                                 placeholder='.....'
-                            ></input>
+                            />
                         </div>
+
                         <div className='col-12'>
                             <label><FormattedMessage id="admin.manage-clinic.description-VI" /></label>
                             <MdEditor
-                                style={{ minHeight: '100px', }}
+                                style={{ minHeight: '100px' }}
                                 renderHTML={text => mdParser.render(text)}
                                 onChange={this.handleEditorChangeVi}
                                 value={this.state.descriptionMarkdownVi}
                             />
                         </div>
+
                         <div className='col-12'>
                             <label><FormattedMessage id="admin.manage-clinic.description-EN" /></label>
                             <MdEditor
-                                style={{ minHeight: '100px', }}
+                                style={{ minHeight: '100px' }}
                                 renderHTML={text => mdParser.render(text)}
                                 onChange={this.handleEditorChangeEn}
                                 value={this.state.descriptionMarkdownEn}
                             />
                         </div>
+
                         <div className='col-12'>
                             {isCreate ?
-
                                 <button
                                     className='btn btn-success px-3 my-3'
                                     onClick={() => this.handleAddNewClinic()}
                                 >
-                                    Thêm phòng khám
+                                    <FormattedMessage id="admin.manage-clinic.add-clinic"/>
                                 </button>
-
                                 :
-                                <>
+                                <div>
 
                                     <button
                                         className='btn btn-success px-3 my-3'
                                         onClick={() => this.handleSaveClinic()}
                                     >
-                                        Lưu thông tin
+                                        <FormattedMessage id="admin.manage-clinic.save"/>
                                     </button>
                                     <button
                                         className='btn btn-dark px-3 m-3'
                                         onClick={() => this.handleCancel()}
                                     >
-                                        Huỷ
+                                       <FormattedMessage id="admin.manage-clinic.cancel"/>
                                     </button>
-                                </>
+                                </div>
                             }
                         </div>
-
                     </div>
                 }
+
                 <div>
                     <table className='table'>
                         <thead>
                             <tr>
-                                <th>STT</th>
-                                <th>Name</th>
-                                <th>Address</th>
-                                <th>action</th>
+                                <th><FormattedMessage id="admin.manage-clinic.serial-number"/> </th>
+                                <th><FormattedMessage id="admin.manage-clinic.clinic-name"/></th>
+                                <th><FormattedMessage id="admin.manage-clinic.clinic-address"/></th>
+                                <th><FormattedMessage id="admin.manage-clinic.action"/></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -346,18 +350,18 @@ class ManageClinic extends Component {
                                             <td>{item.name}</td>
                                             <td>{item.address}</td>
                                             <td>
-                                                <button
-                                                    className='btn btn-warning mx-3 px-3'
-                                                    onClick={() => this.handleEditClinic(item)}
-                                                >
-                                                    Sửa
-                                                </button>
-                                                <button
-                                                    className='btn btn-danger px-3'
-                                                    onClick={() => this.handleDeleteClinic(item)}
-                                                >
-                                                    Xoá
-                                                </button>
+                                                <div className='d-flex'>
+                                                    <button className='btn-edit'
+                                                        onClick={() => this.handleEditClinic(item)}
+                                                    >
+                                                        <i className='fas fa-pencil-alt'></i>
+                                                    </button>
+                                                    <button className='btn-delete'
+                                                        onClick={() => this.handleDeleteClinic(item)}
+                                                    >
+                                                        <i className='fas fa-trash'></i>
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     )
@@ -365,7 +369,7 @@ class ManageClinic extends Component {
 
                                 :
                                 <tr>
-                                    <td colSpan={'4'}>No data</td>
+                                    <td colSpan={'4'}><FormattedMessage id="admin.manage-clinic.no-data"/></td>
                                 </tr>
                             }
                         </tbody>

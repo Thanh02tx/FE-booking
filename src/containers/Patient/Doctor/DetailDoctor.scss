@@ -1,17 +1,16 @@
 .doctor-detail-container {
     .intro-doctor {
         display: flex;
-        padding: 20px 100px;
+        padding: 20px 10%;
 
         .content-left {
             width: 20%;
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
-            height: 120px;
-            width: 120px;
+            padding-top: 20%;
             border-radius: 50%;
-            margin: 10px 20px;
+            margin: 10px 0;
         }
 
         .content-right {
@@ -30,22 +29,67 @@
             }
         }
     }
-    .schedule-doctor{
-        margin: 0 100px;
+
+    .schedule-doctor {
+        margin: 0 10%;
         display: flex;
         padding: 10px 0;
         min-height: 200px;
-       
-        .content-left{
-            width:50%;
+        .content-left {
+            padding: 0 !important;
         }
-        .content-right{
-            width:50%;
+
+        .content-right {
+            box-sizing: border-box;
+            @media screen and (max-width: 992px) {
+                padding: 0 !important;
+                border-top: 1px solid #93bf9e !important;
+                border-left: none; // Tắt border bên trái ở màn hình nhỏ
+                box-sizing: border-box;
+            }
+    
+            @media screen and (min-width: 992px) {
+                padding-left: 10px;
+                box-sizing: border-box;
+                border-left: 1px solid #93bf9e;
+               
+            }
+        }
+        @media screen and (max-width: 992px) {
+            margin: 0 5%;
         }
     }
-    .detail-infor-doctor{
+
+    .detail-infor-doctor {
         border-top: 1px solid #ddd;
         background-color: #f9f9f9;
-        padding: 20px 100px;
+        padding: 20px 10%;
+        @media screen and (max-width: 992px) {
+            padding: 20px 5%;
+        }
+    }
+
+    .doctor-extra-infor-container {
+        // border-left: 1px solid #93bf9e ;
+        padding: 0 !important;
     }
 }
+
+// @media screen and (min-width:992) {
+//     .content-right {
+//         padding-left: 10px;
+//         border-left: 1px solid #93bf9e !important;
+
+//     }
+// }
+
+// @media screen and (max-width:991) {
+//     .doctor-detail-container {
+//         .schedule-doctor {
+//             .content-right {
+//                 padding: 0 !important;
+//                 border-top: 1px solid #93bf9e !important;
+//             }
+//         }
+//     }
+// }

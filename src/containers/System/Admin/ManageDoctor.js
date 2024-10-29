@@ -293,7 +293,7 @@ class ManageDoctor extends Component {
 
                 </div>
                 <div className='more-infor-extra row'>
-                    <div className='col-4 form-group'>
+                    <div className='col-sm-4 form-group'>
                         <label><FormattedMessage id="admin.manage-doctor.select-doctor" /></label>
                         <Select
                             value={this.state.selectedOption}
@@ -302,7 +302,7 @@ class ManageDoctor extends Component {
                             placeholder={<FormattedMessage id="admin.manage-doctor.select-doctor" />}
                         />
                     </div>
-                    <div className='col-4 form-group'>
+                    <div className='col-sm-4 form-group'>
                         <label><FormattedMessage id="admin.manage-doctor.select-specialty" /></label>
                         <Select
                             value={this.state.selectedSpecialty}
@@ -312,7 +312,7 @@ class ManageDoctor extends Component {
                             placeholder={<FormattedMessage id="admin.manage-doctor.select-specialty" />}
                         />
                     </div>
-                    <div className='col-4 form-group'>
+                    <div className='col-sm-4 form-group'>
                         <label><FormattedMessage id="admin.manage-doctor.select-clinic" /></label>
                         <Select
                             value={this.state.selectedClinic}
@@ -322,7 +322,7 @@ class ManageDoctor extends Component {
                             placeholder={<FormattedMessage id="admin.manage-doctor.select-clinic" />}
                         />
                     </div>
-                    <div className='col-4 form-group'>
+                    <div className='col-sm-6 form-group'>
                         <label><FormattedMessage id="admin.manage-doctor.price" /></label>
                         <Select
                             value={this.state.selectedPrice}
@@ -332,7 +332,7 @@ class ManageDoctor extends Component {
                             placeholder={<FormattedMessage id="admin.manage-doctor.price" />}
                         />
                     </div>
-                    <div className='col-4 form-group'>
+                    <div className='col-sm-6 form-group'>
                         <label><FormattedMessage id="admin.manage-doctor.payment" /></label>
                         <Select
                             value={this.state.selectedPayment}
@@ -343,7 +343,7 @@ class ManageDoctor extends Component {
                         />
                     </div>
 
-                    <div className='col-6 form-group'>
+                    <div className='col-sm-6 form-group'>
                         <label><FormattedMessage id="admin.manage-doctor.note-VI" /></label>
                         <input className='form-control'
                             onChange={(event) => this.handleOnChangetext(event, 'noteVi')}
@@ -352,7 +352,7 @@ class ManageDoctor extends Component {
                         >
                         </input>
                     </div>
-                    <div className='col-6 form-group'>
+                    <div className='col-sm-6 form-group'>
                         <label><FormattedMessage id="admin.manage-doctor.note-EN" /></label>
                         <input className='form-control'
                             onChange={(event) => this.handleOnChangetext(event, 'noteEn')}
@@ -390,7 +390,7 @@ class ManageDoctor extends Component {
 
 
                 <div className='manage-doctor-editor'>
-                    <label>Thông tin</label>
+                    <label><FormattedMessage id="admin.manage-doctor.content-VI" /></label>
                     <MdEditor
                         style={{ height: '150px' }}
                         renderHTML={text => mdParser.render(text)}
@@ -398,7 +398,7 @@ class ManageDoctor extends Component {
                         value={this.state.contentMarkdownVi} />
                 </div>
                 <div className='manage-doctor-editor'>
-                    <label>Thông tin</label>
+                    <label><FormattedMessage id="admin.manage-doctor.content-EN" /></label>
                     <MdEditor
                         style={{ height: '150px' }}
                         renderHTML={text => mdParser.render(text)}

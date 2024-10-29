@@ -9,7 +9,8 @@
         .content-left {
             // width: 67%;
             padding: 0 !important;
-            .title-heading{
+
+            .title-heading {
                 font-size: 18px;
                 font-weight: 500;
 
@@ -24,13 +25,15 @@
             position: sticky;
             /* Hoặc sử dụng position: fixed; để giữ nó ở vị trí */
             top: 70px;
-            .title-right{
+
+            .title-right {
                 border-bottom: 3px solid #d4a31a;
                 padding: 5px 0;
                 font-size: 20px;
                 font-weight: 700;
             }
-            a{
+
+            a {
                 font-size: 16px;
                 font-weight: 400;
                 text-decoration: none;
@@ -39,8 +42,18 @@
         }
     }
 }
+
 @media (max-width: 768px) {
-    .content-right,.hide {
-        display: none; /* Ẩn cột bên phải trên màn hình nhỏ */
+    .detail-handbook {
+
+        .content-right,
+        .hide {
+            display: none;
+            /* Ẩn cột bên phải trên màn hình nhỏ */
+        }
+    }
+
+    .content {
+        margin-left: 0 !important;
     }
 }

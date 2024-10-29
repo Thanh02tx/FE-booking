@@ -204,7 +204,7 @@ class ForgotPassword extends Component {
                                 </a>
                             </div>
                         </div>
-                        <div className='col-md-6 '>
+                        <div className='col-md-6  '>
                             <div className='login-content row'>
                                 <div className='col-12 text-center text-login'>Forgot Password</div>
                                 <div className='col-12 form-group login-input'>

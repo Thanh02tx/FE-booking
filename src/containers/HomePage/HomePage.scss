@@ -1,115 +1,47 @@
 .section-share {
+    min-height: 200px;
     &.section-specialty {
         background: #f5f5f5;
     }
-
-    &.section-outstanding-doctor {
-        background: #f5f5f5;
+    &.section-handbook {
+        font-size: 12px;
     }
-
-    &.section-about {
-        height: 500px !important;
-    }
-
-    .section-body {
-
+    &.section-specialty {
         .section-customize {
             padding: 5px;
             cursor: pointer;
-            .section-name {
+    
+            .clinic-name {
                 padding: 10px 0;
     
                 &:hover {
                     color: rgb(160, 165, 60);
                 }
             }
-            .bg-image {
-
-                background-position: center center;
-                background-repeat: no-repeat;
-                background-size: cover;
-                background-color: #eee;
-                height: 170px;
-                width: 320px;
-
-                // &.section-specialty {
-                //     // background-image: url('../../assets/specialty/co-xuong-khop.jpg');
-                // }
-
-                &.section-medical-facility {
-                    background-image: url('../../assets/facility/thu-cuc.jpg');
+        }
+    }
+    &.section-outstanding-doctor {
+        background: #f5f5f5;
+        
+    
+        .section-customize {
+            padding: 5px;
+            cursor: pointer;
+            .customize-border {
+                border: 1px solid orange;
+                padding: 20px;
+                .outer-bg {
+                    display: flex;
+                    justify-content: center;
+                    margin-bottom: 10px;
+            
                 }
-
-                &.section-outstanding-doctor {
-                    width: 120px;
-                    height: 120px;
-                    border-radius: 50%;
-                    background-image: url('../../assets/outstanding-doctor/bac-si.jpg');
-                }
-
-                // &.section-handbook {
-                //     background-image: url('../../assets/handbook/cam-nang.jpg');
-                // }
             }
         }
-
-
-    }
-}
-
-// .section-specialty {
-//     .section-customize {
-//         padding: 5px;
-//         cursor: pointer;
-
-//         .specialty-name {
-//             padding: 10px 0;
-
-//             &:hover {
-//                 color: rgb(160, 165, 60);
-//             }
-//         }
-//     }
-// }
-
-.section-specialty {
-    .section-customize {
-        padding: 5px;
-        cursor: pointer;
-
-        .clinic-name {
-            padding: 10px 0;
-
-            &:hover {
-                color: rgb(160, 165, 60);
-            }
+        p {
+            margin-bottom: 5px !important;
         }
     }
-}
-
-.section-outstanding-doctor {
-    .outer-bg {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 10px;
-
-    }
-
-    .section-customize {
-        padding: 5px;
-        cursor: pointer;
-
-        .customize-border {
-            border: 1px solid orange;
-            padding: 20px;
-        }
-    }
-}
-
-.section-share {
-    height: 330px;
-
-
     .section-container {
         margin: 0 100px;
         display: flex;
@@ -142,20 +74,53 @@
                 }
             }
         }
-
+        .section-body {
+            font-size: 14px;
+    
+            .section-customize {
+                padding: 5px;
+                cursor: pointer;
+    
+                .section-name {
+                    padding: 10px 0;
+    
+                    &:hover {
+                        color: rgb(160, 165, 60);
+                    }
+                }
+    
+                .bg-image {
+    
+                    background-position: center center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    background-color: #eee;
+                    width: 100%;
+                    padding-top: 56.25%;
+                    &.section-outstanding-doctor {
+                        width: 40%;
+                        padding-top: 40%;
+                        border-radius: 50%;
+                        background-size: cover;
+                        background-position: center;
+    
+                    }
+                }
+            }
+    
+    
+        }
 
 
     }
-
+    
 }
-
 .slick-prev {
-    left: -20px !important;
+    // left: -10px !important;
     z-index: 1000 !important;
-    height: 48px !important;
-    width: 44px !important;
+    // height: 40px !important;
+    // width: 36px !important;
     background: #fff !important;
-    // border: 2px solid #d7d7d7 !important;
 
     &:hover {
         background: #eceaea !important;
@@ -164,9 +129,7 @@
 
 .slick-prev:before,
 .slick-next:before {
-    font-family: FontAwesome !important;
-    color: red !important;
-    // content: "\e257" !important;
+    color: rgb(93, 52, 52) !important;
 }
 
 .slick-disabled {
@@ -175,12 +138,11 @@
 }
 
 .slick-next {
-    right: -10px !important;
+    // right: -10px !important;
     z-index: 1000 !important;
-    height: 48px !important;
-    width: 44px !important;
-    background: #fff !important;
-    border: 2px solid #d7d7d7 !important;
+    // height: 40px !important;
+    // width: 36px !important;
+    background: #c8c9c8de !important;
 
     &:hover {
         background: #eceaea !important;
@@ -188,38 +150,68 @@
 }
 
 
+// .section-about {
+//     padding: 0 100px;
+//     .section-about-header {
+//         padding: 20px 10px;
+//         font-size: 22px;
+//         font-weight: 600;
+//     }
+//     .section-about-content {
+//         display: flex;
+//         gap: 15px;
+
+//         .content-left {
+//             width: 60%;
+//         }
+//         .content-right {
+//             width: 40%;
+//             p {
+//                 text-align: center;
+//                 font-style: italic;
+//                 padding-top: 15px;
+//             }
+//         }
+//     }
+// }
 .section-about {
     padding: 0 100px;
-
-    .section-about-header {
-        padding: 20px 10px;
-        font-size: 22px;
-        font-weight: 600;
-    }
-
+    margin-bottom: 20px;
     .section-about-content {
         display: flex;
-        gap: 15px;
+        gap: 20px; // Khoảng cách giữa các phần tử
 
         .content-left {
-            width: 60%;
+            width: 60%; // Chiếm 60% chiều rộng
+            position: relative; // Để điều chỉnh chiều cao theo tỷ lệ 16:9
+            padding-top: 33.75%; // Tạo tỷ lệ 16:9 dựa trên chiều rộng (9 / 16)
+
+            iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
         }
 
         .content-right {
-            width: 40%;
+            width: 40%; // Chiếm 40% chiều rộng còn lại
+            display: flex;
+            align-items: center;
 
             p {
-                text-align: center;
-                font-style: italic;
-                padding-top: 15px;
+                margin: 0;
             }
         }
     }
 }
 
 .home-footer {
+    width: 100%;
     text-align: center;
     padding-top: 8px;
+    background-color: rgb(146, 149, 168);
 
     a {
         text-decoration: unset;

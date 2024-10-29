@@ -115,8 +115,10 @@
             "select-doctor":"Chọn bác sĩ:",
             "intro-VI":"Thông tin giới thiệu VI:",
             "intro-EN":"Thông tin giới thiệu EN:",
-            "add":"Tạo thông tin:",
-            "save":"Lưu thông tin:",
+            "content-VI":"Nội dung VI",
+            "content-EN":"Nội dung EN",
+            "add":"Tạo thông tin",
+            "save":"Lưu thông tin",
             "price":"Giá khám bệnh:",
             "payment":"Phương thức thanh toán:",
             "province":"Tỉnh thành:",
@@ -133,7 +135,13 @@
             "specialty-name-EN":"Tên chuyên khoa EN:",
             "description-VI":"Mô tả chi tiết VI:",
             "description-EN":"Mô tả chi tiết EN:",
-            "specialty-image":"Ảnh chuyên khoa:"
+            "specialty-image":"Ảnh chuyên khoa:",
+            "add-specialty":"Thêm chuyên khoa",
+            "cancel":"Huỷ",
+            "save":"Lưu thông tin",
+            "serial-number":"STT",
+            "action":"Hành động",
+            "no-data":"Không có thông tin"
         },
         "manage-clinic":{
             "title":"Quản lý phòng khám",
@@ -143,7 +151,30 @@
             "clinic-address":"Địa chỉ:",
             "clinic-address-map":"Địa chỉ map:",
             "description-VI":"Mô tả chi tiết VI:",
-            "description-EN":"Mô tả ci tiết EN:"
+            "description-EN":"Mô tả ci tiết EN:",
+            "add-clinic":"Thêm phòng khám",
+            "cancel":"Huỷ",
+            "save":"Lưu thông tin",
+            "serial-number":"STT",
+            "action":"Hành động",
+            "no-data":"Không có thông tin"
+        },
+        "manage-handbook":{
+            "title":"Quản lý cẩm nang",
+            "image":"Ảnh chuyên khoa",
+            "name-VI":"Tên cẩm nang VI",
+            "name-EN":"Tên cẩm nang EN",
+            "heading-VI":"Tên mục VI",
+            "heading-EN":"Tên mục En",
+            "content-VI":"Nội dung VI",
+            "content-EN":"Nội dung EN",
+            "add-handbook":"Thêm cẩm nang",
+            "add":"Thêm",
+            "cancel":"Huỷ",
+            "save":"Lưu thông tin",
+            "serial-number":"STT",
+            "action":"Hành động",
+            "no-data":"Không có thông tin"
         }
     }
 }

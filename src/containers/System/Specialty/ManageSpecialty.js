@@ -8,17 +8,17 @@ import { toast } from 'react-toastify';
 import { createNewSpecialty } from '../../../services/userService';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
-import { getAllSpecialty,putEditSpecialty ,deleteSpecialty} from '../../../services/userService';
+import { getAllSpecialty, putEditSpecialty, deleteSpecialty } from '../../../services/userService';
 const mdParser = new MarkdownIt();
 class ManageSpecialty extends Component {
     constructor(props) {
         super(props);
         this.state = {
             listSpecialty: [],
-            id:'',
+            id: '',
             nameVi: '',
             nameEn: '',
-            image:'',
+            image: '',
             descriptionHTMLVi: '',
             descriptionMarkdownVi: '',
             descriptionHTMLEn: '',
@@ -73,9 +73,18 @@ class ManageSpecialty extends Component {
     }
 
     handleAddNewSpecialty = async () => {
-        let res = await createNewSpecialty(this.state)
+        let res = await createNewSpecialty({
+            nameVi: this.state.nameVi,
+            nameEn: this.state.nameEn,
+            image: this.state.image,
+            descriptionHTMLVi: this.state.descriptionHTMLVi,
+            descriptionMarkdownVi: this.state.descriptionMarkdownVi,
+            descriptionHTMLEn: this.state.descriptionHTMLEn,
+            descriptionMarkdownEn: this.state.descriptionMarkdownEn
+        })
         if (res && res.errCode === 0) {
             toast.success("Add new specialty succeed!")
+            this.getAllDataSpeacialty();
             this.setState({
                 nameVi: '',
                 nameEn: '',
@@ -83,7 +92,8 @@ class ManageSpecialty extends Component {
                 descriptionHTMLVi: '',
                 descriptionMarkdownVi: '',
                 descriptionHTMLEn: '',
-                descriptionMarkdownEn: ''
+                descriptionMarkdownEn: '',
+                isShow: false
             })
         } else {
             toast.error("Something wrongs....")
@@ -99,7 +109,7 @@ class ManageSpecialty extends Component {
         this.handleShow()
         let imageBase64 = new Buffer.from(item.image, 'base64').toString('binary');
         this.setState({
-            id:item.id,
+            id: item.id,
             nameVi: item.nameVi,
             nameEn: item.nameEn,
             descriptionHTMLEn: item.descriptionHTMLEn,
@@ -110,21 +120,21 @@ class ManageSpecialty extends Component {
             isCreate: false
         })
     }
-    handleSaveSpecialty=async()=>{
-       let res = await putEditSpecialty({
-            id:this.state.id,
-            nameVi:this.state.nameVi,
-            nameEn:this.state.nameEn,
-            descriptionHTMLVi:this.state.descriptionHTMLVi,
-            descriptionHTMLEn:this.state.descriptionHTMLEn,
-            descriptionMarkdownVi:this.state.descriptionMarkdownVi,
-            descriptionMarkdownEn:this.state.descriptionMarkdownEn,
-            image:this.state.image
+    handleSaveSpecialty = async () => {
+        let res = await putEditSpecialty({
+            id: this.state.id,
+            nameVi: this.state.nameVi,
+            nameEn: this.state.nameEn,
+            descriptionHTMLVi: this.state.descriptionHTMLVi,
+            descriptionHTMLEn: this.state.descriptionHTMLEn,
+            descriptionMarkdownVi: this.state.descriptionMarkdownVi,
+            descriptionMarkdownEn: this.state.descriptionMarkdownEn,
+            image: this.state.image
         })
-        if(res&&res.errCode===0){
+        if (res && res.errCode === 0) {
             toast.success("Edit specialty succeed!")
             this.setState({
-                id:'',
+                id: '',
                 nameVi: '',
                 nameEn: '',
                 image: '',
@@ -132,28 +142,28 @@ class ManageSpecialty extends Component {
                 descriptionMarkdownVi: '',
                 descriptionHTMLEn: '',
                 descriptionMarkdownEn: '',
-                image:'',
-                isShow:false,
-                isCreate:true
+                image: '',
+                isShow: false,
+                isCreate: true
             })
             this.getAllDataSpeacialty()
         }
-        else{
+        else {
             toast.error('Error')
         }
     }
-    handleDeleteSpecialty=async(item)=>{
+    handleDeleteSpecialty = async (item) => {
         let res = await deleteSpecialty(item.id)
-        if(res&&res.errCode===0){
+        if (res && res.errCode === 0) {
             this.getAllDataSpeacialty()
             toast.success('delete specialty succed')
-        }else{
+        } else {
             toast.error('error')
         }
     }
-    handleCancel=()=>{
+    handleCancel = () => {
         this.setState({
-            id:'',
+            id: '',
             nameVi: '',
             nameEn: '',
             image: '',
@@ -161,9 +171,9 @@ class ManageSpecialty extends Component {
             descriptionMarkdownVi: '',
             descriptionHTMLEn: '',
             descriptionMarkdownEn: '',
-            image:'',
-            isShow:false,
-            isCreate:true
+            image: '',
+            isShow: false,
+            isCreate: true
         })
     }
     render() {
@@ -175,11 +185,11 @@ class ManageSpecialty extends Component {
                     className='btn btn-primary px-3 my-3'
                     onClick={() => this.handleShow()}
                 >
-                    Thêm Chuyên khoa
+                    <FormattedMessage id="admin.manage-specialty.add-specialty" />
                 </button>
                 {isShow &&
                     <div className='add-new-specialty row'>
-                        <div className='col-4 form-group'>
+                        <div className='col-md-4  form-group'>
                             <label><FormattedMessage id="admin.manage-specialty.specialty-name-VI" /></label>
                             <input className='form-control' type='text'
                                 onChange={(event) => this.handleOnChangeInput(event, 'nameVi')}
@@ -187,7 +197,7 @@ class ManageSpecialty extends Component {
                                 placeholder='...'
                             ></input>
                         </div>
-                        <div className='col-4 form-group'>
+                        <div className='col-md-4 form-group'>
                             <label><FormattedMessage id="admin.manage-specialty.specialty-name-EN" /></label>
                             <input className='form-control' type='text'
                                 onChange={(event) => this.handleOnChangeInput(event, 'nameEn')}
@@ -195,7 +205,7 @@ class ManageSpecialty extends Component {
                                 placeholder='...'
                             ></input>
                         </div>
-                        <div className='col-4 form-group'>
+                        <div className='col-md-4  form-group'>
                             <label><FormattedMessage id="admin.manage-specialty.specialty-image" /></label>
                             <input className='form-control-file' type="file"
 
@@ -226,7 +236,7 @@ class ManageSpecialty extends Component {
                                     className=' btn btn-success my-3 px-3'
                                     onClick={() => this.handleAddNewSpecialty()}
                                 >
-                                    Thêm Chuyên khoa
+                                    <FormattedMessage id="admin.manage-specialty.add-specialty" />
                                 </button>
                                 :
                                 <>
@@ -234,13 +244,13 @@ class ManageSpecialty extends Component {
                                         className='btn btn-success my-3 px-3'
                                         onClick={() => this.handleSaveSpecialty()}
                                     >
-                                        Lưu thay đổi
+                                        <FormattedMessage id="admin.manage-specialty.save" />
                                     </button>
                                     <button
                                         className='btn btn-dark m-3 px-3'
                                         onClick={() => this.handleCancel()}
                                     >
-                                        Huỷ
+                                        <FormattedMessage id="admin.manage-specialty.cancel" />
                                     </button>
                                 </>
                             }
@@ -251,10 +261,10 @@ class ManageSpecialty extends Component {
                     <table className='table '>
                         <thead>
                             <tr>
-                                <th>STT</th>
-                                <th>Name</th>
-                                <th>Naem En</th>
-                                <th>Action</th>
+                                <th><FormattedMessage id="admin.manage-specialty.serial-number" /></th>
+                                <th><FormattedMessage id="admin.manage-specialty.specialty-name-VI" /></th>
+                                <th><FormattedMessage id="admin.manage-specialty.specialty-name-EN" /></th>
+                                <th><FormattedMessage id="admin.manage-specialty.action" /></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -266,29 +276,25 @@ class ManageSpecialty extends Component {
                                             <td>{item.nameVi}</td>
                                             <td>{item.nameEn}</td>
                                             <td>
-
-                                                <button
-                                                    className='btn btn-warning mx-3'
-                                                    onClick={() => this.handleEditSpecialty(item)}
-                                                >
-                                                    Sửa
-                                                </button>
-
-
-
-                                                <button
-                                                    className='btn btn-danger'
-                                                    onClick={() => this.handleDeleteSpecialty(item)}
-                                                >
-                                                    Xoá
-                                                </button>
+                                                <div className='d-flex'>
+                                                    <button className='btn-edit'
+                                                        onClick={() => this.handleEditSpecialty(item)}
+                                                    >
+                                                        <i className='fas fa-pencil-alt'></i>
+                                                    </button>
+                                                    <button className='btn-delete'
+                                                        onClick={() => this.handleDeleteSpecialty(item)}
+                                                    >
+                                                        <i className='fas fa-trash'></i>
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     )
                                 })
                                 :
                                 <tr>
-                                    <td colSpan={'4'}>k có data</td>
+                                    <td colSpan={'4'}><FormattedMessage id="admin.manage-specialty.no-data" /></td>
                                 </tr>
                             }
                         </tbody>

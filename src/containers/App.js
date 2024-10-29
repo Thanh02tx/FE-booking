@@ -46,26 +46,27 @@ class App extends Component {
     }
 
     render() {
+        const { isLoggedIn, userInfo } = this.props;
         return (
             <Fragment>
                 <Router history={history}>
                     <div className="main-container">
                         <ConfirmModal />
-                       
+
 
                         <div className="content-container">
-                            <CustomScrollbars style={{height: '100vh',width:'100%'}}>
+                            <CustomScrollbars style={{ height: '100vh', width: '100%' }}>
                                 <Switch>
                                     <Route path={path.HOME} exact component={(Home)} />
                                     <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
                                     <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
                                     <Route path={'/doctor/'} component={userIsAuthenticated(Doctor)} />
                                     <Route path={path.HOMEPAGE} component={HomePage} />
-                                    <Route path={path.DETAIL_DOCTOR} component={DetailDoctor}/>
-                                    <Route path={path.DETAIL_HANDBOOK} component={DetailHandbook}/>
-                                    <Route path={path.DETAIL_SPECIALTY} component={DetailSpecialty}/>
-                                    <Route path={path.DETAIL_CLINIC} component={DetailClinic}/>
-                                    <Route path={path.VERIFY_EMAIL_BOOKING} component={VerifyEmail}/>
+                                    <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
+                                    <Route path={path.DETAIL_HANDBOOK} component={DetailHandbook} />
+                                    <Route path={path.DETAIL_SPECIALTY} component={DetailSpecialty} />
+                                    <Route path={path.DETAIL_CLINIC} component={DetailClinic} />
+                                    <Route path={path.VERIFY_EMAIL_BOOKING} component={VerifyEmail} />
                                     <Route path={path.REGISTER} component={Register} />
                                     <Route path={path.FORGOT_PASSWORD} component={ForgotPassword} />
                                 </Switch>
@@ -92,7 +93,8 @@ class App extends Component {
 const mapStateToProps = state => {
     return {
         started: state.app.started,
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        userInfo: state.user.userInfo,
     };
 };
 

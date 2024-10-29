@@ -9,6 +9,7 @@ import { createNewHandbook } from '../../../services/userService';
 import { toast } from 'react-toastify';
 import { CommonUtils } from '../../../utils';
 import { getAllHandbook, putEditHandbook, deleteHandbook } from '../../../services/userService';
+import { FormattedMessage } from 'react-intl';
 const mdParser = new MarkdownIt();
 
 class ManageHandbook extends Component {
@@ -239,21 +240,21 @@ class ManageHandbook extends Component {
         let { isShow, isCreate, listHandbook, nameVi, nameEn } = this.state;
         return (
             <div className='manage-handbook-container container'>
-                <div className='title p-4'>
-                    Quản lý cẩm nang
+                <div className='title'>
+                <FormattedMessage id="admin.manage-handbook.title" />
                 </div>
                 <button
-                    className='btn  btn-primary px-3'
+                    className='btn  btn-primary px-3 my-3'
                     onClick={() => this.handleShow()}
                 >
-                    Thêm cẩm nang
+                    <FormattedMessage id="admin.manage-handbook.add-handbook" />
                 </button>
                 {isShow === true &&
 
                     <div>
                         <div className='row'>
                             <div className='col-md-4  form-group'>
-                                <label>Tên VI</label>
+                                <label><FormattedMessage id="admin.manage-handbook.name-VI" /></label>
                                 <input
                                     className='form-control'
                                     type='text'
@@ -262,7 +263,7 @@ class ManageHandbook extends Component {
                                 />
                             </div>
                             <div className='col-md-4 form-group'>
-                                <label>Tên EN</label>
+                                <label><FormattedMessage id="admin.manage-handbook.name-EN" /></label>
                                 <input
                                     className='form-control'
                                     type='text'
@@ -271,7 +272,7 @@ class ManageHandbook extends Component {
                                 />
                             </div>
                             <div className='col-md-4 form-group'>
-                                <label>Ảnh</label>
+                                <label><FormattedMessage id="admin.manage-handbook.image" /></label>
                                 <input
                                     className='form-control'
                                     type='file'
@@ -281,7 +282,7 @@ class ManageHandbook extends Component {
                         </div>
                         <div className='nhap row'>
                             <div className='col-sm-6'>
-                                <label>Tên mục VI</label>
+                                <label><FormattedMessage id="admin.manage-handbook.heading-VI" /></label>
                                 <input
                                     className='form-control'
                                     type='text'
@@ -290,7 +291,7 @@ class ManageHandbook extends Component {
                                 />
                             </div>
                             <div className='col-sm-6'>
-                                <label>Tên mục EN</label>
+                                <label><FormattedMessage id="admin.manage-handbook.heading-EN" /></label>
                                 <input
                                     className='form-control'
                                     type='text'
@@ -299,7 +300,7 @@ class ManageHandbook extends Component {
                                 />
                             </div>
                             <div className='col-12'>
-                                <label>Nội dung VI</label>
+                                <label><FormattedMessage id="admin.manage-handbook.content-VI" /></label>
                                 <MdEditor
                                     style={{ height: '150px' }}
                                     renderHTML={text => mdParser.render(text)}
@@ -308,7 +309,7 @@ class ManageHandbook extends Component {
                                 />
                             </div>
                             <div className='col-12'>
-                                <label>Nội dung EN</label>
+                                <label><FormattedMessage id="admin.manage-handbook.content-EN" /></label>
                                 <MdEditor
                                     style={{ height: '150px' }}
                                     renderHTML={text => mdParser.render(text)}
@@ -318,11 +319,12 @@ class ManageHandbook extends Component {
                             </div>
                         </div>
 
-                        <button className='btn btn-light my-2' onClick={this.handleAddToList}>Thêm</button>
-
-
-
-
+                        <button 
+                            className='btn btn-light my-2' 
+                            onClick={this.handleAddToList}
+                        >
+                            <FormattedMessage id="admin.manage-handbook.add" />
+                        </button>
                         <div className='xy-list'>
                             <h5>Danh sách các đề mục</h5>
 
@@ -374,20 +376,20 @@ class ManageHandbook extends Component {
                                     className='btn btn-success m-3 px-4'
                                     onClick={this.handleAddnewHandbook}
                                 >
-                                    Xác nhận
+                                    <FormattedMessage id="admin.manage-handbook.add-handbook" />
                                 </button> :
                                 <>
                                     <button
                                         className='btn btn-dark m-3 px-3'
                                         onClick={this.handleSaveHandbook}
                                     >
-                                        Cập nhập
+                                        <FormattedMessage id="admin.manage-handbook.save" />
                                     </button>
                                     <button
                                         className='btn btn-warning my--3 px-3'
                                         onClick={() => this.handleCancel()}
                                     >
-                                        Huỷ
+                                        <FormattedMessage id="admin.manage-handbook.cancel" />
                                     </button>
                                 </>
                             }
@@ -398,10 +400,10 @@ class ManageHandbook extends Component {
                 <div className='tb-handbook mt-3'>
                     <table className='table  '>
                         <tr>
-                            <th>STT</th>
-                            <th>Name Vi</th>
-                            <th>Name En</th>
-                            <th>Hành động</th>
+                            <th><FormattedMessage id="admin.manage-handbook.serial-number" /></th>
+                            <th><FormattedMessage id="admin.manage-handbook.name-VI" /></th>
+                            <th><FormattedMessage id="admin.manage-handbook.name-EN" /></th>
+                            <th><FormattedMessage id="admin.manage-handbook.action" /></th>
                         </tr>
                         {listHandbook.length > 0 &&
                             listHandbook.map((item, index) => {
@@ -411,19 +413,18 @@ class ManageHandbook extends Component {
                                         <td>{item.nameVi}</td>
                                         <td>{item.nameEn}</td>
                                         <td>
-
-                                            <button
-                                                className='btn btn-warning mx-3 px-3'
-                                                onClick={() => this.handleUpdateHandbook(item)}
-                                            >
-                                                Sửa
-                                            </button>
-                                            <button
-                                                className='btn btn-danger px-3'
-                                                onClick={() => this.handleDeleteHandbook(item)}
-                                            >
-                                                Xoá
-                                            </button>
+                                            <div className='d-flex'>
+                                                <button className='btn-edit'
+                                                    onClick={() => this.handleUpdateHandbook(item)}
+                                                >
+                                                    <i className='fas fa-pencil-alt'></i>
+                                                </button>
+                                                <button className='btn-delete'
+                                                    onClick={() => this.handleDeleteHandbook(item)}
+                                                >
+                                                    <i className='fas fa-trash'></i>
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 )

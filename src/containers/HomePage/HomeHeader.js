@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './HomeHeader.scss';
+import * as actions from "../../store/actions";
 import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from "../../utils";
 import { changeLanguageApp } from '../../store/actions/appActions';
@@ -9,20 +10,24 @@ class HomeHeader extends Component {
     changeLanguage = (language) => {
         this.props.changeLanguageAppRedux(language)
     }
-    returnToHome=() =>{
-        if(this.props.history){
+    returnToHome = () => {
+        if (this.props.history) {
             this.props.history.push(`/home`)
         }
     }
+    handleLoginRedirect = () => {
+        this.props.history.push('/login');
+    };
     render() {
-        let language = this.props.language;
+        const { processLogout, isLoggedIn, language, userInfo } = this.props;
+
         return (
             <React.Fragment>
                 <div className='home-header-container'>
                     <div className='home-header-content'>
                         <div className='left-content'>
                             <i className="fas fa-bars"></i>
-                            <div className='header-logo' onClick={()=>this.returnToHome()}>
+                            <div className='header-logo' onClick={() => this.returnToHome()}>
 
                             </div>
                         </div>
@@ -39,16 +44,53 @@ class HomeHeader extends Component {
                                 <div><b><FormattedMessage id="homeheader.doctor" /></b></div>
                                 <div className='subs-title'><FormattedMessage id="homeheader.select-doctor" /></div>
                             </div>
-                            <div className='child-content'>
+                            {/* <div className='child-content'>
                                 <div><b><FormattedMessage id="homeheader.fee" /></b></div>
                                 <div className='subs-title'><FormattedMessage id="homeheader.check-health" /></div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className='right-content'>
-                            <div className='support'> <i className='fas fa-question-circle'></i><FormattedMessage id="homeheader.support" /></div>
-                            <div className={language === LANGUAGES.VI ? 'language-vi active' : 'language-vi'}><span onClick={() => { this.changeLanguage(LANGUAGES.VI) }}>VN</span></div>
+                            {/* <div className='support'>
+                                <i className='fas fa-question-circle'></i>
+                                <FormattedMessage id="homeheader.support" />
+                            </div> */}
+                            {isLoggedIn &&
+                                <div>
+                                    {language === LANGUAGES.VI ?
+                                        `Xin chào,${userInfo.firstName} ${userInfo.lastName}`
+                                        :
+                                        `Xin chào,${userInfo.lastName} ${userInfo.firstName}`
+                                    }
+                                </div>
+                            }
+                            <div
+                                className={language === LANGUAGES.VI ? 'language-vi active' : 'language-vi'}
+                            >
+                                <span
+                                    onClick={() => { this.changeLanguage(LANGUAGES.VI) }}
+                                >
+                                    VN
+                                </span>
+                            </div>
                             <div className={language === LANGUAGES.EN ? 'language-en active' : 'language-en'}><span onClick={() => { this.changeLanguage(LANGUAGES.EN) }}>EN</span></div>
+                            {isLoggedIn ?
+                                <div
+                                    className="btn btn-logout "
+                                    onClick={processLogout} title='Log out'
+                                >
+                                    <i className="fas fa-sign-out-alt"></i>
+                                </div>
+                                :
+
+                                <div
+                                    className="btn btn-login "
+                                    onClick={this.handleLoginRedirect} title='Log in'
+                                >
+                                    <i className="fas fa-sign-in-alt"></i>
+                                </div>
+                            }
                         </div>
+
                     </div>
                 </div>
                 {this.props.isShowBanner === true &&
@@ -102,13 +144,15 @@ const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
-        userInfo: state.user.userInfo
+        userInfo: state.user.userInfo,
+
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language))
+        changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language)),
+        processLogout: () => dispatch(actions.processLogout()),
     };
 };
 

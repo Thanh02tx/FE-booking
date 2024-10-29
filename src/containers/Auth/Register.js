@@ -163,7 +163,7 @@ class Register extends Component {
 
     }
     handleConfirm = async () => {
-        if (this.state.otp == this.state.otpcheck) {
+        if (this.state.otp&&this.state.otp == this.state.otpcheck) {
 
             let res=await createNewUserService({
                 email: this.state.email,
@@ -248,7 +248,7 @@ class Register extends Component {
                                 </a>
                             </div>
                         </div>
-                        <div className='col-md-6 '>
+                        <div className='col-md-6 scrollable '>
 
                             <div className='register-content row'>
                                 <div className='col-12 text-center text-login'>Register</div>
