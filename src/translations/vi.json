@@ -127,7 +127,8 @@
             "note-VI":"Ghi chú VI:",
             "note-EN":"Ghi chú EN:",
             "select-specialty":"Chọn chuyên khoa:",
-            "select-clinic":"Chọn phòng khám:"
+            "select-clinic":"Chọn phòng khám:",
+            "enter":"//Nhập nội dung"
         },
         "manage-specialty":{
             "title":"Quản lý chuyên khoa",
@@ -141,7 +142,8 @@
             "save":"Lưu thông tin",
             "serial-number":"STT",
             "action":"Hành động",
-            "no-data":"Không có thông tin"
+            "no-data":"Không có thông tin",
+            "enter":"//Nhập nội dung"
         },
         "manage-clinic":{
             "title":"Quản lý phòng khám",
@@ -157,7 +159,9 @@
             "save":"Lưu thông tin",
             "serial-number":"STT",
             "action":"Hành động",
-            "no-data":"Không có thông tin"
+            "no-data":"Không có thông tin",
+            "enter":"//Nhập nội dung"
+            
         },
         "manage-handbook":{
             "title":"Quản lý cẩm nang",
@@ -174,7 +178,8 @@
             "save":"Lưu thông tin",
             "serial-number":"STT",
             "action":"Hành động",
-            "no-data":"Không có thông tin"
+            "no-data":"Không có thông tin",
+            "enter":"//Nhập nội dung"
         }
     }
 }

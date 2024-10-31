@@ -123,7 +123,8 @@
             "note-VI": "Note VI:",
             "note-EN": "Note EN:",
             "select-specialty": "Specialty:",
-            "select-clinic": "Clinic:"
+            "select-clinic": "Clinic:",
+            "enter":"//Enter content"
         },
         "manage-specialty": {
             "title": "Specialty management",
@@ -137,8 +138,8 @@
             "save": "Save infor",
             "serial-number": "S/N",
             "action": "Actions",
-            "no-data":"No data"
-            
+            "no-data":"No data",
+            "enter":"//Enter content"
         },
         "manage-clinic": {
             "title": "Clinic management",
@@ -154,7 +155,8 @@
             "save": "Save infor",
             "serial-number": "S/N",
             "action": "Actions",
-            "no-data":"No data"
+            "no-data":"No data",
+            "enter":"//Enter content"
         },
         "manage-handbook":{
             "title":"Handbook management",
@@ -171,7 +173,8 @@
             "save":"Save infor",
             "serial-number":"S/N",
             "action":"Actions",
-            "no-data":"No data"
+            "no-data":"No data",
+             "enter":"//Enter content"
         }
     }
 }

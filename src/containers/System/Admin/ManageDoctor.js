@@ -12,7 +12,7 @@ import 'react-markdown-editor-lite/lib/index.css';
 import Select from 'react-select';
 import { CRUD_ACTIONS, LANGUAGES } from '../../../utils';
 import { getInforDoctorById, getAllClinic } from '../../../services/userService';
-
+import { injectIntl } from 'react-intl';
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 
@@ -25,7 +25,7 @@ class ManageDoctor extends Component {
             //lưu markdown
             contentMarkdownVi: '',
             contentHTMLVi: '',
-            ontentMarkdownEn: '',
+            contentMarkdownEn: '',
             contentHTMLEn: '',
             selectedOption: '',
             descriptionVi: '',
@@ -284,6 +284,12 @@ class ManageDoctor extends Component {
     }
     render() {
         let { hasOldData } = this.state;
+        let {intl} = this.props;
+        let noteViPlaceHolder = intl.formatMessage({ id: 'admin.manage-doctor.note-VI' });
+        let noteEnPlaceHolder = intl.formatMessage({ id: 'admin.manage-doctor.note-EN' });
+        let descriptionViPlaceHolder = intl.formatMessage({ id: 'admin.manage-doctor.intro-VI' });
+        let descriptionEnPlaceHolder = intl.formatMessage({ id: 'admin.manage-doctor.intro-EN' });
+        let enterPlaceHolder = intl.formatMessage({ id: 'admin.manage-doctor.enter' });
         return (
 
             <div className='manage-doctor-container container'>
@@ -348,7 +354,7 @@ class ManageDoctor extends Component {
                         <input className='form-control'
                             onChange={(event) => this.handleOnChangetext(event, 'noteVi')}
                             value={this.state.noteVi}
-                            placeholder='...'
+                            placeholder={noteViPlaceHolder}
                         >
                         </input>
                     </div>
@@ -357,7 +363,7 @@ class ManageDoctor extends Component {
                         <input className='form-control'
                             onChange={(event) => this.handleOnChangetext(event, 'noteEn')}
                             value={this.state.noteEn}
-                            placeholder='...'
+                            placeholder={noteEnPlaceHolder}
                         >
                         </input>
                     </div>
@@ -369,7 +375,7 @@ class ManageDoctor extends Component {
                             // rows='4'
                             onChange={(event) => this.handleOnChangetext(event, 'descriptionVi')}
                             value={this.state.descriptionVi}
-                            placeholder='...'
+                            placeholder={descriptionViPlaceHolder}
                         >
                         </textarea>
                     </div>
@@ -381,7 +387,7 @@ class ManageDoctor extends Component {
                             // rows='4'
                             onChange={(event) => this.handleOnChangetext(event, 'descriptionEn')}
                             value={this.state.descriptionEn}
-                            placeholder='...'
+                            placeholder={descriptionEnPlaceHolder}
                         >
                         </textarea>
                     </div>
@@ -395,7 +401,9 @@ class ManageDoctor extends Component {
                         style={{ height: '150px' }}
                         renderHTML={text => mdParser.render(text)}
                         onChange={this.handleEditorChangeVi}
-                        value={this.state.contentMarkdownVi} />
+                        value={this.state.contentMarkdownVi} 
+                        placeholder={enterPlaceHolder}    
+                    />
                 </div>
                 <div className='manage-doctor-editor'>
                     <label><FormattedMessage id="admin.manage-doctor.content-EN" /></label>
@@ -403,7 +411,9 @@ class ManageDoctor extends Component {
                         style={{ height: '150px' }}
                         renderHTML={text => mdParser.render(text)}
                         onChange={this.handleEditorChangeEn}
-                        value={this.state.contentMarkdownEn} />
+                        value={this.state.contentMarkdownEn} 
+                        placeholder={enterPlaceHolder}
+                        />
                 </div>
                 <button className={hasOldData === true ? 'save-content-doctor' : 'create-content-doctor'}
                     onClick={() => this.handleSaveDoctorInfor()}
@@ -431,4 +441,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageDoctor);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ManageDoctor));

@@ -154,8 +154,8 @@ class DetailSpecialty extends Component {
                             {arrDoctorId && arrDoctorId.length > 0
                                 && arrDoctorId.map((item, index) => {
                                     return (
-                                        <div className='each-doctor' key={index}>
-                                            <div className='dt-content-left'>
+                                        <div className='each-doctor d-flex row' key={index}>
+                                            <div className='dt-content-left col-md-6'>
                                                 <div>
                                                     <ProfileDoctor
                                                         doctorId={item}
@@ -165,7 +165,7 @@ class DetailSpecialty extends Component {
                                                     />
                                                 </div>
                                             </div>
-                                            <div className='dt-content-right'>
+                                            <div className='dt-content-right col-md-6'>
                                                 <div className='doctor-schedule'>
                                                     <DoctorSchedule
                                                         doctorIdFromParent={item}

@@ -14,12 +14,28 @@ class HomePage extends Component {
 
     render() {
         let settings = {
-            dots: false,
+            dots:true,
             infinite: false,
             speed: 500,
-            slidesToShow: 3,
+            slidesToShow: 4,
             slidesToScroll: 1,
             touchMove: true,
+            responsive: [
+                {
+                    breakpoint: 992, // Khi màn hình <= 768px
+                    settings: {
+                        slidesToShow: 3, // Hiển thị 2 slide
+                        slidesToScroll: 1,
+                    }
+                },
+                {
+                    breakpoint: 768, // Khi màn hình <= 768px
+                    settings: {
+                        slidesToShow: 2, // Hiển thị 2 slide
+                        slidesToScroll: 1,
+                    }
+                }
+            ]
         };
         return (
             <div>

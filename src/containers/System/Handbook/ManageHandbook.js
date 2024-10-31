@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { CommonUtils } from '../../../utils';
 import { getAllHandbook, putEditHandbook, deleteHandbook } from '../../../services/userService';
 import { FormattedMessage } from 'react-intl';
+import { injectIntl } from 'react-intl';
 const mdParser = new MarkdownIt();
 
 class ManageHandbook extends Component {
@@ -236,8 +237,13 @@ class ManageHandbook extends Component {
         })
     }
     render() {
-        let { language } = this.props;
+        let { language ,intl} = this.props;
         let { isShow, isCreate, listHandbook, nameVi, nameEn } = this.state;
+        let nameViPlaceHolder = intl.formatMessage({ id: 'admin.manage-handbook.name-VI' });
+        let nameEnPlaceHolder = intl.formatMessage({ id: 'admin.manage-handbook.name-EN' });
+        let headingViPlaceHolder= intl.formatMessage({ id: 'admin.manage-handbook.heading-VI' });
+        let headingEnPlaceHolder= intl.formatMessage({ id: 'admin.manage-handbook.heading-EN' });
+        let contentPlaceHolder= intl.formatMessage({ id: 'admin.manage-handbook.enter' });
         return (
             <div className='manage-handbook-container container'>
                 <div className='title'>
@@ -260,6 +266,7 @@ class ManageHandbook extends Component {
                                     type='text'
                                     onChange={(event) => this.handleInputChange(event, 'nameVi')}
                                     value={nameVi}
+                                    placeholder={nameViPlaceHolder}
                                 />
                             </div>
                             <div className='col-md-4 form-group'>
@@ -269,6 +276,7 @@ class ManageHandbook extends Component {
                                     type='text'
                                     value={nameEn}
                                     onChange={(event) => this.handleInputChange(event, 'nameEn')}
+                                    placeholder={nameEnPlaceHolder}
                                 />
                             </div>
                             <div className='col-md-4 form-group'>
@@ -277,6 +285,7 @@ class ManageHandbook extends Component {
                                     className='form-control'
                                     type='file'
                                     onChange={(event) => this.handleOnChangeImage(event)}
+                                    
                                 />
                             </div>
                         </div>
@@ -288,6 +297,7 @@ class ManageHandbook extends Component {
                                     type='text'
                                     value={this.state.headingVi}
                                     onChange={(event) => this.handleInputChange(event, 'headingVi')}
+                                    placeholder={headingViPlaceHolder}
                                 />
                             </div>
                             <div className='col-sm-6'>
@@ -297,6 +307,7 @@ class ManageHandbook extends Component {
                                     type='text'
                                     value={this.state.headingEn}
                                     onChange={(event) => this.handleInputChange(event, 'headingEn')}
+                                    placeholder={headingEnPlaceHolder}
                                 />
                             </div>
                             <div className='col-12'>
@@ -306,6 +317,7 @@ class ManageHandbook extends Component {
                                     renderHTML={text => mdParser.render(text)}
                                     onChange={this.handleEditorChange('contentHTMLVi', 'contentMarkdownVi')}
                                     value={this.state.contentMarkdownVi}
+                                    placeholder={contentPlaceHolder}
                                 />
                             </div>
                             <div className='col-12'>
@@ -315,6 +327,7 @@ class ManageHandbook extends Component {
                                     renderHTML={text => mdParser.render(text)}
                                     onChange={this.handleEditorChange('contentHTMLEn', 'contentMarkdownEn')}
                                     value={this.state.contentMarkdownEn}
+                                    placeholder={contentPlaceHolder}
                                 />
                             </div>
                         </div>
@@ -448,4 +461,4 @@ const mapDispatchToProps = dispatch => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageHandbook);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ManageHandbook));

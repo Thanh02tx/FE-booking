@@ -7,7 +7,7 @@ import { LANGUAGES } from "../../utils";
 import { changeLanguageApp } from '../../store/actions/appActions';
 import { withRouter } from 'react-router';
 import { getAllSpecialty } from '../../services/userService';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl } from 'react-intl';
 class HomeHeader extends Component {
     constructor(props) {
         super(props);
@@ -110,7 +110,7 @@ class HomeHeader extends Component {
     }
 
     render() {
-        let { processLogout, isLoggedIn, language, userInfo ,intl} = this.props;
+        let { processLogout, isLoggedIn, language, userInfo, intl } = this.props;
         let { searchQuery, listSpecialty, showListSearch } = this.state;
 
         // Xử lý tìm kiếm và sắp xếp kết quả theo độ trùng khớp
@@ -127,8 +127,8 @@ class HomeHeader extends Component {
             <React.Fragment>
                 <div className='home-header-container'>
                     <div className='home-header-content'>
-                        <div className='left-content'>
-                            <i className="fas fa-bars"></i>
+                        <div className='left-content d-flex'>
+                            <div className='navbar' ><i className="fas fa-bars"></i></div>
                             <div className='header-logo' onClick={this.returnToHome}></div>
                         </div>
                         <div className='center-content'>
@@ -147,11 +147,11 @@ class HomeHeader extends Component {
                         </div>
                         <div className='right-content'>
                             {isLoggedIn &&
-                                <div>
-                                    {language === LANGUAGES.VI ? 
-                                        `Xin chào, ${userInfo.firstName} ${userInfo.lastName}` 
-                                        : 
-                                        `Xin chào, ${userInfo.lastName} ${userInfo.firstName}`
+                                <div className='user'>
+                                    {language === LANGUAGES.VI ?
+                                        `Xin chào, ${userInfo.firstName} ${userInfo.lastName}`
+                                        :
+                                        `Hello, ${userInfo.lastName} ${userInfo.firstName}`
                                     }
                                 </div>
                             }
@@ -161,12 +161,12 @@ class HomeHeader extends Component {
                             <div className={language === LANGUAGES.EN ? 'language-en active' : 'language-en'}>
                                 <span onClick={() => { this.changeLanguage(LANGUAGES.EN) }}>EN</span>
                             </div>
-                            {isLoggedIn ? 
-                                <div className="btn btn-logout" onClick={processLogout} title='Log out'>
+                            {isLoggedIn ?
+                                <div className="btn btn-logout mr-2" onClick={processLogout} title='Log out'>
                                     <i className="fas fa-sign-out-alt"></i>
                                 </div>
                                 :
-                                <div className="btn btn-login" onClick={this.handleLoginRedirect} title='Log in'>
+                                <div className="btn btn-login mr-2" onClick={this.handleLoginRedirect} title='Log in'>
                                     <i className="fas fa-sign-in-alt"></i>
                                 </div>
                             }
@@ -208,10 +208,10 @@ class HomeHeader extends Component {
                                                 ))
                                             ) : (
                                                 <li>
-                                                    <div 
-                                                        className='no-results'
+                                                    <div
+                                                        className='no-results bg-light option-child'
                                                     >
-                                                        {language===LANGUAGES.VI? 'Không tìm thấy chuyên khoa nào.': 'No specialties found.'}
+                                                        {language === LANGUAGES.VI ? 'Không tìm thấy chuyên khoa nào.' : 'No specialties found.'}
                                                     </div>
                                                 </li>
                                             )}

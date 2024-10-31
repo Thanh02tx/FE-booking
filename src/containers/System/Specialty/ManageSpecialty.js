@@ -9,6 +9,7 @@ import { createNewSpecialty } from '../../../services/userService';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import { getAllSpecialty, putEditSpecialty, deleteSpecialty } from '../../../services/userService';
+import { injectIntl } from 'react-intl';
 const mdParser = new MarkdownIt();
 class ManageSpecialty extends Component {
     constructor(props) {
@@ -178,6 +179,10 @@ class ManageSpecialty extends Component {
     }
     render() {
         let { isShow, isCreate, listSpecialty } = this.state;
+        let {intl} = this.props;
+        let nameViPlaceHolder = intl.formatMessage({ id: 'admin.manage-specialty.specialty-name-VI' });
+        let nameEnPlaceHolder = intl.formatMessage({ id: 'admin.manage-specialty.specialty-name-EN' });
+        let enterPlaceHolder = intl.formatMessage({ id: 'admin.manage-specialty.enter' });
         return (
             <div className='mange-specialty-contianer container'>
                 <div className='ms-title'><FormattedMessage id="admin.manage-specialty.title" /></div>
@@ -194,7 +199,7 @@ class ManageSpecialty extends Component {
                             <input className='form-control' type='text'
                                 onChange={(event) => this.handleOnChangeInput(event, 'nameVi')}
                                 value={this.state.nameVi}
-                                placeholder='...'
+                                placeholder={nameViPlaceHolder}
                             ></input>
                         </div>
                         <div className='col-md-4 form-group'>
@@ -202,7 +207,7 @@ class ManageSpecialty extends Component {
                             <input className='form-control' type='text'
                                 onChange={(event) => this.handleOnChangeInput(event, 'nameEn')}
                                 value={this.state.nameEn}
-                                placeholder='...'
+                                placeholder={nameEnPlaceHolder}
                             ></input>
                         </div>
                         <div className='col-md-4  form-group'>
@@ -219,6 +224,7 @@ class ManageSpecialty extends Component {
                                 renderHTML={text => mdParser.render(text)}
                                 onChange={this.handleEditorChangeVi}
                                 value={this.state.descriptionMarkdownVi}
+                                placeholder={enterPlaceHolder}
                             />
                         </div>
                         <div className='col-12'>
@@ -228,6 +234,7 @@ class ManageSpecialty extends Component {
                                 renderHTML={text => mdParser.render(text)}
                                 onChange={this.handleEditorChangeEn}
                                 value={this.state.descriptionMarkdownEn}
+                                placeholder={enterPlaceHolder}
                             />
                         </div>
                         <div className='col-12'>
@@ -320,4 +327,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageSpecialty);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ManageSpecialty));

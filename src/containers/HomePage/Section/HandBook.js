@@ -46,7 +46,7 @@ class HandBook extends Component {
                             {listHandbook.length > 0 &&
                                 listHandbook.map((item, index) => (
                                     <div className='section-customize' key={`handbook-${index}`} 
-                                        // onClick={() => this.handleViewDetailHandbook(item)}
+                                        onClick={() => this.handleViewDetailHandbook(item)}
                                     >
                                         <div className='bg-image' style={{ backgroundImage: `url(${item.image})` }}></div>
                                         <div className='section-name'>{item.nameVi}</div>

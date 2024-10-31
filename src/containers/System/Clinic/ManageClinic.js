@@ -10,6 +10,7 @@ import { createNewClinic, getAllCodeService, getAllClinic, editClinic, deleteCli
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import Select from 'react-select';
+import { injectIntl } from 'react-intl';
 const mdParser = new MarkdownIt();
 class ManageClinic extends Component {
     constructor(props) {
@@ -223,7 +224,12 @@ class ManageClinic extends Component {
         }
     }
     render() {
-        let { isShow, isCreate, listClinic } = this.state;
+        let { isShow, isCreate, listClinic} = this.state;
+        let {intl} = this.props;
+        let namePlaceHolder = intl.formatMessage({ id: 'admin.manage-clinic.clinic-name' });
+        let addressPlaceHolder = intl.formatMessage({ id: 'admin.manage-clinic.clinic-address' });
+        let addressMapPlaceHolder = intl.formatMessage({ id: 'admin.manage-clinic.clinic-address-map' });
+        let enterPlaceHolder = intl.formatMessage({ id: 'admin.manage-clinic.enter' });
         return (
             <div className='mange-specialty-contianer container'>
                 <div className='ms-title'><FormattedMessage id="admin.manage-clinic.title" /></div>
@@ -242,7 +248,7 @@ class ManageClinic extends Component {
                             <input className='form-control' type='text'
                                 onChange={(event) => this.handleOnChangeInput(event, 'name')}
                                 value={this.state.name}
-                                placeholder='.....'
+                                placeholder={namePlaceHolder}
                             />
                         </div>
 
@@ -262,7 +268,7 @@ class ManageClinic extends Component {
                             <input className='form-control' type='text'
                                 onChange={(event) => this.handleOnChangeInput(event, 'address')}
                                 value={this.state.address}
-                                placeholder='.....'
+                                placeholder={addressPlaceHolder}
                             />
                         </div>
                         <div className='col-md-6 form-group'>
@@ -278,7 +284,7 @@ class ManageClinic extends Component {
                             <textarea className='form-control' type='text'
                                 onChange={(event) => this.handleOnChangeInput(event, 'addressMap')}
                                 value={this.state.addressMap}
-                                placeholder='.....'
+                                placeholder={addressMapPlaceHolder}
                             />
                         </div>
 
@@ -289,6 +295,7 @@ class ManageClinic extends Component {
                                 renderHTML={text => mdParser.render(text)}
                                 onChange={this.handleEditorChangeVi}
                                 value={this.state.descriptionMarkdownVi}
+                                placeholder={enterPlaceHolder}
                             />
                         </div>
 
@@ -299,6 +306,7 @@ class ManageClinic extends Component {
                                 renderHTML={text => mdParser.render(text)}
                                 onChange={this.handleEditorChangeEn}
                                 value={this.state.descriptionMarkdownEn}
+                                placeholder={enterPlaceHolder}
                             />
                         </div>
 
@@ -395,4 +403,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageClinic);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ManageClinic));
