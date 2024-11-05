@@ -1,0 +1,16 @@
+.all-handbook-container{
+    i{
+        color: #1e67b0;
+        cursor: pointer;
+    }
+    span {
+        color: #8daac6;
+    }
+    .img{
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        aspect-ratio: 16/9;
+        width: 100%;
+    }
+}

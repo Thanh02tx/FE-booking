@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import './ProfileDoctor.scss';
 import { FormattedMessage } from 'react-intl';
-import { LANGUAGES } from '../../../utils';
+import { LANGUAGES, path } from '../../../utils';
 import NumberFormat from 'react-number-format';
 import { getProfileDoctorById } from '../../../services/userService';
 import _ from 'lodash';
@@ -40,9 +40,8 @@ class ProfileDoctor extends Component {
                 result = res.data;
             }
         }
-        console.log('sfdf',result)
         return result;
-        
+
     }
     renderTimeBooking = (dataTime) => {
         let { language } = this.props;
@@ -58,6 +57,7 @@ class ProfileDoctor extends Component {
             )
         }
     }
+    
     render() {
         let { dataProfile } = this.state;
         let { language, doctorId, isShowDescription, dataTime, isShowLinkDetail, isShowPrice } = this.props;
@@ -69,6 +69,7 @@ class ProfileDoctor extends Component {
         return (
             <div className='profile-doctor-container'>
                 <div className='intro-doctor'>
+                    
                     <div className='content-left' style={{ backgroundImage: `url(${dataProfile && dataProfile.image ? dataProfile.image : ''})` }}>
 
                     </div>
@@ -80,19 +81,19 @@ class ProfileDoctor extends Component {
                             {isShowDescription === true ?
                                 <>
                                     <div>
-                                    {dataProfile && dataProfile.Doctor_Infor && (
-                                        <>  
-                                            {dataProfile.Doctor_Infor.descriptionVi&&language===LANGUAGES.VI&&
-                                                <span>{dataProfile.Doctor_Infor.descriptionVi}</span>}
-                                            {dataProfile.Doctor_Infor.descriptionEn&&language===LANGUAGES.EN&&
-                                                <span>{dataProfile.Doctor_Infor.descriptionEn}</span>}
-                                        </>
-                                    )
-                                        
-                                    }
+                                        {dataProfile && dataProfile.Doctor_Infor && (
+                                            <>
+                                                {dataProfile.Doctor_Infor.descriptionVi && language === LANGUAGES.VI &&
+                                                    <span>{dataProfile.Doctor_Infor.descriptionVi}</span>}
+                                                {dataProfile.Doctor_Infor.descriptionEn && language === LANGUAGES.EN &&
+                                                    <span>{dataProfile.Doctor_Infor.descriptionEn}</span>}
+                                            </>
+                                        )
+
+                                        }
                                     </div>
                                     <div><i className="fas fa-map-marker-alt"></i>
-                                    {dataProfile &&dataProfile.Doctor_Infor&&dataProfile.Doctor_Infor.Clinic&&dataProfile.Doctor_Infor.Clinic.provinceData?dataProfile.Doctor_Infor.Clinic.provinceData.valueVi:'' }
+                                        {dataProfile && dataProfile.Doctor_Infor && dataProfile.Doctor_Infor.Clinic && dataProfile.Doctor_Infor.Clinic.provinceData ? dataProfile.Doctor_Infor.Clinic.provinceData.valueVi : ''}
                                     </div>
 
                                 </>
@@ -105,8 +106,8 @@ class ProfileDoctor extends Component {
                 </div>
                 {isShowLinkDetail === true &&
                     <div className='view-detail-doctor'>
-                        <Link to={`/detail-doctor/${doctorId}`} ><FormattedMessage id='patient.booking-modal.more-infor'/> </Link>
-                      
+                        <Link to={`/detail-doctor/${doctorId}`} ><FormattedMessage id='patient.booking-modal.more-infor' /> </Link>
+
                     </div>
                 }
                 {isShowPrice === true &&

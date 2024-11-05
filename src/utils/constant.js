@@ -6,9 +6,13 @@ export const path = {
     FORGOT_PASSWORD: '/forgot-password',
     LOG_OUT: '/logout',
     SYSTEM: '/system',
+    ACCOUNT_INFOR: '/account',
     DETAIL_DOCTOR: '/detail-doctor/:id',
     DETAIL_HANDBOOK: '/detail-handbook/:id',
     DETAIL_SPECIALTY:'/detail-specialty/:id',
+    ALL_SPECIALTY:'/all-specialty',
+    ALL_CLINIC:'/all-clinic',
+    ALL_HANDBOOK:'/all-handbook',
     DETAIL_CLINIC:'/detail-clinic/:id',
     VERIFY_EMAIL_BOOKING:'/verify-booking'
 };

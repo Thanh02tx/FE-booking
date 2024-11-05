@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import './HomeHeader.scss';
 import * as actions from "../../store/actions";
 import { FormattedMessage } from 'react-intl';
-import { LANGUAGES } from "../../utils";
+import { LANGUAGES, path } from "../../utils";
 import { changeLanguageApp } from '../../store/actions/appActions';
 import { withRouter } from 'react-router';
 import { getAllSpecialty } from '../../services/userService';
 import { injectIntl } from 'react-intl';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 class HomeHeader extends Component {
     constructor(props) {
         super(props);
@@ -15,9 +16,15 @@ class HomeHeader extends Component {
             listSpecialty: [],
             searchQuery: '',
             showListSearch: false, // Thêm state để kiểm soát việc hiển thị danh sách
+            modal: false
         };
+        this.toggle = this.toggle.bind(this);
     }
-
+    toggle() {
+        this.setState({
+            modal: !this.state.modal
+        });
+    }
     componentDidMount() {
         this.buildDataSpecialty();
     }
@@ -108,7 +115,18 @@ class HomeHeader extends Component {
             this.setState({ showListSearch: false }); // Ẩn danh sách sau khi click
         }
     }
-
+    returnAllSpecialty=()=>{
+        this.props.history.push(path.ALL_SPECIALTY);
+    }
+    returnAllClinic=()=>{
+        this.props.history.push(path.ALL_CLINIC);
+    }
+    returnAllHandbook=()=>{
+        this.props.history.push(path.ALL_HANDBOOK);
+    }
+    returnAcountInfor = () => {
+        this.props.history.push(path.ACCOUNT_INFOR);
+    }
     render() {
         let { processLogout, isLoggedIn, language, userInfo, intl } = this.props;
         let { searchQuery, listSpecialty, showListSearch } = this.state;
@@ -128,15 +146,27 @@ class HomeHeader extends Component {
                 <div className='home-header-container'>
                     <div className='home-header-content'>
                         <div className='left-content d-flex'>
-                            <div className='navbar' ><i className="fas fa-bars"></i></div>
+                            <div className='navbar' >
+                                <i
+                                    className="fas fa-bars"
+                                    onClick={this.toggle}
+                                >
+                                </i>
+                            </div>
                             <div className='header-logo' onClick={this.returnToHome}></div>
                         </div>
                         <div className='center-content'>
-                            <div className='child-content'>
+                            <div 
+                                className='child-content'
+                                onClick={()=>this.returnAllSpecialty()}
+                            >
                                 <div><b><FormattedMessage id="homeheader.specialty" /></b></div>
                                 <div className='subs-title'><FormattedMessage id="homeheader.searchdoctor" /></div>
                             </div>
-                            <div className='child-content'>
+                            <div 
+                                className='child-content'
+                                onClick={()=>this.returnAllClinic()}
+                            >
                                 <div><b><FormattedMessage id="homeheader.health-facility" /></b></div>
                                 <div className='subs-title'><FormattedMessage id="homeheader.select-room" /></div>
                             </div>
@@ -222,6 +252,60 @@ class HomeHeader extends Component {
                         </div>
                     </div>
                 }
+                <div className='modal-nav'>
+
+                    <Modal size='sm' isOpen={this.state.modal} toggle={this.toggle} className='modal-home-header'>
+                        <ModalBody>
+                            <ul>
+                                <li
+                                    onClick={this.returnToHome}
+                                >
+                                    Trang chủ
+                                </li>
+                                <li
+                                    onClick={()=>this.returnAllSpecialty()}
+                                >
+                                    Chuyên khoa
+                                </li>
+                                <li
+                                    onClick={()=>this.returnAllClinic()}
+                                >
+                                    Phòng khám
+                                </li>
+                                <li
+                                    onClick={()=>this.returnAllHandbook()}
+                                >
+                                    Cẩm nang
+                                </li>
+                                {isLoggedIn ?
+                                    <>
+                                        <li
+                                            onClick={()=>{this.returnAcountInfor(path.ACCOUNT_INFOR)}}
+                                        >
+                                            Thông tin tài khoản
+                                        </li>
+                                        <li>
+                                            Lịch sử khám bệnh
+                                        </li>
+                                        <li
+                                            onClick={processLogout}
+                                        >
+                                            Đăng xuất
+                                        </li>
+                                    </>
+                                    :
+                                    <li
+                                        onClick={this.handleLoginRedirect}
+                                    >
+                                        Đăng nhập
+                                    </li>
+                                }
+                            </ul>
+                        </ModalBody>
+
+                    </Modal>
+
+                </div>
             </React.Fragment>
         );
     }

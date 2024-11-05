@@ -1,0 +1,29 @@
+.account-container{
+    i{
+        color: #1e67b0;
+        cursor: pointer;
+    }
+    span {
+        color: #8daac6;
+    }
+    .change-password{
+        .child{
+            width: 250px;
+            margin: auto;
+        }
+    }
+    .content-input {
+        // margin:  0 !important;
+        // padding-right: 0 !important;
+        .custom-input-password {
+            position: relative;
+
+            i {
+                position: absolute;
+                right: 5px;
+                top: 10px;
+                cursor: pointer;
+            }
+        }
+    }
+}

@@ -8,8 +8,8 @@ import { getDetailSpecialtyById, getAllCodeService } from '../../../services/use
 import DoctorSchedule from '../Doctor/DoctorSchedule';
 import DoctorExtraInfor from '../Doctor/DoctorExtraInfor';
 import ProfileDoctor from '../Doctor/ProfileDoctor';
-import _, { create } from 'lodash';
-import { LANGUAGES } from '../../../utils';
+import _ from 'lodash';
+import { LANGUAGES, path } from '../../../utils';
 class DetailSpecialty extends Component {
     constructor(props) {
         super(props);
@@ -56,7 +56,6 @@ class DetailSpecialty extends Component {
                     arrDoctorId: arrDoctorId,
                     listProvince:dataProvince
                 })
-                console.log('sfdf',this.state)
             }
         }
     }
@@ -97,10 +96,15 @@ class DetailSpecialty extends Component {
             hidden_des: ! this.state.hidden_des
         })
     }
+    returnHome=()=>{
+        this.props.history.push(path.HOMEPAGE);
+    }
+    returnAllSpecialty=()=>{
+        this.props.history.push(path.ALL_SPECIALTY);
+    }
     render() {
         let { language } = this.props;
         let { arrDoctorId, dataDetailSpecialty, listProvince } = this.state
-        console.log('sdfdf'.listProvince)
         return (
             <div className='detail-specialty-container'>
                 <HomeHeader />
@@ -113,10 +117,20 @@ class DetailSpecialty extends Component {
                                 whiteSpace: 'nowrap',
                                 textOverflow: 'ellipsis'
                             }}
-                        >
+                        >   
+                            <p>
+                                <i
+                                    className="fas fa-home"
+                                    onClick={()=>this.returnHome()}
+                                >
+                                </i>
+                                <span 
+                                    onClick={()=>this.returnAllSpecialty()}
+                                > /Khám chuyên khoa</span>
+                            </p>
                             {dataDetailSpecialty && !_.isEmpty(dataDetailSpecialty)
                                 &&(
-                                    <>
+                                    <>  
                                         {dataDetailSpecialty.descriptionHTMLVi && language===LANGUAGES.VI &&
                                             <div dangerouslySetInnerHTML={{ __html: dataDetailSpecialty.descriptionHTMLVi }}></div>
                                         }

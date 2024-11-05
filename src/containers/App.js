@@ -25,6 +25,10 @@ import DetailClinic from './Patient/Clinic/DetailClinic.js';
 import Register from './Auth/Register.js';
 import DetailHandbook from './Patient/Handbook/DetailHandbook.js';
 import ForgotPassword from './Auth/ForgotPassword.js';
+import AllSpecialty from './Patient/Specialty/AllSpecialty.js';
+import AllClinic from './Patient/Clinic/AllClinic.js';
+import AllHandbook from './Patient/Handbook/AllHandbook.js';
+import Account_Infor from './Patient/Account/Account_Infor.js';
 class App extends Component {
 
     handlePersistorState = () => {
@@ -43,6 +47,10 @@ class App extends Component {
 
     componentDidMount() {
         this.handlePersistorState();
+        const { isLoggedIn, userInfo } = this.props;
+        if (isLoggedIn && userInfo.roleId === 'R3') {
+            this.props.history.push('/home');
+        }
     }
 
     render() {
@@ -58,14 +66,19 @@ class App extends Component {
                             <CustomScrollbars style={{ height: '100vh', width: '100%' }}>
                                 <Switch>
                                     <Route path={path.HOME} exact component={(Home)} />
+                                    {/* userIsNotAuthenticated */}
                                     <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
                                     <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
                                     <Route path={'/doctor/'} component={userIsAuthenticated(Doctor)} />
                                     <Route path={path.HOMEPAGE} component={HomePage} />
+                                    <Route path={path.ACCOUNT_INFOR} component={Account_Infor} />
                                     <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
                                     <Route path={path.DETAIL_HANDBOOK} component={DetailHandbook} />
+                                    <Route path={path.ALL_HANDBOOK} component={AllHandbook} />
                                     <Route path={path.DETAIL_SPECIALTY} component={DetailSpecialty} />
+                                    <Route path={path.ALL_SPECIALTY} component={AllSpecialty} />
                                     <Route path={path.DETAIL_CLINIC} component={DetailClinic} />
+                                    <Route path={path.ALL_CLINIC} component={AllClinic} />
                                     <Route path={path.VERIFY_EMAIL_BOOKING} component={VerifyEmail} />
                                     <Route path={path.REGISTER} component={Register} />
                                     <Route path={path.FORGOT_PASSWORD} component={ForgotPassword} />

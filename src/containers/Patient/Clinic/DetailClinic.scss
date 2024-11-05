@@ -16,7 +16,11 @@
     
     .image-clinic {
         width: 100%;
-        height: 250px;
+        aspect-ratio: 16/9;
+        max-height: 250px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
     }
 
     .bg-doctor {

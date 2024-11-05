@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import Slider from 'react-slick';
 import { getAllHandbook } from '../../../services/userService';
 import specialtyImg from "../../../assets/specialty/co-xuong-khop.jpg";
-import { LANGUAGES } from '../../../utils';
+import { LANGUAGES, path } from '../../../utils';
 import { withRouter } from 'react-router';
 class HandBook extends Component {
     constructor(props) {
@@ -30,6 +30,9 @@ class HandBook extends Component {
             this.props.history.push(`/detail-handbook/${handbook.id}`)
         }
     }
+    returnAllHandbook=()=>{
+        this.props.history.push(path.ALL_HANDBOOK)
+    }
     render() {
         let { listHandbook } = this.state
         let { language } = this.props
@@ -38,7 +41,12 @@ class HandBook extends Component {
                 <div className='section-container'>
                     <div className='section-header'>
                         <span className='title-section'>Cẩm nang</span>
-                        <button className='btn-section'>Xem thêm</button>
+                        <button 
+                            onClick={()=>this.returnAllHandbook()}
+                            className='btn-section'
+                        >
+                            Xem thêm
+                        </button>
                     </div>
                     <div className='section-body scrollable-container'>
                         

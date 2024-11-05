@@ -13,15 +13,15 @@ class DoctorSchedule extends Component {
         this.state = {
             allDays: [],
             allAvailabelTime: [],
-            isOpenModalBooking:false,
-            dataScheduleTimeModal:{}
+            isOpenModalBooking: false,
+            dataScheduleTimeModal: {}
 
         }
     }
     async componentDidMount() {
         let { language } = this.props;
         let allDays = this.getArrDays(language);
-        if(this.props.doctorIdFromParent){
+        if (this.props.doctorIdFromParent) {
             let res = await getScheduleDoctorByDate(this.props.doctorIdFromParent, allDays[0].value);
             this.setState({
                 allAvailabelTime: res.data ? res.data : []
@@ -91,24 +91,35 @@ class DoctorSchedule extends Component {
                     allAvailabelTime: res.data ? res.data : []
                 })
             }
+            let allAvailabelTime = [];
+            if (res && res.errCode === 0) {
+                allAvailabelTime = res.data ? res.data.map(item => ({
+                    ...item,
+                    enough: item.currentNumber >= item.maxNumber // Gán enough = true nếu currentNumber >= maxNumber
+                })) : [];
+            }
+
+            this.setState({
+                allAvailabelTime
+            });
         }
     }
     capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
-    handleClickScheduleTime=(time)=>{
+    handleClickScheduleTime = (time) => {
         this.setState({
-            isOpenModalBooking:true,
-            dataScheduleTimeModal:time
+            isOpenModalBooking: true,
+            dataScheduleTimeModal: time
         })
     }
-    closeBookingClose=()=>{
+    closeBookingClose = () => {
         this.setState({
-            isOpenModalBooking:false
+            isOpenModalBooking: false
         })
     }
     render() {
-        let { allDays, allAvailabelTime,isOpenModalBooking ,dataScheduleTimeModal} = this.state;
+        let { allDays, allAvailabelTime, isOpenModalBooking, dataScheduleTimeModal } = this.state;
         let { language } = this.props;
         return (
             <>
@@ -141,10 +152,11 @@ class DoctorSchedule extends Component {
                                             let timeDisplay = language === LANGUAGES.VI ? item.timeTypeData.valueVi : item.timeTypeData.valueEn
                                             return (
                                                 <button
-                                                     key={index} 
-                                                     className={language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'}
-                                                     onClick={()=>this.handleClickScheduleTime(item)}
-                                                     >{timeDisplay}
+                                                    key={index}
+                                                    className={`${language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'} ${item.enough ? 'btn-disabled' : ''}`}
+                                                    onClick={item.enough ? null : () => this.handleClickScheduleTime(item)}
+                                                    disabled={item.enough} // Vô hiệu hóa nút nếu enough === true
+                                                >{timeDisplay}
                                                 </button>
                                             )
                                         })
@@ -160,12 +172,12 @@ class DoctorSchedule extends Component {
                         </div>
                     </div>
                 </div>
-                <BookingModal 
+                <BookingModal
                     isOpenModal={isOpenModalBooking}
                     closeBookingClose={this.closeBookingClose}
-                    dataTime = {dataScheduleTimeModal}
+                    dataTime={dataScheduleTimeModal}
 
-                    />
+                />
             </>
         );
     }

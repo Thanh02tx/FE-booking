@@ -5,7 +5,7 @@ import HomeHeader from '../../HomePage/HomeHeader';
 import './DetailHandbook.scss';
 import { getDetailHandbookById } from '../../../services/userService';
 import _ from 'lodash';
-import { LANGUAGES } from '../../../utils';
+import { LANGUAGES, path } from '../../../utils';
 import './DetailHandbook.scss'
 class DetailHandbook extends Component {
     constructor(props) {
@@ -30,7 +30,12 @@ class DetailHandbook extends Component {
     async componentDidUpdate(prevProps, prevState, snaphot) {
 
     }
-
+    returnAllHandbook=()=>{
+        this.props.history.push(path.ALL_HANDBOOK)
+    }
+    returnHome=()=>{
+        this.props.history.push(path.HOMEPAGE)
+    }
 
     render() {
 
@@ -44,6 +49,17 @@ class DetailHandbook extends Component {
                 <div className='container '>
                     <div className='content row'>
                         <div className=' bg-white content-left col-md-8'>
+                            <div>
+                                <p className='hb-nav m-0'>
+                                    <i
+                                        className="fas fa-home"
+                                        onClick={() => this.returnHome()}
+                                    ></i>
+                                    <span
+                                        onClick={()=>this.returnAllHandbook()}
+                                    > /Cẩm nang</span>
+                                </p>
+                            </div>
                             <div className='image-handbook' style={{
                                 backgroundImage: `url(${dataDetailHandbook && dataDetailHandbook.image ? dataDetailHandbook.image : ''})`,
                                 backgroundRepeat: 'no-repeat',
@@ -52,14 +68,20 @@ class DetailHandbook extends Component {
                                 width: '100%',  // Chiều rộng chiếm 100% phần tử chứa nó
                                 paddingTop: '56.25%'
                             }}>
-
+                                {/* <p>
+                                    <i
+                                        className="fas fa-home"
+                                        onClick={() => this.returnHome()}
+                                    ></i>
+                                    <span> /Cẩm nang</span>
+                                </p> */}
                             </div>
                             <div className='m-3'>
                                 <h4 >{dataDetailHandbook.nameVi}</h4>
                                 {listHeading.length > 0 &&
                                     listHeading.map((item, index) => {
                                         return (
-                                            <div  key={`l-${index}`}>
+                                            <div key={`l-${index}`}>
                                                 <div className='title-heading' id={`heading-${item.id}`}>{item.headingVi}</div>
                                                 <div
                                                     dangerouslySetInnerHTML={{ __html: item.contentHTMLVi }}
@@ -80,7 +102,7 @@ class DetailHandbook extends Component {
                                         return (
                                             <div className='mb-1' key={`r-${index}`}>
                                                 <a href={`#heading-${item.id}`} > {item.headingVi}</a>
-                                              
+
                                             </div>
                                         )
                                     })

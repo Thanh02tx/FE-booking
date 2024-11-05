@@ -87,6 +87,9 @@ class Login extends Component {
             }
             if (data && data.errCode === 0) {
                 this.props.userLoginSuccess(data.user);
+                if(data.user&&data.user.roleId&& data.user.roleId==='R3'){
+                    this.props.history.push(path.HOMEPAGE);
+                }
             }
         } catch (e) {
             if (e.response && e.response.data) {

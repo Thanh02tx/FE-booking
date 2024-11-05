@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Redirect } from 'react-router-dom';
 import './DetailDoctor.scss';
-import { LANGUAGES } from '../../../utils';
+import { LANGUAGES, path } from '../../../utils';
 import { getDetailInforDoctor } from '../../../services/userService';
 import HomeHeader from "../../HomePage/HomeHeader";
 import DoctorSchedule from './DoctorSchedule';
@@ -12,7 +12,8 @@ class DetailDoctor extends Component {
         super(props);
         this.state = {
             detailDoctor: {},
-            currentDoctorId: -1
+            currentDoctorId: -1,
+            speName:''
 
         }
     }
@@ -23,13 +24,13 @@ class DetailDoctor extends Component {
                 currentDoctorId: id
             })
             let res = await getDetailInforDoctor(id);
-            console.log("dd", res)
             if (res && res.errCode === 0) {
                 this.setState({
                     detailDoctor: res.data,
-
+                    speName: res.data.Doctor_Infor.Specialty.nameVi
                 })
             }
+            console.log('sdsfs',this.state.detailDoctor.Doctor_Infor.Specialty.nameVi)
 
         }
     }
@@ -37,6 +38,16 @@ class DetailDoctor extends Component {
         if (prevProps.language !== this.props.language) {
 
         }
+    }
+    returnHome=()=>{
+        this.props.history.push(path.HOMEPAGE)
+    }
+    returnAllSpecialty=()=>{
+        this.props.history.push(path.ALL_SPECIALTY)
+    }
+    returnSpecialty=()=>{
+        let {detailDoctor}=this.state
+        this.props.history.push(path.DETAIL_SPECIALTY.replace(':id',detailDoctor.Doctor_Infor.specialtyId))
     }
     render() {
         let { detailDoctor } = this.state;
@@ -46,10 +57,28 @@ class DetailDoctor extends Component {
             nameVi = `${detailDoctor.positionData.valueVi}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
             nameEn = `${detailDoctor.positionData.valueEn}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
         }
+        // console.log('sfa',this.state.detailDoctor.Doctor_Infor.Specialty.nameVi)
+        console.log('sdsff', this.state.speName);
         return (
             <React.Fragment>
                 <HomeHeader isShowBanner={false} />
                 <div className='doctor-detail-container '>
+                    <div className='nav'>
+                        <p>
+                            <i
+                                className="fas fa-home"
+                                onClick={() => this.returnHome()}
+                            ></i>
+                            <span
+                                onClick={() => this.returnAllSpecialty()}
+                            > /Khám chuyên khoa</span>
+                            <span
+                                onClick={()=>this.returnSpecialty()}
+                            > /{detailDoctor.Doctor_Infor&&detailDoctor.Doctor_Infor.Specialty&&detailDoctor.Doctor_Infor.Specialty.nameVi&& language===LANGUAGES.VI ? detailDoctor.Doctor_Infor.Specialty.nameVi : ''} 
+                                {detailDoctor.Doctor_Infor&&detailDoctor.Doctor_Infor.Specialty&&detailDoctor.Doctor_Infor.Specialty.nameEn&& language===LANGUAGES.EN ? detailDoctor.Doctor_Infor.Specialty.nameEn : ''} 
+                            </span>
+                        </p>
+                    </div>
                     <div className='intro-doctor'>
                         <div className='content-left'
                             style={{ backgroundImage: `url(${detailDoctor && detailDoctor.image ? detailDoctor.image : ''})` }}
@@ -63,14 +92,14 @@ class DetailDoctor extends Component {
                             <div className='down'>
                                 {detailDoctor && detailDoctor.Doctor_Infor && (
                                     <>
-                                    {detailDoctor.Doctor_Infor.descriptionVi && language === LANGUAGES.VI && (
+                                        {detailDoctor.Doctor_Infor.descriptionVi && language === LANGUAGES.VI && (
                                             <span>{detailDoctor.Doctor_Infor.descriptionVi} </span>
                                         )
-                                    }
-                                    {detailDoctor.Doctor_Infor.descriptionEn && language === LANGUAGES.EN && (
+                                        }
+                                        {detailDoctor.Doctor_Infor.descriptionEn && language === LANGUAGES.EN && (
                                             <span>{detailDoctor.Doctor_Infor.descriptionEn} </span>
                                         )
-                                    }
+                                        }
                                     </>
 
                                 )
@@ -82,7 +111,7 @@ class DetailDoctor extends Component {
                     <div className='schedule-doctor row'>
                         <div className='content-left col-md-6 '>
                             <DoctorSchedule doctorIdFromParent={this.state.currentDoctorId} />
-                            <div style={{height:'15px',width:'100%'}}></div>
+                            <div style={{ height: '15px', width: '100%' }}></div>
                         </div>
                         <div className='content-right col-md-6'>
                             <DoctorExtraInfor doctorIdFromParent={this.state.currentDoctorId} />

@@ -96,7 +96,7 @@ class DetailClinic extends Component {
         return (
             <div className='detail-clinic-container'>
                 <HomeHeader />
-                <div className='image-clinic' style={{ background: `url(${dataDetailClinic && dataDetailClinic.image ? dataDetailClinic.image : ''})` }}>
+                <div className='image-clinic' style={{ backgroundImage: `url(${dataDetailClinic && dataDetailClinic.image ? dataDetailClinic.image : ''})` }}>
 
                 </div>
                 <div className='detail-specialty-body '>

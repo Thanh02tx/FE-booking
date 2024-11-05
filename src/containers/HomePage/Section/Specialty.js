@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import Slider from 'react-slick';
-import { LANGUAGES } from '../../../utils';
+import { LANGUAGES, path } from '../../../utils';
 import { withRouter } from 'react-router';
 import { getAllSpecialty } from '../../../services/userService';
 import specialtyImg from "../../../assets/specialty/co-xuong-khop.jpg";
@@ -26,6 +26,9 @@ class Specialty extends Component {
             this.props.history.push(`/detail-specialty/${item.id}`)
         }
     }
+    returnAllSpecialty=()=>{
+        this.props.history.push(path.ALL_SPECIALTY);
+    }
     render() {
         let { dataSpecialty } = this.state;
         let {language} = this.props;
@@ -36,7 +39,12 @@ class Specialty extends Component {
                 <div className='section-container'>
                     <div className='section-header'>
                         <span className='title-section'><FormattedMessage id ='homepage.specialty-popular'/></span>
-                        <button className='btn-section'><FormattedMessage id ='homepage.more-infor'/></button>
+                        <button 
+                            className='btn-section'
+                            onClick={()=>this.returnAllSpecialty()}
+                        >
+                            <FormattedMessage id ='homepage.more-infor'/>
+                        </button>
                     </div>
                     <div className='section-body'>
                         <Slider {...this.props.settings}>
