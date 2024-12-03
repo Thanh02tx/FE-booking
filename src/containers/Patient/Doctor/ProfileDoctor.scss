@@ -13,18 +13,31 @@
         }
     
         .content-right {
-            width: calc(100% - 80px);
+            // width: calc(100% - 80px);
             display: flex;
             flex-direction: column;
             padding-left: 10px;
     
             .up {
-               
+                color: #417199;
                 font-weight: 780;
             }
     
             .down {
-               text-align: justify;
+                text-align: justify;
+                i{
+                    color: #bbb;
+                }
+                span{
+                    color: gold;
+                    font-weight: 600;
+                }
+                .name{
+                    font-weight: 500;
+                }
+                .address{
+                    font-size: 14px;
+                }
             }
         }
     }

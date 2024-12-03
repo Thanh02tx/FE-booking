@@ -51,30 +51,30 @@ class ProfileDoctor extends Component {
                 : moment.unix(dataTime.date / 1000).locale('en').format('ddd - MM/DD/YYYY')
             return (
                 <>
-                    <div>{time} - {date}</div>
-                    <div><FormattedMessage id="patient.booking-modal.priceBooking" /></div>
+                    <div><i className="fas fa-calendar-alt mr-2"></i><span>{time} - {date}</span></div>
                 </>
             )
         }
     }
-    
+
     render() {
         let { dataProfile } = this.state;
+        console.log('sss',dataProfile)
         let { language, doctorId, isShowDescription, dataTime, isShowLinkDetail, isShowPrice } = this.props;
         let nameVi = '', nameEn = '';
-        if (dataProfile && dataProfile.positionData) {
-            nameVi = `${dataProfile.positionData.valueVi}, ${dataProfile.firstName} ${dataProfile.lastName}`;
-            nameEn = `${dataProfile.positionData.valueEn}, ${dataProfile.firstName} ${dataProfile.lastName}`;
+        if (dataProfile && dataProfile.Doctor_Infor) {
+            nameVi = `${dataProfile.Doctor_Infor.positionData.valueVi}, ${dataProfile.firstName} ${dataProfile.lastName}`;
+            nameEn = `${dataProfile.Doctor_Infor.positionData.valueEn}, ${dataProfile.firstName} ${dataProfile.lastName}`;
         }
         return (
             <div className='profile-doctor-container'>
                 <div className='intro-doctor'>
-                    
-                    <div className='content-left' style={{ backgroundImage: `url(${dataProfile && dataProfile.image ? dataProfile.image : ''})` }}>
+
+                    <div className='content-left' style={{ backgroundImage: `url(${dataProfile&& dataProfile.Doctor_Infor && dataProfile.Doctor_Infor.image ?dataProfile.Doctor_Infor.image : ''})` }}>
 
                     </div>
                     <div className='content-right'>
-                        <div className='up'>
+                        <div className='up '>
                             {language === LANGUAGES.VI ? nameVi : nameEn}
                         </div>
                         <div className='down'>
@@ -97,9 +97,28 @@ class ProfileDoctor extends Component {
                                     </div>
 
                                 </>
-                                : <>
-                                    {this.renderTimeBooking(dataTime)}
-                                </>
+                                : <div>
+                                    <div >{this.renderTimeBooking(dataTime)}</div>
+                                    <div className='d-flex'>
+                                        <i className="fas fa-map-marker-alt mr-2"></i>
+                                        <div>
+                                            <div className='name'>
+                                            {dataProfile && dataProfile.Doctor_Infor
+                                                && dataProfile.Doctor_Infor.Clinic.name ? dataProfile.Doctor_Infor.Clinic.name : ''}
+                                            </div>
+                                            <div className='address'>
+                                                {dataProfile && dataProfile.Doctor_Infor
+                                                && dataProfile.Doctor_Infor.Clinic.address ? dataProfile.Doctor_Infor.Clinic.address : ''}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <FormattedMessage id="patient.booking-modal.priceBooking" />
+                                    </div>
+
+
+                                </div>
                             }
                         </div>
                     </div>

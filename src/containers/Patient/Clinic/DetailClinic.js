@@ -9,7 +9,7 @@ import DoctorSchedule from '../Doctor/DoctorSchedule';
 import DoctorExtraInfor from '../Doctor/DoctorExtraInfor';
 import ProfileDoctor from '../Doctor/ProfileDoctor';
 import _ from 'lodash';
-import { LANGUAGES } from '../../../utils';
+import { LANGUAGES, path } from '../../../utils';
 class DetailClinic extends Component {
     constructor(props) {
         super(props);
@@ -89,6 +89,12 @@ class DetailClinic extends Component {
         }
 
     }
+    returnAllHandbook=()=>{
+        this.props.history.push(path.ALL_CLINIC)
+    }
+    returnHome=()=>{
+        this.props.history.push(path.HOMEPAGE)
+    }
     render() {
         console.log('ssđ', this.state)
         let { language } = this.props;
@@ -97,7 +103,17 @@ class DetailClinic extends Component {
             <div className='detail-clinic-container'>
                 <HomeHeader />
                 <div className='image-clinic' style={{ backgroundImage: `url(${dataDetailClinic && dataDetailClinic.image ? dataDetailClinic.image : ''})` }}>
-
+                    <div className='container'>
+                        <p className='hb-nav m-0'>
+                            <i
+                                className="fas fa-home"
+                                onClick={() => this.returnHome()}
+                            ></i>
+                            <span
+                                onClick={() => this.returnAllHandbook()}
+                            > /Cơ sở y tế</span>
+                        </p>
+                    </div>
                 </div>
                 <div className='detail-specialty-body '>
 
@@ -117,8 +133,8 @@ class DetailClinic extends Component {
                                         }
                                     </select>
                                 </div>
-                                <div className='mx-3 px-3 bg-white rounded'><a className='text-decoration-none text-dark' href='#des-clinic'><FormattedMessage id='patient.detail-clinic.clinic-information'/></a></div>
-                                <div className='px-3 bg-white rounded'><a className='text-decoration-none text-dark' href='#address-clinic'><FormattedMessage id='patient.detail-clinic.clinic-address'/></a></div>
+                                <div className='mx-3 px-3 bg-white rounded'><a className='text-decoration-none text-dark' href='#des-clinic'><FormattedMessage id='patient.detail-clinic.clinic-information' /></a></div>
+                                <div className='px-3 bg-white rounded'><a className='text-decoration-none text-dark' href='#address-clinic'><FormattedMessage id='patient.detail-clinic.clinic-address' /></a></div>
                             </div>
                             {arrDoctorId && arrDoctorId.length > 0
                                 && arrDoctorId.map((item, index) => {
@@ -160,7 +176,7 @@ class DetailClinic extends Component {
                     <div className='bg-description'>
 
                         <div className='description-specialty container'>
-                            <div id='des-clinic'><h4><FormattedMessage id='patient.detail-clinic.clinic-information'/></h4></div>
+                            <div id='des-clinic'><h4><FormattedMessage id='patient.detail-clinic.clinic-information' /></h4></div>
 
 
                             {dataDetailClinic && !_.isEmpty(dataDetailClinic)
@@ -180,7 +196,7 @@ class DetailClinic extends Component {
                         </div>
                         <div className='bg-address-clinic'>
                             <div className='address-clinic container'>
-                                <div id='address-clinic'><h4><FormattedMessage id='patient.detail-clinic.clinic-address'/></h4></div>
+                                <div id='address-clinic'><h4><FormattedMessage id='patient.detail-clinic.clinic-address' /></h4></div>
                                 <div>{dataDetailClinic && dataDetailClinic.address ? dataDetailClinic.address : ''}</div>
                                 {dataDetailClinic && dataDetailClinic.addressMap &&
                                     <div dangerouslySetInnerHTML={{ __html: dataDetailClinic.addressMap }}></div>

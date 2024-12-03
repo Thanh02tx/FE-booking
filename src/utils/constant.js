@@ -9,10 +9,13 @@ export const path = {
     ACCOUNT_INFOR: '/account',
     DETAIL_DOCTOR: '/detail-doctor/:id',
     DETAIL_HANDBOOK: '/detail-handbook/:id',
+    PATIENT_RECORD: '/patient-record',
     DETAIL_SPECIALTY:'/detail-specialty/:id',
     ALL_SPECIALTY:'/all-specialty',
     ALL_CLINIC:'/all-clinic',
     ALL_HANDBOOK:'/all-handbook',
+    BOOKING:'/appointment-booking/:token',
+    OUTSTANDING_DOCTOR:'/outstanding-doctor',
     DETAIL_CLINIC:'/detail-clinic/:id',
     VERIFY_EMAIL_BOOKING:'/verify-booking'
 };

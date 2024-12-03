@@ -21,6 +21,14 @@
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
+
+        .hb-nav{
+            i,span{
+                cursor: pointer;
+                color: #1e67b0;
+
+            }
+        }
     }
 
     .bg-doctor {

@@ -1,0 +1,61 @@
+.appointment-booking-container{
+    min-height: 100vh;
+    .profile-dt{
+        background-color: #ddd;
+        padding: 10px 0;
+        border-bottom: 2px solid #ccc;
+        .profile-doctor-container{
+            width: 60%;
+            margin: auto;
+            .intro-doctor{
+                width: 100%;
+                .content-left{
+                    width: 15%;
+                    aspect-ratio: 1/1;
+                }
+                .content-right{
+                    padding-left: 20px;
+                    box-sizing: border-box;
+                }
+            }
+
+        }
+    }
+    .content-booking{
+        padding: 0 20%;
+        min-height: calc(100vh - 240px);
+        background-color:#eee;
+        form{
+            font-size: 14px;
+            .form-group{
+                margin: 0;
+            }
+        }
+        .patient{
+            width: 170px;
+            height: 60px;
+            border: 1px solid gray;
+            margin-right: 10px;
+            padding: 5px;
+            border-radius: 8px;
+            background-color: whitesmoke;
+            .pt-age{
+                font-size: 14px;
+            }
+            .pt-name{
+                color: rgb(56, 72, 176);
+            }
+        }
+        .btn-booking{
+            background-color: rgb(98, 17, 184);
+            i{
+                color: azure;
+            }
+        }
+        .mes-signin{
+            color: red;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+    }
+}

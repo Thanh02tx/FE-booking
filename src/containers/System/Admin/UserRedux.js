@@ -16,10 +16,7 @@ class UserRedux extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            genderArr: [],
-            positionArr: [],
             roleArr: [],
-            previewImgURL: '',
             isOpen: false,
             isUserCreated: false,
 
@@ -27,38 +24,16 @@ class UserRedux extends Component {
             password: '',
             firstName: '',
             lastName: '',
-            phoneNumber: '',
-            address: '',
-            gender: '',
-            position: '',
             role: '',
-            avatar: '',
             action: '',
             userEditId:''
         }
     }
     async componentDidMount() {
-        this.props.getGenderStart();
-        this.props.getPositionStart();
         this.props.getRoleStart();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-
-        if (prevProps.genderRedux !== this.props.genderRedux) {
-            let arrGenders = this.props.genderRedux;
-            this.setState({
-                genderArr: arrGenders,
-                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : ''
-            })
-        }
-        if (prevProps.positionRedux !== this.props.positionRedux) {
-            let arrPositions = this.props.positionRedux;
-            this.setState({
-                positionArr: arrPositions,
-                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : ''
-            })
-        }
         if (prevProps.roleRedux !== this.props.roleRedux) {
             let arrRoles = this.props.roleRedux
             this.setState({
@@ -67,8 +42,6 @@ class UserRedux extends Component {
             })
         }
         if (prevProps.listusers !== this.props.listusers) {
-            let arrGenders = this.props.genderRedux;
-            let arrPositions = this.props.positionRedux;
             let arrRoles = this.props.roleRedux
 
 
@@ -77,14 +50,8 @@ class UserRedux extends Component {
                 password: '',
                 firstName: '',
                 lastName: '',
-                phoneNumber: '',
-                address: '',
-                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : '',
                 role: arrRoles && arrRoles.length ? arrRoles[0].keyMap : '',
-                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : '',
-                avatar: '',
                 action: CRUD_ACTIONS.CREATE,
-                previewImgURL:''
             })
         }
     }
@@ -119,12 +86,7 @@ class UserRedux extends Component {
                 password: this.state.password,
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
-                phonenumber: this.state.phoneNumber,
-                address: this.state.address,
-                gender: this.state.gender,
                 roleId: this.state.role,
-                positionId: this.state.position,
-                avatar: this.state.avatar,
 
             })
 
@@ -135,12 +97,7 @@ class UserRedux extends Component {
                 id:this.state.userEditId,
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
-                phonenumber: this.state.phoneNumber,
-                address: this.state.address,
-                gender: this.state.gender,
                 roleId: this.state.role,
-                positionId: this.state.position,
-                avatar:this.state.avatar
             })
 
         }
@@ -150,7 +107,7 @@ class UserRedux extends Component {
     }
     checkValidateInput = () => {
         let isValid = true;
-        let arrCheck = ['email', 'password', 'firstName', 'lastName', 'phoneNumber', 'address']
+        let arrCheck = ['email', 'password', 'firstName', 'lastName']
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
@@ -169,36 +126,26 @@ class UserRedux extends Component {
 
     }
     handleEditUserFromParent = (user) => {
-        let imageBase64 ='';
-        if(user.image) {
-            imageBase64= new Buffer(user.image,'base64').toString('binary');
-        }
+        // let imageBase64 ='';
+        // if(user.image) {
+        //     imageBase64= new Buffer(user.image,'base64').toString('binary');
+        // }
         this.setState({
             email: user.email,
             password: 'HASHCODE',
             firstName: user.firstName,
             lastName: user.lastName,
-            phoneNumber: user.phonenumber,
-            address: user.address,
-            gender: user.gender,
             role: user.roleId,
-            position: user.positionId,
-            avatar: '',
-            previewImgURL:imageBase64,
             action: CRUD_ACTIONS.EDIT,
             userEditId: user.id
         })
     }
     render() {
-        let genders = this.state.genderArr;
-        let positions = this.state.positionArr;
         let roles = this.state.roleArr;
         let language = this.props.language;
         let isLoadingGender = this.props.isLoadingGender;
 
-        let { email, password, firstName, lastName, phoneNumber, address,
-            gender, position, role, avatar
-        } = this.state;
+        let { email, password, firstName, lastName, role} = this.state;
         console.log("ssa", language);
         return (
             <div className='user-redux-container'>
@@ -244,54 +191,6 @@ class UserRedux extends Component {
                                     value={lastName}
                                     onChange={(event) => { this.onChangeInput(event, 'lastName') }}
                                 />
-                            </div>
-                            <div className='col-3'>
-                                <label><FormattedMessage id="manage-user.phone-number" /></label>
-                                <input className='form-control '
-                                    type='text'
-                                    value={phoneNumber}
-                                    onChange={(event) => { this.onChangeInput(event, 'phoneNumber') }}
-                                />
-                            </div>
-                            <div className='col-9'>
-                                <label><FormattedMessage id="manage-user.address" /></label>
-                                <input className='form-control '
-                                    type='text'
-                                    value={address}
-                                    onChange={(event) => { this.onChangeInput(event, 'address') }}
-                                />
-                            </div>
-                            <div className='col-3'>
-                                <label><FormattedMessage id="manage-user.gender" /></label>
-                                <select className='form-control'
-                                    onChange={(event) => { this.onChangeInput(event, 'gender') }}
-                                    value={gender}
-                                >
-                                    {genders && genders.length
-                                        && genders.map((item, index) => {
-                                            return (
-                                                <option key={index} value={item.keyMap}>{language === LANGUAGES.VI ? item.valueVi : item.valueEn}</option>
-
-                                            )
-                                        })
-                                    }
-                                </select>
-                            </div>
-                            <div className='col-3'>
-                                <label><FormattedMessage id="manage-user.position" /></label>
-                                <select className='form-control'
-                                    onChange={(event) => { this.onChangeInput(event, 'position') }}
-                                    value={position}
-                                >
-                                    {positions && positions.length
-                                        && positions.map((item, index) => {
-                                            return (
-                                                <option key={index} value={item.keyMap}>{language === LANGUAGES.VI ? item.valueVi : item.valueEn}</option>
-
-                                            )
-                                        })
-                                    }
-                                </select>
                             </div>
                             <div className='col-3'>
                                 <label><FormattedMessage id="manage-user.role" /></label>

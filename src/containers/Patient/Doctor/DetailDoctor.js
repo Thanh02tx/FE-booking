@@ -53,12 +53,10 @@ class DetailDoctor extends Component {
         let { detailDoctor } = this.state;
         let { language } = this.props;
         let nameVi = '', nameEn = '';
-        if (detailDoctor && detailDoctor.positionData) {
-            nameVi = `${detailDoctor.positionData.valueVi}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
-            nameEn = `${detailDoctor.positionData.valueEn}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
+        if (detailDoctor && detailDoctor.Doctor_Infor) {
+            nameVi = `${detailDoctor.Doctor_Infor.positionData.valueVi}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
+            nameEn = `${detailDoctor.Doctor_Infor.positionData.valueEn}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
         }
-        // console.log('sfa',this.state.detailDoctor.Doctor_Infor.Specialty.nameVi)
-        console.log('sdsff', this.state.speName);
         return (
             <React.Fragment>
                 <HomeHeader isShowBanner={false} />
@@ -81,7 +79,7 @@ class DetailDoctor extends Component {
                     </div>
                     <div className='intro-doctor'>
                         <div className='content-left'
-                            style={{ backgroundImage: `url(${detailDoctor && detailDoctor.image ? detailDoctor.image : ''})` }}
+                            style={{ backgroundImage: `url(${detailDoctor&& detailDoctor.Doctor_Infor && detailDoctor.Doctor_Infor.image ?  detailDoctor.Doctor_Infor.image : ''})` }}
                         >
 
                         </div>

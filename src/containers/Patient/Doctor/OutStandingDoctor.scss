@@ -1,0 +1,32 @@
+.all-doctor-container{
+    p{
+        i{
+            color: #1e67b0;
+            cursor: pointer;
+        }
+        span {
+            color: #8daac6;
+        }
+    }
+    .content-doctor{
+        margin: 15px 0;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        .bg-img{
+            width: 100px;
+            aspect-ratio: 1/1;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            margin: 0 15px;
+        }
+        .dt-name{
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .dt-spe{
+            font-size: 14px;
+        }
+    }
+}

@@ -187,11 +187,13 @@ class Navigator extends Component {
     render() {
         const { menus, location, onLinkClick } = this.props;
         return (
+            
             <Fragment>
                 <ul className="navigator-menu list-unstyled">
                     {
                         menus.map((group, groupIndex) => {
                             return (
+            
                                 <Fragment key={groupIndex}>
                                     <MenuGroupWithRouter name={group.name}>
                                         {group.menus ? (

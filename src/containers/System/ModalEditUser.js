@@ -101,12 +101,6 @@ class ModalEditUser extends Component {
                                 value={this.state.lastName}
                             />
                         </div>
-                        <div className='input-container max-width-input'>
-                            <label>Address</label>
-                            <input type='text' onChange={(event) => { this.handleOnChangeInput(event, "address") }}
-                                value={this.state.address}
-                            />
-                        </div>
                     </div>
 
 

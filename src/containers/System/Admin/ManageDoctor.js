@@ -10,7 +10,7 @@ import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import Select from 'react-select';
-import { CRUD_ACTIONS, LANGUAGES } from '../../../utils';
+import { CRUD_ACTIONS, LANGUAGES,CommonUtils } from '../../../utils';
 import { getInforDoctorById, getAllClinic } from '../../../services/userService';
 import { injectIntl } from 'react-intl';
 const mdParser = new MarkdownIt(/* Markdown-it options */);
@@ -22,7 +22,6 @@ class ManageDoctor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            //lưu markdown
             contentMarkdownVi: '',
             contentHTMLVi: '',
             contentMarkdownEn: '',
@@ -30,14 +29,18 @@ class ManageDoctor extends Component {
             selectedOption: '',
             descriptionVi: '',
             descriptionEn: '',
+            image:'',
             listDoctors: [],
             hasOldData: false, // chuyển sửa và lưu
 
-            //lưu doctor_infor
+            listPosition:[],
+            listGender:[],
             listPrice: [],
             listPayment: [],
             listClinic: [],
             listSpecialty: [],
+            selectedGender:'',
+            selectedPosition:'',
             selectedPrice: '',
             selectedPayment: '',
             selectedClinic: '',
@@ -50,6 +53,8 @@ class ManageDoctor extends Component {
     async componentDidMount() {
         this.props.fetchAllDoctors();
         this.props.getAllRequiredDoctorInfor();
+        this.props.getGenderStart();
+        this.props.getPositionStart();
         let resClinic = await getAllClinic();
         if (resClinic && resClinic.errCode === 0) {
             this.setState({
@@ -80,8 +85,22 @@ class ManageDoctor extends Component {
                 listSpecialty: dataSelectSpecialty
             })
         }
+        if (prevProps.allGender !== this.props.allGender) {
+            let genders = this.buildDataInputSelect(this.props.allGender, 'GENDER');
+            this.setState({
+                listGender: genders
+            })
+        }
+        if (prevProps.allPosition !== this.props.allPosition) {
+            let positions = this.buildDataInputSelect(this.props.allPosition, 'POSITION');
+            this.setState({
+                listPosition: positions
+            })
+        }
         if (prevProps.language !== this.props.language) {
             let dataSelect = this.buildDataInputSelect(this.props.allDoctors, "USERS");
+            let dataGenders = this.buildDataInputSelect(this.props.allGender, "GENDER");
+            let dataPositions = this.buildDataInputSelect(this.props.allPosition, "POSITION");
             let { resPrice, resPayment, resSpecialty } = this.props.allRequiredDoctorInfor;
             let dataSelectPrice = this.buildDataInputSelect(resPrice, 'PRICE');
             let dataSelectPayment = this.buildDataInputSelect(resPayment, 'PAYMENT');
@@ -94,6 +113,8 @@ class ManageDoctor extends Component {
 
             }
             this.setState({
+                listPosition:dataPositions,
+                listGender:dataGenders,
                 listDoctors: dataSelect,
                 listPrice: dataSelectPrice,
                 listPayment: dataSelectPayment,
@@ -125,7 +146,7 @@ class ManageDoctor extends Component {
                     result.push(object);
                 })
             }
-            if (type === "PAYMENT") {
+            if (type === "PAYMENT"||type==="GENDER"||type==='POSITION') {
                 inputData.map((item, index) => {
                     let object = {};
                     let labelVi = `${item.valueVi}`;
@@ -156,6 +177,16 @@ class ManageDoctor extends Component {
             return result;
         }
     }
+    handleOnChangeImage = async (event) => {
+        let data = event.target.files;
+        let file = data[0];
+        if (file) {
+            let base64 = await CommonUtils.getBase64(file);
+            this.setState({
+                image: base64
+            })
+        }
+    }
     handleEditorChangeVi = ({ html, text }) => {
         this.setState({
             contentMarkdownVi: text,
@@ -172,6 +203,7 @@ class ManageDoctor extends Component {
     handleSaveDoctorInfor = () => {
         let { hasOldData } = this.state;
         this.props.saveDetailDoctors({
+            image:this.state.image,
             contentHTMLVi: this.state.contentHTMLVi,
             contentMarkdownVi: this.state.contentMarkdownVi,
             contentHTMLEn: this.state.contentHTMLEn,
@@ -182,6 +214,8 @@ class ManageDoctor extends Component {
             selectedPrice: this.state.selectedPrice.value,
             selectedPayment: this.state.selectedPayment.value,
             selectedSpecialty: this.state.selectedSpecialty.value,
+            selectedGender: this.state.selectedGender.value,
+            selectedPosition: this.state.selectedPosition.value,
             selectedClinic: this.state.selectedClinic.value,
             noteVi: this.state.noteVi,
             noteEn: this.state.noteEn,
@@ -196,9 +230,12 @@ class ManageDoctor extends Component {
             contentMarkdownEn: '',
             descriptionEn: '',
             noteEn: '',
+            image:'',
             hasOldData: false,
             selectedPrice: '',
             selectedPayment: '',
+            selectedGender:'',
+            selectedPosition:'',
             selectedSpecialty: '',
             selectedClinic: '',
             selectedOption: ''
@@ -207,20 +244,28 @@ class ManageDoctor extends Component {
     }
     handleChangeSelect = async (selectedOption) => {
         this.setState({ selectedOption });
-        let { listPayment, listPrice, listSpecialty, listClinic } = this.state
-        let selectedPrice = '', selectedPayment = '', selectedSpecialty = '', selectedClinic = '';
+        let { listPayment, listPrice, listSpecialty, listClinic ,listPosition,listGender} = this.state
+        let selectedPrice = '', selectedPayment = '', selectedSpecialty = '', selectedClinic = '', selectedGender='',selectedPosition='';
         let res = await getInforDoctorById(selectedOption.value);
         if (res && res.errCode === 0) {
             if (!_.isEmpty(res.data)) {
                 let data = res.data;
-                let paymentId = '', priceId = '', specialtyId = '', clinicId = '';
-
+                let paymentId = '', priceId = '', specialtyId = '', clinicId = '', positionId='',gender='';
+                let imageBase64 = new Buffer.from(res.data.image, 'base64').toString('binary');
                 paymentId = res.data.paymentId
                 priceId = res.data.priceId
                 specialtyId = res.data.specialtyId
                 clinicId = res.data.clinicId
+                positionId=res.data.positionId
+                gender=res.data.gender
                 selectedPrice = listPrice.find(item => {
                     return item && item.value === priceId
+                })
+                selectedGender = listGender.find(item => {
+                    return item && item.value === gender
+                })
+                selectedPosition = listPosition.find(item => {
+                    return item && item.value === positionId
                 })
                 selectedPayment = listPayment.find(item => {
                     return item && item.value === paymentId
@@ -240,10 +285,13 @@ class ManageDoctor extends Component {
                     contentMarkdownEn: data.contentMarkdownEn,
                     descriptionEn: data.descriptionEn,
                     hasOldData: true,
+                    image:imageBase64,
                     noteVi: data.noteVi,
                     noteEn: data.noteEn,
                     selectedPrice: selectedPrice,
                     selectedPayment: selectedPayment,
+                    selectedGender:selectedGender,
+                    selectedPosition:selectedPosition,
                     selectedSpecialty: selectedSpecialty,
                     selectedClinic: selectedClinic
                 })
@@ -257,12 +305,15 @@ class ManageDoctor extends Component {
                     contentMarkdownEn: '',
                     descriptionEn: '',
                     hasOldData: false,
+                    image:'',
                     noteVi: '',
                     noteEn: '',
                     selectedPrice: '',
                     selectedPayment: '',
                     selectedSpecialty: '',
-                    selectedClinic: ''
+                    selectedClinic: '',
+                    selectedGender:'',
+                    selectedPosition:''
                 })
             }
         }
@@ -306,6 +357,41 @@ class ManageDoctor extends Component {
                             onChange={this.handleChangeSelect}
                             options={this.state.listDoctors}
                             placeholder={<FormattedMessage id="admin.manage-doctor.select-doctor" />}
+                        />
+                    </div>
+                    <div className='col-sm-4 form-group'>
+                        <label>
+                            {/* <FormattedMessage id="admin.manage-doctor.select-specialty" /> */}
+                            học vị
+                        </label>
+                        <Select
+                            value={this.state.selectedPosition}
+                            onChange={this.handleChangeSelectedDoctorInfor}
+                            options={this.state.listPosition}
+                            name="selectedPosition"
+                            placeholder={<FormattedMessage id="admin.manage-doctor.select-specialty" />}
+                        />
+                    </div>
+                    <div className='col-sm-4 form-group'>
+                        <label>
+                            {/* <FormattedMessage id="admin.manage-doctor.select-specialty" /> */}
+                            giới tính
+                        </label>
+                        <Select 
+                            value={this.state.selectedGender}
+                            onChange={this.handleChangeSelectedDoctorInfor}
+                            options={this.state.listGender}
+                            name="selectedGender"
+                            placeholder={<FormattedMessage id="admin.manage-doctor.select-specialty" />}
+                        />
+                    </div>
+                    <div className='col-sm-4 form-group'>
+                        <label>
+                            {/* <FormattedMessage id="admin.manage-doctor.select-specialty" /> */}
+                            Image
+                        </label>
+                        <input className='form-control' type="file"
+                            onChange={(event) => this.handleOnChangeImage(event)}
                         />
                     </div>
                     <div className='col-sm-4 form-group'>
@@ -427,6 +513,8 @@ class ManageDoctor extends Component {
 
 const mapStateToProps = state => {
     return {
+        allGender: state.admin.genders,
+        allPosition: state.admin.positions,
         allDoctors: state.admin.allDoctors,
         language: state.app.language,
         allRequiredDoctorInfor: state.admin.allRequiredDoctorInfor
@@ -435,9 +523,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        getGenderStart: () => dispatch(actions.fetchGenderStart()),
         fetchAllDoctors: () => dispatch(actions.fetchAllDoctors()),
         saveDetailDoctors: (data) => dispatch(actions.saveDetailDoctors(data)),
         getAllRequiredDoctorInfor: () => dispatch(actions.getAllRequiredDoctorInfor()),
+        getPositionStart: () => dispatch(actions.fetchPositionStart()),
+
     };
 };
 

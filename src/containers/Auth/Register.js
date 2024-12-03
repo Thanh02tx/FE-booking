@@ -15,13 +15,9 @@ class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            listGender: [],
             firstName: '',
             lastName: '',
-            phoneNumber: '',
             email: '',
-            address: '',
-            gender: '',
             password: '',
             otp: '',
             otpcheck: '',
@@ -41,29 +37,9 @@ class Register extends Component {
 
     async componentDidMount() {
         this.startCarousel();
-        await this.buildDataGender()
     }
 
-    buildDataGender = async () => {
-        let res = await getAllCodeService("GENDER");
-        if (res && res.errCode === 0) {
-            let list = res.data;
-            let result = [];
-            list.map((item, index) => {
-                let object = {}
-                object.label = LANGUAGES.VI === this.props.language ? item.valueVi : item.valueEn
-                object.value = item.keyMap
-                result.push(object)
-            })
-            this.setState({
-                listGender: result
-            })
-        }
-    }
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.language != prevProps.language) {
-            await this.buildDataGender()
-        }
     }
     componentWillUnmount() {
         this.stopCarousel();
@@ -117,7 +93,6 @@ class Register extends Component {
             errMessage: ''
         });
         if (!this.state.email || !this.state.firstName || !this.state.lastName
-            || !this.state.phoneNumber || !this.state.gender || !this.state.address
             || !this.state.password || !this.state.confirmPassword) {
             this.setState({
                 errMessage: this.props.language === LANGUAGES.VI ? 'Bạn cần nhập đầy đủ thông tin' : 'You need to enter all required information'
@@ -170,12 +145,7 @@ class Register extends Component {
                 password: this.state.password,
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
-                address: this.state.address,
-                phonenumber: this.state.phoneNumber,
-                gender: this.state.gender.value,
                 roleId: 'R3',
-                positionId: '',
-                avatar: ''
             })
             if(res&&res.errCode===0){
                 toast.success("create new user succed")
@@ -271,7 +241,7 @@ class Register extends Component {
 
                                     />
                                 </div>
-                                <div className='col-sm-6 form-group content-input'>
+                                <div className='col-sm-12 form-group content-input'>
                                     <label>Email:</label>
                                     <input
                                         className='form-control'
@@ -279,34 +249,7 @@ class Register extends Component {
                                         value={this.state.email}
                                     />
                                 </div>
-                                <div className='col-sm-6 form-group content-input'>
-                                    <label>PhoneNumber:</label>
-                                    <input
-                                        className='form-control'
-                                        placeholder='Eff'
-                                        value={this.state.phoneNumber}
-                                        onChange={(event) => this.handleOnChangeInput(event, 'phoneNumber')}
-                                    />
-                                </div>
-                                <div className='col-sm-6 form-group content-input'>
-                                    <label>Sex:</label>
-                                    <Select
-                                        value={this.state.gender}
-                                        onChange={this.handleSelectedGender}
-                                        options={this.state.listGender}
-                                    />
-                                </div>
-                                <div className='col-sm-6 form-group content-input'>
-                                    <label>Địa chỉ:</label>
-                                    <input
-
-                                        className='form-control' placeholder='Enter your username'
-                                        value={this.state.address}
-                                        onChange={(event) => this.handleOnChangeInput(event, 'address')}
-
-                                    />
-                                </div>
-
+                               
                                 <div className='col-sm-6 form-group content-input'>
                                     <label>Password:</label>
                                     <div className='custom-input-password'>

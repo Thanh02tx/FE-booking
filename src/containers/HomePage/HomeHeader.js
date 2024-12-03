@@ -115,18 +115,43 @@ class HomeHeader extends Component {
             this.setState({ showListSearch: false }); // Ẩn danh sách sau khi click
         }
     }
-    returnAllSpecialty=()=>{
-        this.props.history.push(path.ALL_SPECIALTY);
+    returnAllSpecialty = () => {
+        if (this.props.history) {
+            this.props.history.push(path.ALL_SPECIALTY);
+        }
     }
-    returnAllClinic=()=>{
-        this.props.history.push(path.ALL_CLINIC);
+    returnAllClinic = () => {
+        if (this.props.history) {
+            this.props.history.push(path.ALL_CLINIC);
+        }
     }
-    returnAllHandbook=()=>{
-        this.props.history.push(path.ALL_HANDBOOK);
+    returnAllHandbook = () => {
+        if (this.props.history) {
+            this.props.history.push(path.ALL_HANDBOOK);
+        }
+    }
+    returnOutstandingDoctor = () => {
+        if (this.props.history) {
+            this.props.history.push(path.OUTSTANDING_DOCTOR);
+        }
     }
     returnAcountInfor = () => {
-        this.props.history.push(path.ACCOUNT_INFOR);
+        if (this.props.history) {
+            this.props.history.push(path.ACCOUNT_INFOR);
+        }
+
     }
+    returnPatientRecord=()=>{
+        if (this.props.history) {
+            this.props.history.push(path.PATIENT_RECORD);
+        }
+    }
+    handleAllDoctor=()=>{
+        if(this.props.history){
+            this.props.history.push(path.OUTSTANDING_DOCTOR)
+        }
+    }
+
     render() {
         let { processLogout, isLoggedIn, language, userInfo, intl } = this.props;
         let { searchQuery, listSpecialty, showListSearch } = this.state;
@@ -156,21 +181,24 @@ class HomeHeader extends Component {
                             <div className='header-logo' onClick={this.returnToHome}></div>
                         </div>
                         <div className='center-content'>
-                            <div 
+                            <div
                                 className='child-content'
-                                onClick={()=>this.returnAllSpecialty()}
+                                onClick={() => this.returnAllSpecialty()}
                             >
                                 <div><b><FormattedMessage id="homeheader.specialty" /></b></div>
                                 <div className='subs-title'><FormattedMessage id="homeheader.searchdoctor" /></div>
                             </div>
-                            <div 
+                            <div
                                 className='child-content'
-                                onClick={()=>this.returnAllClinic()}
+                                onClick={() => this.returnAllClinic()}
                             >
                                 <div><b><FormattedMessage id="homeheader.health-facility" /></b></div>
                                 <div className='subs-title'><FormattedMessage id="homeheader.select-room" /></div>
                             </div>
-                            <div className='child-content'>
+                            <div
+                                className='child-content'
+                                onClick={() => this.returnOutstandingDoctor()}
+                            >
                                 <div><b><FormattedMessage id="homeheader.doctor" /></b></div>
                                 <div className='subs-title'><FormattedMessage id="homeheader.select-doctor" /></div>
                             </div>
@@ -263,26 +291,36 @@ class HomeHeader extends Component {
                                     Trang chủ
                                 </li>
                                 <li
-                                    onClick={()=>this.returnAllSpecialty()}
+                                    onClick={() => this.returnAllSpecialty()}
                                 >
                                     Chuyên khoa
                                 </li>
                                 <li
-                                    onClick={()=>this.returnAllClinic()}
+                                    onClick={() => this.returnAllClinic()}
                                 >
                                     Phòng khám
                                 </li>
+                                <li 
+                                    onClick={()=>this.handleAllDoctor()}
+                                >
+                                    Bác sĩ nổi bật
+                                </li>
                                 <li
-                                    onClick={()=>this.returnAllHandbook()}
+                                    onClick={() => this.returnAllHandbook()}
                                 >
                                     Cẩm nang
                                 </li>
                                 {isLoggedIn ?
                                     <>
                                         <li
-                                            onClick={()=>{this.returnAcountInfor(path.ACCOUNT_INFOR)}}
+                                            onClick={() => this.returnAcountInfor() }
                                         >
                                             Thông tin tài khoản
+                                        </li>
+                                        <li
+                                            onClick={() =>  this.returnPatientRecord()}
+                                        >
+                                            Hồ sơ
                                         </li>
                                         <li>
                                             Lịch sử khám bệnh

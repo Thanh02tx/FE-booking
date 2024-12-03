@@ -4,9 +4,10 @@ import './DoctorSchedule.scss';
 import moment from 'moment';
 import localization from 'moment/locale/vi';
 import { FormattedMessage } from 'react-intl';
-import { LANGUAGES } from '../../../utils';
+import { LANGUAGES, path } from '../../../utils';
 import BookingModal from '../Modal/BookingModal';
 import { getScheduleDoctorByDate } from '../../../services/userService';
+import { withRouter } from 'react-router';
 class DoctorSchedule extends Component {
     constructor(props) {
         super(props);
@@ -118,9 +119,15 @@ class DoctorSchedule extends Component {
             isOpenModalBooking: false
         })
     }
+    returnScheduleTime=(item)=>{
+        if(this.props.history){
+            this.props.history.push(path.BOOKING.replace(':token',item.token))
+        }
+    }
     render() {
         let { allDays, allAvailabelTime, isOpenModalBooking, dataScheduleTimeModal } = this.state;
         let { language } = this.props;
+        console.log('sfsa',allAvailabelTime)
         return (
             <>
                 <div className='doctor-schedule-container'>
@@ -154,7 +161,8 @@ class DoctorSchedule extends Component {
                                                 <button
                                                     key={index}
                                                     className={`${language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'} ${item.enough ? 'btn-disabled' : ''}`}
-                                                    onClick={item.enough ? null : () => this.handleClickScheduleTime(item)}
+                                                    // 
+                                                    onClick={item.enough ? null : () => this.returnScheduleTime(item)}
                                                     disabled={item.enough} // Vô hiệu hóa nút nếu enough === true
                                                 >{timeDisplay}
                                                 </button>
@@ -194,4 +202,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DoctorSchedule);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DoctorSchedule));

@@ -1,4 +1,5 @@
 import axios from "../axios";
+
 const handleLoginApi = (userEmail, userPassword) => {
     return axios.post('/api/login', { email: userEmail, password: userPassword });
 }
@@ -14,6 +15,10 @@ const sendMailOtp = (data) => {
 const resetPassword = (data) => {
     return axios.put(`/api/reset-password`,data);
 }
+const changePassword = (data) => {
+    return axios.put(`/api/change-password`,data);
+}
+
 const createNewUserService = (data) => {
     return axios.post('/api/create-new-user', data);
 }
@@ -27,6 +32,10 @@ const deleteUserService = (userId) => {
 const editUserService = (inputData) => {
     return axios.put('/api/edit-user', inputData);
 }
+const editUserHome = (inputData) => {
+    return axios.put('/api/edit-user-home', inputData);
+}
+
 const getAllCodeService = (inputType) => {
     return axios.get(`/api/allcode?type=${inputType}`);
 
@@ -54,6 +63,11 @@ const saveBulkScheduleDoctor = (data) => {
 const getScheduleDoctorByDate = (doctorId, date) => {
     return axios.get(`/api/get-schedule-doctor-by-date?doctorId=${doctorId}&date=${date}`)
 }
+
+const getScheduleByToken = (token) => {
+    return axios.get(`/api/get-schedule-by-token?token=${token}`)
+}
+
 const getExtraInforDoctorById = (doctorId) => {
     return axios.get(`/api/get-extra-infor-doctor-by-id?doctorId=${doctorId}`)
 }
@@ -63,6 +77,11 @@ const getProfileDoctorById = (doctorId) => {
 const postPatientBookAppointment=(data)=>{
     return axios.post('/api/patient-book-appointment',data)
 }
+const postBookAppointmentNoSignIn=(data)=>{
+    return axios.post('/api/book-appointment-no-sign-in',data)
+}
+
+
 const postVerifyBookAppointment=(data)=>{
     return axios.post('/api/verify-book-appointment',data)
 }
@@ -134,6 +153,26 @@ const deleteHandbook = (inputId) => {
 const getDetailHandbookById = (idInput) => {
     return axios.get(`/api/get-detail-handbook-by-id?id=${idInput}`)
 }
+const getAllProvinceJson = () => {
+    return axios.get(`/api/get-all-province-json`)
+}
+const getAllDistrictJson = (idInput) => {
+    console.log('sđf',idInput)
+    return axios.get(`/api/get-all-district-json?id=${idInput}`)
+}
+const getAllWardJson = (idInput) => {
+    return axios.get(`/api/get-all-ward-json?id=${idInput}`)
+}
+const getAllPatientRecord = (idInput) => {
+    return axios.get(`/api/get-all-patient-record?id=${idInput}`)
+}
+
+const createNewPatientRecord = (data) => {
+    return axios.post('/api/create-new-patient-record',data)
+}
+const updatePatientRecord = (data) => {
+    return axios.put('/api/update-patient-record',data)
+}
 
 export {
     handleLoginApi,
@@ -141,9 +180,11 @@ export {
     checkUserByEmail,
     sendMailOtp,
     resetPassword,
+    changePassword,
     createNewUserService,
     deleteUserService,
     editUserService,
+    editUserHome,
     getAllCodeService,
     getTopDoctorHomeService,
     getAllDoctors,
@@ -152,9 +193,11 @@ export {
     getDetailInforDoctor,
     saveBulkScheduleDoctor,
     getScheduleDoctorByDate,
+    getScheduleByToken,
     getExtraInforDoctorById,
     getProfileDoctorById,
     postPatientBookAppointment,
+    postBookAppointmentNoSignIn,
     postVerifyBookAppointment,
     createNewSpecialty,
     getAllSpecialty,
@@ -173,6 +216,12 @@ export {
     deleteHandbook,
     getDetailHandbookById,
     editClinic,
-    deleteClinic
+    deleteClinic,
+    getAllProvinceJson,
+    getAllDistrictJson,
+    getAllWardJson,
+    getAllPatientRecord,
+    createNewPatientRecord,
+    updatePatientRecord
 
 }

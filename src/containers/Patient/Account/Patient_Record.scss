@@ -1,0 +1,53 @@
+.patient-record-container{
+    .patient-record-content{
+        background-color: #eee;
+        height: calc(100vh - 110px);
+        padding: 0 20%;
+        .patient-list{
+            display: flex;
+            flex-wrap: wrap;
+            .patient-child{
+                width: 150px;
+                height: 100px;
+                border: 1px solid red;
+                border-radius: 5px;
+                background-color: white;
+                display: flex;
+                justify-content: space-between;
+                .child-name{
+                    color: #445c92;
+                }
+                .child-age{
+                    font-size: 14px;
+                }
+                i{
+                    color: coral;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+.patient-record-modal{
+    margin-top: 70px;
+    .modal-header{
+        padding: 5px 16px ;
+    }
+    .modal-body{
+        padding: 0 16px ;
+        .child{
+            font-size: 14px;
+            margin-bottom: 5px;
+            label{
+                margin-bottom: 3px;
+            }
+            input{
+                padding: 0 12px;
+                height: 28px;
+            }
+            .select-child{
+                height: 28px;
+            }
+        }
+    }
+}

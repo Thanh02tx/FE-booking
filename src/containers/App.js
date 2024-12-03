@@ -29,6 +29,9 @@ import AllSpecialty from './Patient/Specialty/AllSpecialty.js';
 import AllClinic from './Patient/Clinic/AllClinic.js';
 import AllHandbook from './Patient/Handbook/AllHandbook.js';
 import Account_Infor from './Patient/Account/Account_Infor.js';
+import OutStandingDoctor from './Patient/Doctor/OutStandingDoctor.js';
+import Patient_Record from './Patient/Account/Patient_Record.js';
+import AppointmentBooking from './Patient/Doctor/AppointmentBooking.js';
 class App extends Component {
 
     handlePersistorState = () => {
@@ -72,6 +75,7 @@ class App extends Component {
                                     <Route path={'/doctor/'} component={userIsAuthenticated(Doctor)} />
                                     <Route path={path.HOMEPAGE} component={HomePage} />
                                     <Route path={path.ACCOUNT_INFOR} component={Account_Infor} />
+                                    <Route path={path.PATIENT_RECORD} component={Patient_Record} />
                                     <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
                                     <Route path={path.DETAIL_HANDBOOK} component={DetailHandbook} />
                                     <Route path={path.ALL_HANDBOOK} component={AllHandbook} />
@@ -79,6 +83,8 @@ class App extends Component {
                                     <Route path={path.ALL_SPECIALTY} component={AllSpecialty} />
                                     <Route path={path.DETAIL_CLINIC} component={DetailClinic} />
                                     <Route path={path.ALL_CLINIC} component={AllClinic} />
+                                    <Route path={path.OUTSTANDING_DOCTOR} component={OutStandingDoctor} />
+                                    <Route path={path.BOOKING} component={AppointmentBooking} />
                                     <Route path={path.VERIFY_EMAIL_BOOKING} component={VerifyEmail} />
                                     <Route path={path.REGISTER} component={Register} />
                                     <Route path={path.FORGOT_PASSWORD} component={ForgotPassword} />

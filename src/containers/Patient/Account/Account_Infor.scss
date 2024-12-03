@@ -6,10 +6,27 @@
     span {
         color: #8daac6;
     }
+    .account-infor{
+        
+        .child{
+            margin:auto;
+            width: 350px;
+            p{
+                color: red;
+                margin: 5px 0;
+                font-size: 12px;
+            }
+        }
+    }
     .change-password{
         .child{
-            width: 250px;
+            width: 260px;
             margin: auto;
+            p{
+                color: red;
+                margin: 5px 0;
+                font-size: 12px;
+            }
         }
     }
     .content-input {
