@@ -6,6 +6,7 @@ export const path = {
     FORGOT_PASSWORD: '/forgot-password',
     LOG_OUT: '/logout',
     SYSTEM: '/system',
+    DOCTOR: '/doctor',
     ACCOUNT_INFOR: '/account',
     DETAIL_DOCTOR: '/detail-doctor/:id',
     DETAIL_HANDBOOK: '/detail-handbook/:id',
@@ -17,7 +18,8 @@ export const path = {
     BOOKING:'/appointment-booking/:token',
     OUTSTANDING_DOCTOR:'/outstanding-doctor',
     DETAIL_CLINIC:'/detail-clinic/:id',
-    VERIFY_EMAIL_BOOKING:'/verify-booking'
+    VERIFY_EMAIL_BOOKING:'/verify-booking',
+    HISTORY_BOOKING:'/history-booking'
 };
 
 export const LANGUAGES = {

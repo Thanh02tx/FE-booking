@@ -8,6 +8,7 @@ import { LANGUAGES } from '../../../utils';
 import RemedyModal from './RemedyModal';
 import { toast } from 'react-toastify';
 import { last } from 'lodash';
+import HomeFooter from '../../HomePage/HomeFooter';
 import LoadingOverlay from 'react-loading-overlay';
 class ManagePatient extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class ManagePatient extends Component {
             currentDate: moment(new Date()).startOf('day').valueOf(),
             dataPatient: [],
             isOpenRemedyModal: false,
-            dataModal: {},
+            idBooking: '',
             isShowLoading: false
         }
     }
@@ -30,15 +31,17 @@ class ManagePatient extends Component {
         let { user } = this.props;
         let { currentDate } = this.state;
         let formatedDate = new Date(currentDate).getTime();
-        let res = await getAllPatientForDoctor({
-            doctorId: user.id,
-            date: formatedDate
-        })
-        if (res && res.errCode === 0) {
-            this.setState({
-                dataPatient: res.data
-            })
+        if(this.props.user.token){
+            let res = await getAllPatientForDoctor({
+                date: formatedDate
+            },this.props.user.token)
+            if (res && res.errCode === 0) {
+                this.setState({
+                    dataPatient: res.data
+                })
+            }
         }
+        
     }
     handleOnChangeDatePicker = (date) => {
         this.setState({
@@ -47,19 +50,10 @@ class ManagePatient extends Component {
             await this.getDataPatient()
         })
     }
-    handleBtnConfirm = (item) => {
-        let data = {
-            id: item.id,
-            doctorId: item.doctorId,
-            patientId: item.patientId,
-            email: item.patientData.email,
-            timeType: item.timeType,
-            firstName: item.patientData.firstName,
-            lastName: item.patientData.lastName
-        }
+    handleBtnConfirm = (id) => {
         this.setState({
             isOpenRemedyModal: true,
-            dataModal: data
+            idBooking: id
         })
     }
     handleBtnRemede = () => {
@@ -68,27 +62,24 @@ class ManagePatient extends Component {
     closeRemedyModal = () => {
         this.setState({
             isOpenRemedyModal: false,
-            dataModal: {}
+            idBooking: {}
         })
     }
     sendRemedy = async (dataChild) => {
-        let { dataModal } = this.state;
+        console.log('sffdddss',dataChild)
         this.setState({
             isShowLoading:true
         })
         let res = await postSendRemedy({
+            imgBase64: dataChild.base64Image,
             language: this.props.language,
-            email: dataChild.email,
-            imgBase64: dataChild.imgBase64,
-            id: dataModal.id,
-            doctorId: dataModal.doctorId,
-            patientId: dataModal.patientId,
-            timeType: dataModal.timeType,
-            firstName: dataModal.firstName,
-            lastName: dataModal.lastName
-
-        })
-        console.log('res', res)
+            email: dataChild.dataBooking.Patient_Record.email,
+            firstName: dataChild.dataBooking.Patient_Record.firstName,
+            lastName: dataChild.dataBooking.Patient_Record.lastName,
+            idBooking:dataChild.dataBooking.id,
+            patientId:dataChild.dataBooking.Patient_Record.id,
+            nameClinic: dataChild.dataBooking.Schedule.doctorData.Doctor_Infor.Clinic.name,
+        },this.props.user.token)
         if (res && res.errCode === 0) {
             this.setState({
                 isShowLoading:false
@@ -104,8 +95,9 @@ class ManagePatient extends Component {
         }
     }
     render() {
-        let { dataPatient, isOpenRemedyModal, dataModal } = this.state;
+        let { dataPatient, isOpenRemedyModal, idBooking } = this.state;
         let { language } = this.props;
+        console.log('sfaa',dataPatient)
         return (
             <>
                 <LoadingOverlay
@@ -133,26 +125,25 @@ class ManagePatient extends Component {
                                             <th>STT</th>
                                             <th>Thời gian</th>
                                             <th>Họ và tên</th>
-                                            <th>Địa chỉ</th>
-                                            <th>Giới tính</th>
+                                            <th>Ngày sinh</th>
+                                            <th>lý do</th>
                                             <th>Actions</th>
                                         </tr>
                                         {dataPatient && dataPatient.length > 0 ?
                                             dataPatient.map((item, index) => {
-                                                let name = LANGUAGES.VI === language ? `${item.patientData.firstName} ${item.patientData.lastName}` :
-                                                    `${item.patientData.lastName} ${item.patientData.firstName}`
-                                                let gender = language === LANGUAGES.VI ? item.patientData.genderData.valueVi : item.patientData.genderData.valueEn;
-                                                let time = language === LANGUAGES.VI ? item.timeTypeDataPatient.valueVi : item.timeTypeDataPatient.valueEn
+                                                let name = LANGUAGES.EN === language ? `${item.Patient_Record.firstName} ${item.Patient_Record.lastName}` :
+                                                    `${item.Patient_Record.lastName} ${item.Patient_Record.firstName}`
+                                                let time = language === LANGUAGES.VI ? item.Schedule.timeTypeData.valueVi : item.Schedule.timeTypeData.valueEn
                                                 return (
                                                     <tr key={index}>
                                                         <td>{index + 1}</td>
-                                                        <td>{name}</td>
                                                         <td>{time}</td>
-                                                        <td>{item.patientData.address}</td>
-                                                        <td>{gender}</td>
+                                                        <td>{name}</td>
+                                                        <td>{item.Patient_Record.dateOfBirth}</td>
+                                                        <td>{item.reason}</td>
                                                         <td>
                                                             <button className='mp-btn-confirm'
-                                                                onClick={() => this.handleBtnConfirm(item)}>Xác nhận</button>
+                                                                onClick={() => this.handleBtnConfirm(item.id)}>Xác nhận</button>
             
                                                         </td>
                                                     </tr>
@@ -169,10 +160,11 @@ class ManagePatient extends Component {
                     </div>
                     <RemedyModal
                         isOpenModal={isOpenRemedyModal}
-                        dataModal={dataModal}
+                        idBooking={idBooking}
                         closeRemedyModal={this.closeRemedyModal}
                         sendRemedy={this.sendRemedy}
                     />
+                    
                 </LoadingOverlay>
 
 

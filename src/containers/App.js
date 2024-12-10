@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter as Router } from 'connected-react-router';
 import { history } from '../redux'
 import { ToastContainer } from 'react-toastify';
-
+import { adminMenu, doctorMenu } from './Header/menuApp.js';
 
 import { userIsAuthenticated, userIsNotAuthenticated } from '../hoc/authentication';
 
@@ -32,6 +32,7 @@ import Account_Infor from './Patient/Account/Account_Infor.js';
 import OutStandingDoctor from './Patient/Doctor/OutStandingDoctor.js';
 import Patient_Record from './Patient/Account/Patient_Record.js';
 import AppointmentBooking from './Patient/Doctor/AppointmentBooking.js';
+import NoAccessPage from './Auth/NoAccessPage.js';
 class App extends Component {
 
     handlePersistorState = () => {
@@ -71,8 +72,9 @@ class App extends Component {
                                     <Route path={path.HOME} exact component={(Home)} />
                                     {/* userIsNotAuthenticated */}
                                     <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
+                                    <Route path="/no-access" component={NoAccessPage} />
                                     <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
-                                    <Route path={'/doctor/'} component={userIsAuthenticated(Doctor)} />
+                                    <Route path={'/doctor'} component={userIsAuthenticated(Doctor)} />
                                     <Route path={path.HOMEPAGE} component={HomePage} />
                                     <Route path={path.ACCOUNT_INFOR} component={Account_Infor} />
                                     <Route path={path.PATIENT_RECORD} component={Patient_Record} />

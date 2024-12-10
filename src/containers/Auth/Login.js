@@ -4,7 +4,7 @@ import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import './Login.scss';
 import { FormattedMessage } from 'react-intl';
-import { handleLoginApi } from '../../services/userService';
+import { handleLoginApi, checkRole } from '../../services/userService';
 import HomeHeader from '../HomePage/HomeHeader';
 import { path } from '../../utils';
 
@@ -25,9 +25,33 @@ class Login extends Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        let { userInfo, history } = this.props;
+        console.log('ssd',userInfo)
+        // Kiểm tra nếu người dùng đã đăng nhập (có userInfo và token)
+        if (userInfo && userInfo.token) {
+            
+            try {
+                // Kiểm tra vai trò của người dùng thông qua API checkRole
+                let res = await checkRole(userInfo.token);
+                if (res && res.errCode === 0) {
+                    let role = res.role;
+                    let redirectPath = path.SYSTEM; // Mặc định cho admin
+                    if (role === 'admin') redirectPath = path.SYSTEM;
+                    if (role === 'doctor') redirectPath = path.DOCTOR;
+                    if (role === 'patient') redirectPath = path.HOMEPAGE;
+    
+                    // Chuyển hướng người dùng tới trang phù hợp
+                    history.push(redirectPath);
+                }
+            } catch (error) {
+                console.error("Error in checkRole:", error);
+            }
+        }
         this.startCarousel();
     }
+    
+    
 
     componentWillUnmount() {
         this.stopCarousel();
@@ -78,26 +102,26 @@ class Login extends Component {
         this.setState({
             errMessage: ''
         });
-        try {
-            let data = await handleLoginApi(this.state.username, this.state.password);
-            if (data && data.errCode !== 0) {
-                this.setState({
-                    errMessage: data.message
-                });
-            }
-            if (data && data.errCode === 0) {
-                this.props.userLoginSuccess(data.user);
-                if(data.user&&data.user.roleId&& data.user.roleId==='R3'){
-                    this.props.history.push(path.HOMEPAGE);
+
+        let data = await handleLoginApi(this.state.username, this.state.password);
+        if (data && data.errCode === 0) {
+            
+            if (data.user.token) {
+                let res = await checkRole(data.user.token)
+                if (res.errCode === 0) {
+                    if(res.role ==='admin') this.props.history.push(path.SYSTEM);
+                    if(res.role ==='doctor') this.props.history.push(path.DOCTOR);
+                    if(res.role ==='patient') this.props.history.push(path.HOMEPAGE);
                 }
             }
-        } catch (e) {
-            if (e.response && e.response.data) {
-                this.setState({
-                    errMessage: e.response.data.message
-                });
-            }
+            this.props.userLoginSuccess(data.user);
         }
+        else{
+            this.setState({
+                errMessage: data.message
+            });
+        }
+
     }
 
     handleShowHidePassword = () => {
@@ -113,10 +137,10 @@ class Login extends Component {
     }
 
     handleRegisterClick = () => {
-        this.props.history.push(path.REGISTER); 
+        this.props.history.push(path.REGISTER);
     }
     handleForgotPassword = () => {
-        this.props.history.push(path.FORGOT_PASSWORD); 
+        this.props.history.push(path.FORGOT_PASSWORD);
     }
     render() {
         return (
@@ -218,7 +242,9 @@ class Login extends Component {
 
 const mapStateToProps = state => {
     return {
-        lang: state.app.language
+        lang: state.app.language,
+        isLoggedIn: state.user.isLoggedIn,
+        userInfo: state.user.userInfo,
     };
 };
 

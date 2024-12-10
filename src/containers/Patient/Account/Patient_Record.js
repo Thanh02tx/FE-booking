@@ -50,20 +50,13 @@ class Patient_Record extends Component {
     }
     async componentDidMount() {
         this.props.getGender()
-        if (this.props.user) {
-            this.setState({
-                id: this.props.user.id ? this.props.user.id : ''
-            }, async () => {
-                if (this.state.id) {
-                    let res = await getAllPatientRecord(this.state.id);
-                    if (res && res.errCode === 0) {
-                        this.setState({
-                            listPatient: res.data
-                        })
-                    }
-                }
-
-            })
+        if (this.props.userInfo && this.props.userInfo.token) {
+            let res = await getAllPatientRecord(this.props.userInfo.token);
+            if (res && res.errCode === 0) {
+                this.setState({
+                    listPatient: res.data
+                })
+            }
         }
 
         let resProvince = await getAllProvinceJson();
@@ -93,26 +86,14 @@ class Patient_Record extends Component {
         return result;
     }
     async componentDidUpdate(prevProps, prevState, snaphot) {
-        if (prevProps.user != this.props.user) {
-            if (this.props.user) {
-                this.setState({
-                    id: this.props.user.id ? this.props.user.id : ''
-                }, async () => {
-                    if (this.state.id) {
-                        let res = await getAllPatientRecord(this.state.id);
-                        if (res && res.errCode === 0) {
-                            this.setState({
-                                listPatient: res.data
-                            })
-                        }
-                    }
-                })
-            }
-            let res = await getAllPatientRecord(this.state.id);
-            if (res && res.errCode === 0) {
-                this.setState({
-                    listPatient: res.data
-                })
+        if (prevProps.userInfo != this.props.userInfo) {
+            if (this.props.userInfo.token) {
+                let res = await getAllPatientRecord(this.props.userInfo.token);
+                if (res && res.errCode === 0) {
+                    this.setState({
+                        listPatient: res.data
+                    })
+                }
             }
         }
         if (this.props.language !== prevProps.language) {
@@ -224,7 +205,6 @@ class Patient_Record extends Component {
         let formatedDate = new Date(dateOfBirth).getTime();
 
         let res = await createNewPatientRecord({
-            idAccount: id,
             firstName: firstName,
             lastName: lastName,
             email: email,
@@ -237,7 +217,8 @@ class Patient_Record extends Component {
             gender: gender.value,
             address: address,
             relationship: relationship.value
-        })
+        }, this.props.userInfo.token);  // Truyền token trực tiếp vào hàm
+                
         if (res && res.errCode === 0) {
             toast.success('Create Succed')
             this.setState({
@@ -255,7 +236,7 @@ class Patient_Record extends Component {
                 relationship: '',
                 showModal: false
             })
-            let res = await getAllPatientRecord(this.state.id);
+            let res = await getAllPatientRecord(this.props.userInfo.token);
             if (res && res.errCode === 0) {
                 this.setState({
                     listPatient: res.data
@@ -331,10 +312,10 @@ class Patient_Record extends Component {
             relationship: relationship.value
         })
         if (res && res.errCode === 0) {
-            let resAllPatient = await getAllPatientRecord(this.state.id);
+            let resAllPatient = await getAllPatientRecord(this.props.userInfo.token);
             if (resAllPatient && resAllPatient.errCode === 0) {
                 this.setState({
-                    showModal:false,
+                    showModal: false,
                     listPatient: resAllPatient.data,
                     id: '',
                     firstName: '',
@@ -383,6 +364,7 @@ class Patient_Record extends Component {
     render() {
         let { isLoggedIn, language } = this.props;
         let { showModal, listDistrict, listProvince, listPatient, listWard, isCreate } = this.state;
+        console.log('ssd',this.props.userInfo)
         return (
             <div className='patient-record-container'>
                 <HomeHeader />
@@ -404,7 +386,7 @@ class Patient_Record extends Component {
                                     let rel = language === LANGUAGES.VI ? item.relationshipTypeData.valueVi : item.relationshipTypeData.valueEn;
                                     let age = language === LANGUAGES.VI ? `${this.calculateAge(item.dateOfBirth)} Tuổi` : `${this.calculateAge(item.dateOfBirth)} Age`
                                     return (
-                                        <div className='patient-child pl-2 pt-1 mr-3 ' key={`patient-${index}`}>
+                                        <div className='patient-child pl-2 pt-1 mr-3 mb-3' key={`patient-${index}`}>
                                             <div>
                                                 <div className='child-name'>
                                                     {language === LANGUAGES.VI ? nameVi : nameEn}
@@ -589,7 +571,7 @@ class Patient_Record extends Component {
 const mapStateToProps = state => {
     return {
         language: state.app.language,
-        user: state.user.userInfo,
+        userInfo: state.user.userInfo,
         isLoggedIn: state.user.isLoggedIn,
         genders: state.admin.genders,
     };

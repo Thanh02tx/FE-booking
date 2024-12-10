@@ -1,0 +1,14 @@
+.manage-booking-container{
+    background-color: #ddd;
+    .content{
+        width: 50%;
+        margin: auto;
+        padding-bottom: 20px;
+        .child{
+            margin-top : 15px;
+            padding: 5px 8px;
+            border-radius: 10px;
+            background-color: aliceblue;
+        }
+    }
+}

@@ -18,12 +18,12 @@ class VerifyEmail extends Component {
         if (this.props.location && this.props.location.search) {
             let urlParams = new URLSearchParams(this.props.location.search);
             let token = urlParams.get('token');
-            let doctorId = urlParams.get('doctorId');
+            let scheduleId = urlParams.get('scheduleId');
             let res = await postVerifyBookAppointment({
                 token: token,
-                doctorId: doctorId
+                scheduleId: scheduleId
             })
-            if (res && res.errCode === 0) {
+            if (res && (res.errCode === 0||res.errCode===2)) {
                 this.setState({
                     statusVerify: true,
                     errCode: res.errCode
@@ -42,6 +42,8 @@ class VerifyEmail extends Component {
 
     render() {
         let { statusVerify, errCode } = this.state
+        let { language } = this.props;
+        console.log('sfs',errCode)
         return (
             <>
                 <HomeHeader />
@@ -50,8 +52,22 @@ class VerifyEmail extends Component {
                         <div>Loading data...</div> :
                         <div>
                             {errCode === 0 ?
-                                <div className='infor-booking'>Xác nhận lịch hẹn thành công!</div> :
-                                <div className='infor-booking'>Lịch hẹn không tồn tại hoặc đã được xác nhận!</div>
+
+                                <div className='infor-booking'>
+                                    {language === LANGUAGES.VI ? 'Xác nhận lịch hẹn thành công!' : 'Appointment confirmed successfully!'}
+                                </div>
+                                :
+                                <div>
+                                    {errCode === 2 ?
+                                        <div className='infor-booking'>
+                                            {language === LANGUAGES.VI ? 'Lịch hẹn đã được xác nhận!' : 'The appointment has already been confirmed!'}
+                                        </div>
+                                        :
+                                        <div className='infor-booking'>
+                                            {language === LANGUAGES.VI ? 'Lịch hẹn không tồn tại!' : 'The appointment does not exist!'}
+                                        </div>
+                                    }
+                                </div>
                             }
                         </div>
                     }

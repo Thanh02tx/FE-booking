@@ -130,12 +130,20 @@ const getDetailClinicById = (data) => {
 const createNewHandbook = (data) => {
     return axios.post('/api/create-new-handbook',data)
 }
-const getAllPatientForDoctor = (data) => {
-    return axios.get(`/api/get-list-patient-for-doctor?doctorId=${data.doctorId}&date=${data.date}`)
+const getAllPatientForDoctor = (data,token) => {
+    return axios.get(`/api/get-list-patient-for-doctor?date=${data.date}`,{
+        headers: {
+            Authorization: `Bearer ${token}` // Gửi token trong header Authorization
+        }
+    })
 }
 
-const postSendRemedy = (data) => {
-    return axios.post('/api/send-remedy',data)
+const postSendRemedy = (data,token) => {
+    return axios.post('/api/send-remedy',data,{
+        headers: {
+            Authorization: `Bearer ${token}` 
+        }
+    })
 }
 const getAllHandbook = (data) => {
     return axios.get('/api/get-all-handbook')
@@ -163,18 +171,64 @@ const getAllDistrictJson = (idInput) => {
 const getAllWardJson = (idInput) => {
     return axios.get(`/api/get-all-ward-json?id=${idInput}`)
 }
-const getAllPatientRecord = (idInput) => {
-    return axios.get(`/api/get-all-patient-record?id=${idInput}`)
+const getAllPatientRecord = (token) => {
+    return axios.get(`/api/get-all-patient-record`, {
+        headers: {
+            Authorization: `Bearer ${token}` 
+        }
+    });
 }
 
-const createNewPatientRecord = (data) => {
-    return axios.post('/api/create-new-patient-record',data)
+const createNewPatientRecord = (data, token) => {
+    return axios.post('/api/create-new-patient-record', data, {
+        headers: {
+            Authorization: `Bearer ${token}` // Gửi token trong header Authorization
+        }
+    });
+}
+const checkRoleAdmin = (token) => {
+    return axios.post('/api/check-role-admin',null ,{
+        headers: {
+            Authorization: `Bearer ${token}` 
+        }
+    });
+}
+const checkRole = (token) => {
+    return axios.post('/api/check-role', null,{
+        headers: {
+            Authorization: `Bearer ${token}` 
+        }
+    });
+}
+const getBookingById = (id,token) => {
+    return axios.get(`/api/get-booking-by-id?id=${id}`,{
+        headers: {
+            Authorization: `Bearer ${token}` 
+        }
+    });
 }
 const updatePatientRecord = (data) => {
     return axios.put('/api/update-patient-record',data)
 }
 
+const getAllBookingAdmin = (token) => {
+    return axios.get('/api/get-all-booking-admin',{
+        headers: {
+            Authorization: `Bearer ${token}` 
+        }
+    })
+}
+const confirmAppointment = (id,token) => {
+    return axios.put('/api/confirm-appointment',{id:id},{
+        headers: {
+            Authorization: `Bearer ${token}` 
+        }
+    })
+}
+
 export {
+    checkRole,
+    checkRoleAdmin,
     handleLoginApi,
     getAllUsers,
     checkUserByEmail,
@@ -222,6 +276,8 @@ export {
     getAllWardJson,
     getAllPatientRecord,
     createNewPatientRecord,
-    updatePatientRecord
-
+    updatePatientRecord,
+    getAllBookingAdmin,
+    confirmAppointment,
+    getBookingById
 }

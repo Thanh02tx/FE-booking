@@ -32,27 +32,27 @@ class Account_Infor extends Component {
     }
 
     async componentDidMount() {
-        if(this.props.user){
-            this.setState({
-                firstName: this.props.user.firstName? this.props.user.firstName: '',
-                lastName: this.props.user.lastName?this.props.user.lastName: '',
-                phoneNumber: this.props.user.phonenumber ?this.props.user.phonenumber : '',
-                address: this.props.user.address ?this.props.user.address:''
-            })
-        }
+        // if(this.props.user){
+        //     this.setState({
+        //         firstName: this.props.user.firstName? this.props.user.firstName: '',
+        //         lastName: this.props.user.lastName?this.props.user.lastName: '',
+        //         phoneNumber: this.props.user.phonenumber ?this.props.user.phonenumber : '',
+        //         address: this.props.user.address ?this.props.user.address:''
+        //     })
+        // }
 
     }
     async componentDidUpdate(prevProps, prevState, snaphot) {
-        if (prevProps.user != this.props.user) {
-            if(this.props.user){
-                this.setState({
-                    firstName: this.props.user.firstName? this.props.user.firstName: '',
-                    lastName: this.props.user.lastName?this.props.user.lastName: '',
-                    phoneNumber: this.props.user.phonenumber ?this.props.user.phonenumber : '',
-                    address: this.props.user.address ?this.props.user.address:''
-                })
-            }
-        }
+        // if (prevProps.user != this.props.user) {
+        //     if(this.props.user){
+        //         this.setState({
+        //             firstName: this.props.user.firstName? this.props.user.firstName: '',
+        //             lastName: this.props.user.lastName?this.props.user.lastName: '',
+        //             phoneNumber: this.props.user.phonenumber ?this.props.user.phonenumber : '',
+        //             address: this.props.user.address ?this.props.user.address:''
+        //         })
+        //     }
+        // }
     }
 
     returnHome = () => {
@@ -117,45 +117,45 @@ class Account_Infor extends Component {
             errMessagePass: message
         })
     }
-    handleSaveUser = async () => {
-        let { firstName, lastName, phoneNumber, address, id } = this.state;
-        this.setState({
-            errMessageInfor: ''
-        })
-        let message = '';
-        if (!firstName || !lastName || !address || !phoneNumber) {
-            if (this.props.language === LANGUAGES.VI) {
-                message = 'Vui lòng nhập đầy đủ thông tin.'
-            } else {
-                message = 'Please enter all required information.'
-            }
-        } else {
-            let res = await editUserHome({
-                id: id,
-                firstName: firstName,
-                lastName: lastName,
-                address: address,
-                phoneNumber: phoneNumber
-            })
-            if (res && res.errCode === 0) {
-                this.props.userLoginSuccess(res.data);
-                toast.success("Suar thoong tin thanhf coong")
-                this.setState({
-                    firstName: this.props.user.firstName,
-                    lastName: this.props.user.lastName,
-                    phoneNumber: this.props.user.phonenumber,
-                    address: this.props.user.address,
-                    isChangInfor: false
-                })
-                message = ''
-            } else {
-                toast.error('Lỗi')
-            }
-        }
-        this.setState({
-            errMessageInfor: message
-        })
-    }
+    // handleSaveUser = async () => {
+    //     let { firstName, lastName, phoneNumber, address, id } = this.state;
+    //     this.setState({
+    //         errMessageInfor: ''
+    //     })
+    //     let message = '';
+    //     if (!firstName || !lastName || !address || !phoneNumber) {
+    //         if (this.props.language === LANGUAGES.VI) {
+    //             message = 'Vui lòng nhập đầy đủ thông tin.'
+    //         } else {
+    //             message = 'Please enter all required information.'
+    //         }
+    //     } else {
+    //         let res = await editUserHome({
+    //             id: id,
+    //             firstName: firstName,
+    //             lastName: lastName,
+    //             address: address,
+    //             phoneNumber: phoneNumber
+    //         })
+    //         if (res && res.errCode === 0) {
+    //             this.props.userLoginSuccess(res.data);
+    //             toast.success("Suar thoong tin thanhf coong")
+    //             this.setState({
+    //                 firstName: this.props.user.firstName,
+    //                 lastName: this.props.user.lastName,
+    //                 phoneNumber: this.props.user.phonenumber,
+    //                 address: this.props.user.address,
+    //                 isChangInfor: false
+    //             })
+    //             message = ''
+    //         } else {
+    //             toast.error('Lỗi')
+    //         }
+    //     }
+    //     this.setState({
+    //         errMessageInfor: message
+    //     })
+    // }
     handleShowChangePassword = () => {
         this.setState({
             errMessagePass: '',
@@ -262,7 +262,7 @@ class Account_Infor extends Component {
                                 </div>
                             </div>
                         }
-                        {isShowInfor &&
+                        {/* {isShowInfor &&
                             <div className='account-infor'>
                                 <div className='form-group child'>
                                     <label>First Name</label>
@@ -271,7 +271,7 @@ class Account_Infor extends Component {
                                         type='text'
                                         onChange={(event) => this.handleOnChangeInput(event, 'firstName')}
                                         value={isChangInfor ? firstName : this.props.user.firstName}
-                                        // readOnly={!isChangInfor}
+                                     
                                     />
                                 </div>
                                 <div className='form-group child'>
@@ -281,7 +281,7 @@ class Account_Infor extends Component {
                                         type='text'
                                         onChange={(event) => this.handleOnChangeInput(event, 'lastName')}
                                         value={isChangInfor ? lastName : this.props.user.lastName}
-                                        //readOnly={!isChangInfor}
+                                    
                                     />
                                 </div>
                                 <div className='form-group child'>
@@ -291,7 +291,7 @@ class Account_Infor extends Component {
                                         type='text'
                                         onChange={(event) => this.handleOnChangeInput(event, 'phoneNumber')}
                                         value={isChangInfor ? phoneNumber : this.props.user.phonenumber}
-                                        //readOnly={!isChangInfor}
+                                       
                                     />
                                 </div>
                                 <div className='form-group child'>
@@ -301,7 +301,7 @@ class Account_Infor extends Component {
                                         type='text'
                                         onChange={(event) => this.handleOnChangeInput(event, 'address')}
                                         value={isChangInfor ? address : this.props.user.address}
-                                        //readOnly={!isChangInfor}
+                                        
                                     />
                                 </div>
                                 {isChangInfor &&
@@ -319,7 +319,7 @@ class Account_Infor extends Component {
 
                                 }
                             </div>
-                        }
+                        } */}
                     </div>
                     :
                     <div className='fs-3 text-center'>Bạn cần đăng nhập</div>

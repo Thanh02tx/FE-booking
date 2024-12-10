@@ -18,7 +18,7 @@ class OutStandingDoctor extends Component {
         let res = await getTopDoctorHomeService(15);
         if (res && res.errCode === 0) {
             let list = res.data.map(item => {
-                item.image = new Buffer(item.image, 'base64').toString('binary');
+                item.Doctor_Infor.image = Buffer.from(item.Doctor_Infor.image, 'base64').toString('binary');
                 return item;
             });
 
@@ -54,15 +54,15 @@ class OutStandingDoctor extends Component {
                     </div>
                     <div className='content'>
                         {listDoctor.length > 0 && listDoctor.map((item, index) => {
-                            let nameVi = `${item.positionData.valueVi}, ${item.firstName} ${item.lastName}`;
-                            let nameEn = `${item.positionData.valueEn}, ${item.firstName} ${item.lastName}`;
+                            let nameVi = `${item.Doctor_Infor.positionData.valueVi}, ${item.lastName} ${item.firstName}`;
+                            let nameEn = `${item.Doctor_Infor.positionData.valueEn}, ${item.firstName} ${item.lastName}`;
                             return (
                                 <div 
                                     key={`doctor-${index}`} 
                                     className='d-flex content-doctor'
                                     onClick={()=>this.handleClickDoctor(item.id)}
                                 >
-                                    <div className='bg-img' style={{ backgroundImage: `url(${item.image})` }} >
+                                    <div className='bg-img' style={{ backgroundImage: `url(${item.Doctor_Infor.image})` }} >
 
                                     </div>
                                     <div className='d-flex align-items-center'>
@@ -78,21 +78,6 @@ class OutStandingDoctor extends Component {
                             )
                         })}
                     </div>
-                    {/* <div className='row'>
-                        {listHandbook.length>0 && listHandbook.map((item,index)=>{
-                            return(
-                                <div 
-                                    key={`spe-${index}`}
-                                    className='col-xl-3 col-md-4 col-6 pb-3'
-                                    onClick={()=>this.handleClickHandbook(item.id)}
-                                >
-                                    <div className='img' style={{ backgroundImage: `url(${item.image})` }}></div>
-                                    <div className='text-center'>{item.nameVi}</div>
-                                </div>
-                            )
-                        })
-                        }
-                    </div> */}
                 </div>
             </div>
         );

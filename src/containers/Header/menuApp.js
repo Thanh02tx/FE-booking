@@ -10,13 +10,12 @@ export const adminMenu = [
             },
             {
                 name: 'menu.admin.manage-doctor', link: '/system/manage-doctor'
-                
             },
-
             {
-
+                name: 'menu.admin.manage-booking', link: '/system/manage-booking'
+            },
+            {
                 name: 'menu.doctor.manage-schedule', link: '/doctor/manage-schedule'
-
             }
 
         ]
