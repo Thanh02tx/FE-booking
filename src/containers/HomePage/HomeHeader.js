@@ -151,7 +151,11 @@ class HomeHeader extends Component {
             this.props.history.push(path.OUTSTANDING_DOCTOR)
         }
     }
-
+    returnMedicalHistory=()=>{
+        if(this.props.history){
+            this.props.history.push(path.HISTORY_BOOKING)
+        }
+    }
     render() {
         let { processLogout, isLoggedIn, language, userInfo, intl } = this.props;
         let { searchQuery, listSpecialty, showListSearch } = this.state;
@@ -312,18 +316,21 @@ class HomeHeader extends Component {
                                 </li>
                                 {isLoggedIn ?
                                     <>
-                                        <li
-                                            onClick={() => this.returnAcountInfor() }
-                                        >
-                                            Thông tin tài khoản
-                                        </li>
+                                        
                                         <li
                                             onClick={() =>  this.returnPatientRecord()}
                                         >
                                             Hồ sơ
                                         </li>
-                                        <li>
+                                        <li
+                                            onClick={()=>this.returnMedicalHistory()}
+                                        >
                                             Lịch sử khám bệnh
+                                        </li>
+                                        <li
+                                            onClick={() => this.returnAcountInfor() }
+                                        >
+                                            Đổi mật khẩu
                                         </li>
                                         <li
                                             onClick={processLogout}

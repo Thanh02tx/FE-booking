@@ -92,6 +92,7 @@ class ProfileDoctor extends Component {
 
                                         }
                                     </div>
+                                    <div>{language===LANGUAGES.VI?'Lượt khám: ':'Exams count: '} {dataProfile&&dataProfile.Doctor_Infor&&dataProfile.Doctor_Infor.count? `${dataProfile.Doctor_Infor.count}`:'0'}</div>
                                     <div><i className="fas fa-map-marker-alt"></i>
                                         {dataProfile && dataProfile.Doctor_Infor && dataProfile.Doctor_Infor.Clinic && dataProfile.Doctor_Infor.Clinic.provinceData ? dataProfile.Doctor_Infor.Clinic.provinceData.valueVi : ''}
                                     </div>

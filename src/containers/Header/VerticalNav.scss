@@ -1,0 +1,118 @@
+.vertical-nav {
+    background-color: black;
+    color: whitesmoke;
+    height: 100vh;
+    width: 200px;
+
+    .languages {
+        padding: 10px;
+        text-align: center;
+
+
+        font-size: 25px;
+
+        .language-en {
+            margin-right: 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            opacity: 0.8;
+
+            &.active {
+                opacity: 1;
+                color: rgb(66, 199, 185);
+            }
+        }
+
+        .language-vi {
+            cursor: pointer;
+            opacity: 0.8;
+
+            &.active {
+                opacity: 1;
+                color: orange;
+            }
+
+        }
+    }
+
+    .welcome {
+        padding: 10px;
+        text-align: center;
+        font-size: 18px;
+        color: #ff4d4d;
+    }
+
+    .menu-item {
+        margin-bottom: 10px;
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 10px;
+            transition: background-color 0.3s ease;
+            &:hover{
+                background-color: gray;
+            }
+            &.open {
+                background-color: #ff4d4d;
+                /* Màu đỏ khi mở */
+                color: white;
+            }
+        }
+
+        .menu-sub {
+            margin-top: 5px;
+            padding-left: 15px;
+            list-style: none;
+
+            .menu-link {
+                margin-bottom: 5px;
+
+                a {
+                    text-decoration: none;
+                    color: #c7b7b7;
+                    font-size: 14px;
+
+                    &:hover {
+                        color: #007bff;
+                    }
+                }
+            }
+        }
+
+        .single-link {
+            text-decoration: none;
+            color: whitesmoke;
+            padding: 10px;
+            display: block;
+            font-weight: bold;
+            font-size: 16px;
+
+            &:hover {
+                background-color: #444;
+                color: white;
+            }
+        }
+    }
+    .btn-logout {
+        display: flex; // Sử dụng Flexbox
+        justify-content: center; // Căn giữa theo chiều ngang
+        align-items: center; // Căn giữa theo chiều dọc
+        cursor: pointer; // Hiển thị con trỏ chuột
+        margin: 0; // Loại bỏ khoảng cách mặc định của thẻ <p>
+        transition: background-color 0.3s ease; // Hiệu ứng chuyển màu nền
+        &:hover {
+            background-color: #d43a3a; // Màu nền khi hover
+        }
+    
+        i {
+            font-size: 30px; // Kích thước icon
+            color: white; // Màu icon
+        }
+    }
+    
+}

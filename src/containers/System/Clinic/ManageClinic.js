@@ -231,7 +231,7 @@ class ManageClinic extends Component {
         let addressMapPlaceHolder = intl.formatMessage({ id: 'admin.manage-clinic.clinic-address-map' });
         let enterPlaceHolder = intl.formatMessage({ id: 'admin.manage-clinic.enter' });
         return (
-            <div className='mange-specialty-contianer container'>
+            <div className='mange-clinic-contianer container'>
                 <div className='ms-title'><FormattedMessage id="admin.manage-clinic.title" /></div>
                 <div>
                     <button
@@ -339,8 +339,8 @@ class ManageClinic extends Component {
                     </div>
                 }
 
-                <div>
-                    <table className='table'>
+                <div >
+                    <table className='table' style={{width:'100%'}}>
                         <thead>
                             <tr>
                                 <th><FormattedMessage id="admin.manage-clinic.serial-number"/> </th>

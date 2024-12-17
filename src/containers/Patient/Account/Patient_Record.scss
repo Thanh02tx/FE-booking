@@ -1,12 +1,30 @@
-.patient-record-container{
-    .patient-record-content{
+.patient-record-container {
+    .patient-record-content {
         background-color: #eee;
         height: calc(100vh - 110px);
         padding: 0 20%;
-        .patient-list{
+
+        @media (max-width: 992px) and (min-width: 768px) {
+            padding: 0 15%;
+        }
+
+        @media (max-width: 768px) {
+            padding: 0 10%;
+        }
+        .nav{
+            i{
+                color: #1e67b0;
+                cursor: pointer;
+            }
+            span {
+                color: #8daac6;
+            }
+        }
+        .patient-list {
             display: flex;
             flex-wrap: wrap;
-            .patient-child{
+
+            .patient-child {
                 width: 150px;
                 height: 100px;
                 border: 1px solid red;
@@ -14,13 +32,17 @@
                 background-color: white;
                 display: flex;
                 justify-content: space-between;
-                .child-name{
+                flex-direction: column; /* Thêm để đảm bảo các child item xếp theo chiều dọc */
+
+                .child-name {
                     color: #445c92;
                 }
-                .child-age{
+
+                .child-age {
                     font-size: 14px;
                 }
-                i{
+
+                i {
                     color: coral;
                     cursor: pointer;
                 }
@@ -28,24 +50,31 @@
         }
     }
 }
-.patient-record-modal{
+
+.patient-record-modal {
     margin-top: 70px;
-    .modal-header{
-        padding: 5px 16px ;
+
+    .modal-header {
+        padding: 5px 16px;
     }
-    .modal-body{
-        padding: 0 16px ;
-        .child{
+
+    .modal-body {
+        padding: 0 16px;
+
+        .child {
             font-size: 14px;
             margin-bottom: 5px;
-            label{
+
+            label {
                 margin-bottom: 3px;
             }
-            input{
+
+            input {
                 padding: 0 12px;
                 height: 28px;
             }
-            .select-child{
+
+            .select-child {
                 height: 28px;
             }
         }

@@ -9,8 +9,12 @@ import ManageSpecialty from '../containers/System/Specialty/ManageSpecialty';
 import ManageClinic from '../containers/System/Clinic/ManageClinic';
 import ManageHandbook from '../containers/System/Handbook/ManageHandbook';
 import ManageBooking from '../containers/System/Admin/ManageBooking';
+import ManageSchedule from '../containers/System/Doctor/ManageSchedule';
 import { adminMenu } from '../containers/Header/menuApp';
 import { checkRole } from '../services/userService';
+import VerticalNav from '../containers/Header/VerticalNav';
+import ManageFeedback from '../containers/System/Admin/ManageFeedback';
+import './System.scss';
 
 class System extends Component {
     state = {
@@ -30,7 +34,7 @@ class System extends Component {
         try {
             // Gọi API để kiểm tra quyền
             const res = await checkRole(userInfo.token);
-            console.log('ssd',res)
+            console.log('ssd', res)
 
             if (res && res.errCode === 0 && res.role === 'admin') {
                 this.setState({ hasAccess: true });
@@ -49,8 +53,8 @@ class System extends Component {
     render() {
         const { systemMenuPath, isLoggedIn } = this.props;
         const { isLoading, hasAccess } = this.state;
-        console.log('sfass',isLoading,hasAccess)
-        console.log('sfaaaaass',this.props.userInfo)
+        console.log('sfass', isLoading, hasAccess)
+        console.log('sfaaaaass', this.props.userInfo)
         // Nếu người dùng chưa đăng nhập, điều hướng đến trang đăng nhập
         if (!isLoggedIn) {
             return <Redirect to="/login" />;
@@ -59,11 +63,11 @@ class System extends Component {
         // Nếu vẫn đang tải dữ liệu, hiển thị thông báo "Loading..."
         if (isLoading) {
             return (
-                <>  
-                <Header/>
+                <>
+                    <Header />
                     <div>Loading...</div>
                 </>
-                
+
             )
         }
 
@@ -74,24 +78,28 @@ class System extends Component {
 
         // Nếu có quyền truy cập, hiển thị các trang quản lý
         return (
-            <React.Fragment>
-                {isLoggedIn && <Header menu={adminMenu} />}
-
-                <div className="system-container">
-                    <div className="system-list">
-                        <Switch>
-                            <Route path="/system/user-manage" component={ManageClinic} />
-                            <Route path="/system/user-redux" component={UserRedux} />
-                            <Route path="/system/manage-doctor" component={ManageDoctor} />
-                            <Route path="/system/manage-specialty" component={ManageSpecialty} />
-                            <Route path="/system/manage-clinic" component={ManageClinic} />
-                            <Route path="/system/manage-handbook" component={ManageHandbook} />
-                            <Route path="/system/manage-booking" component={ManageBooking} />
-                            <Route component={() => <Redirect to={systemMenuPath} />} />
-                        </Switch>
+            <div className='system-container'>
+                {isLoggedIn && <VerticalNav menuApp={adminMenu} />}
+                <div className='content'>
+                    {/* {isLoggedIn && <Header menu={adminMenu} />} */}
+                    <div className="system-content">
+                        <div className="system-list">
+                            <Switch>
+                                <Route path="/system/user-manage" component={UserManage} />
+                                <Route path="/system/user-redux" component={UserRedux} />
+                                <Route path="/system/manage-doctor" component={ManageDoctor} />
+                                <Route path="/system/manage-specialty" component={ManageSpecialty} />
+                                <Route path="/system/manage-schedule" component={ManageSchedule} />
+                                <Route path="/system/manage-feedback" component={ManageFeedback} />
+                                <Route path="/system/manage-clinic" component={ManageClinic} />
+                                <Route path="/system/manage-handbook" component={ManageHandbook} />
+                                <Route path="/system/manage-booking" component={ManageBooking} />
+                                <Route component={() => <Redirect to={systemMenuPath} />} />
+                            </Switch>
+                        </div>
                     </div>
                 </div>
-            </React.Fragment>
+            </div>
         );
     }
 }

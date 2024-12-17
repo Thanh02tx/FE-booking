@@ -6,7 +6,7 @@ import { getAllUsers, createNewUserService, deleteUserService, editUserService }
 import ModalUser from './ModalUser';
 import ModalEditUser from './ModalEditUser';
 import { emitter } from "../../utils/emitter";
-
+import { toast } from 'react-toastify';
 class UserManage extends Component {
 
     constructor(props) {
@@ -52,6 +52,7 @@ class UserManage extends Component {
             if (response && response.errCode !== 0) {
                 alert(response.errMessage)
             } else {
+                toast.success('create new user succeed!')
                 await this.getAllUsersFromReact();
                 this.setState({
                     isOpenModalUser: false

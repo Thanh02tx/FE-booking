@@ -133,7 +133,7 @@ class ManageSchedule extends Component {
         let { language } = this.props;
         let yesterday= new Date(new Date().setDate(new Date().getDate()-1))
         return (
-            <div className='manage-schedule-contianer'>
+            <div className='manage-schedule-container'>
                 <div className='m-s-title'>
                     <FormattedMessage id="manage-schedule.title" />
                 </div>

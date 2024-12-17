@@ -15,12 +15,20 @@ export const adminMenu = [
                 name: 'menu.admin.manage-booking', link: '/system/manage-booking'
             },
             {
-                name: 'menu.doctor.manage-schedule', link: '/doctor/manage-schedule'
+                name: 'menu.doctor.manage-schedule', link: '/system/manage-schedule'
             }
 
         ]
     },
-    {// phòng khám
+    {// phòng khám appointment
+        name: 'menu.admin.patient',
+        menus: [
+            {
+                name: 'menu.admin.manage-feedback', link: '/system/manage-feedback'
+            }
+        ]
+    },
+    {// phòng khám 
         name: 'menu.admin.clinic',
         menus: [
             {

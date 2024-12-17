@@ -218,11 +218,11 @@ class Register extends Component {
                                 </a>
                             </div>
                         </div>
-                        <div className='col-md-6 scrollable '>
+                        <div className='col-6 '>
 
                             <div className='register-content row'>
                                 <div className='col-12 text-center text-login'>Register</div>
-                                <div className='col-sm-6 form-group content-input'>
+                                <div className='col-12 form-group content-input'>
                                     <label>FirstName:</label>
                                     <input
 
@@ -231,7 +231,7 @@ class Register extends Component {
                                         onChange={(event) => this.handleOnChangeInput(event, 'firstName')}
                                     />
                                 </div>
-                                <div className='col-sm-6 form-group content-input'>
+                                <div className='col-12 form-group content-input'>
                                     <label>LastName:</label>
                                     <input
 
@@ -250,7 +250,7 @@ class Register extends Component {
                                     />
                                 </div>
                                
-                                <div className='col-sm-6 form-group content-input'>
+                                <div className='col-md-6 form-group content-input'>
                                     <label>Password:</label>
                                     <div className='custom-input-password'>
                                         <input className='form-control' type={this.state.isShowPassword ? 'text' : 'password'} placeholder='Enter your password'
@@ -263,7 +263,7 @@ class Register extends Component {
                                     </div>
                                 </div>
 
-                                <div className='col-sm-6 form-group content-input'>
+                                <div className='col-md-6 form-group content-input'>
                                     <label>Password:</label>
                                     <div className='custom-input-password'>
                                         <input className='form-control' type={this.state.isShowPassword ? 'text' : 'password'} placeholder='Enter your password'

@@ -33,6 +33,7 @@ class AllClinic extends Component {
     }
     render() {
         let {listClinic} = this.state
+        let {language} = this.props
         return (
             <div className='all-clinic-container'>
                 <HomeHeader />
@@ -43,7 +44,7 @@ class AllClinic extends Component {
                                 className="fas fa-home"
                                 onClick={()=>this.returnHome()}
                             ></i>
-                            <span> /Cơ sở y tế</span>
+                            <span> /{language===LANGUAGES.VI?'Cơ sở y tế':'Healthcare Facility'}</span>
                         </p>
                     </div>
                     <div className='row'>

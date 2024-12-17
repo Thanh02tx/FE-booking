@@ -218,7 +218,7 @@ class Patient_Record extends Component {
             address: address,
             relationship: relationship.value
         }, this.props.userInfo.token);  // Truyền token trực tiếp vào hàm
-                
+
         if (res && res.errCode === 0) {
             toast.success('Create Succed')
             this.setState({
@@ -364,19 +364,28 @@ class Patient_Record extends Component {
     render() {
         let { isLoggedIn, language } = this.props;
         let { showModal, listDistrict, listProvince, listPatient, listWard, isCreate } = this.state;
-        console.log('ssd',this.props.userInfo)
+        console.log('ssd', this.props.userInfo)
         return (
             <div className='patient-record-container'>
                 <HomeHeader />
                 <div className='patient-record-content'>
                     {isLoggedIn ?
                         <div>
+                            <div className='nav'>
+                                <p className='m-0'>
+                                    <i
+                                        className="fas fa-home"
+                                        onClick={() => this.returnHome()}
+                                    ></i>
+                                    <span> /{language===LANGUAGES.VI?'Hồ sơ bệnh nhân':'Medical record'}</span>
+                                </p>
+                            </div>
                             <div>
                                 <button
                                     className='btn btn-success my-2'
                                     onClick={() => this.toggle()}
                                 >
-                                    <i className="fas fa-user-plus"> Thành viên</i>
+                                    <i className="fas fa-user-plus"> {language===LANGUAGES.VI?'Thành viên':'Member'}</i>
                                 </button>
                             </div>
                             <div className='patient-list'>

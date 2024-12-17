@@ -6,6 +6,7 @@ import Header from '../containers/Header/Header';
 import ManagePatient from '../containers/System/Doctor/ManagePatient';
 import { doctorMenu } from '../containers/Header/menuApp';
 import { checkRole } from '../services/userService';
+import VerticalNav from '../containers/Header/VerticalNav';
 
 class Doctor extends Component {
     state = {
@@ -67,10 +68,10 @@ class Doctor extends Component {
 
         // Nếu có quyền truy cập, hiển thị các trang quản lý
         return (
-            <React.Fragment>
-                {isLoggedIn && <Header menu={doctorMenu} />}
+            <div className='system-container'>
+                {isLoggedIn && <VerticalNav menuApp={doctorMenu} />}
 
-                <div className="system-container">
+                <div className="content">
                     <div className="system-list">
                         <Switch>
                             <Route path="/doctor/manage-schedule" component={ManageSchedule} />
@@ -78,7 +79,7 @@ class Doctor extends Component {
                         </Switch>
                     </div>
                 </div>
-            </React.Fragment>
+            </div>
         );
     }
 }

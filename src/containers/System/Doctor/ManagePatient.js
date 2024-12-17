@@ -31,7 +31,7 @@ class ManagePatient extends Component {
         let { user } = this.props;
         let { currentDate } = this.state;
         let formatedDate = new Date(currentDate).getTime();
-        if(this.props.user.token){
+        if(user && user.token){
             let res = await getAllPatientForDoctor({
                 date: formatedDate
             },this.props.user.token)

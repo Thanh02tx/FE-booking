@@ -3,7 +3,9 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { emitter } from "../../utils/emitter";
-
+import { getAllCodeService } from '../../services/userService';
+import {LANGUAGES}from '../../utils';
+import Select from 'react-select';
 class ModalUser extends Component {
 
     constructor(props) {
@@ -13,6 +15,9 @@ class ModalUser extends Component {
             password: '',
             firstName: '',
             lastName: '',
+            listRole: '',
+            listRoleServer:'',
+            role: ''
         };
         this.listenToEmitter();
     }
@@ -24,11 +29,23 @@ class ModalUser extends Component {
                 password: '',
                 firstName: '',
                 lastName: '',
+                role:''
             })
         })
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        let res = await getAllCodeService('ROLE');
+        if (res && res.errCode === 0) {
+            this.setState({
+                listRoleServer: res.data
+            },()=>{
+                this.setState({
+                    listRole: this.buildDataAllcode(this.state.listRoleServer)
+                })
+            })
+            
+        }
     }
     toggle = () => {
         this.props.toggleFromParent();
@@ -45,7 +62,7 @@ class ModalUser extends Component {
 
     checkValidateInput = () => {
         let isValid = true;
-        let arrInput = ['email', 'password', 'firstName', 'lastName'];
+        let arrInput = ['email', 'password', 'firstName', 'lastName','role',];
         for (let i = 0; i < arrInput.length; i++) {
             if (!this.state[arrInput[i]]) {
                 isValid = false;
@@ -56,14 +73,37 @@ class ModalUser extends Component {
         }
         return isValid;
     }
-
+    buildDataAllcode = (data) => {
+        let language = this.props.language;
+        let result = [];
+        if (data && data.length > 0) {
+            data.map(item => {
+                let object = {};
+                object.label = language === LANGUAGES.VI ? item.valueVi : item.valueEn;
+                object.value = item.keyMap;
+                result.push(object)
+            })
+        }
+        return result;
+    }
     handleAddNewUser = () => {
+        console.log('ssd',this.state)
         let isValid = this.checkValidateInput();
         if (isValid === true) {
-            this.props.createNewUser(this.state);
+            this.props.createNewUser({
+                email:this.state.email,
+                password:this.state.password,
+                firstName:this.state.firstName,
+                lastName:this.state.lastName,
+                roleId:this.state.role.value
+            });
         }
     }
-
+    handleChangeSelect =  (selectedOption) => {
+        this.setState({
+            role:selectedOption
+        })
+    }
     render() {
         return (
             <Modal
@@ -72,7 +112,7 @@ class ModalUser extends Component {
                 size='lg'
 
             >
-                <ModalHeader toggle={this.toggle}> Modal title</ModalHeader>
+                <ModalHeader toggle={this.toggle}>Thêm/Sửa user</ModalHeader>
                 <ModalBody>
                     <div className='modal-user-body'>
                         <div className='input-container'>
@@ -98,6 +138,14 @@ class ModalUser extends Component {
                                 value={this.state.lastName}
                             />
                         </div>
+                        <div className='input-container'>
+                            <label>Vai trò</label>
+                            <Select
+                                value={this.state.role}
+                                onChange={this.handleChangeSelect}
+                                options={this.state.listRole}
+                            />
+                        </div>
                     </div>
 
 
@@ -114,6 +162,7 @@ class ModalUser extends Component {
 
 const mapStateToProps = state => {
     return {
+        language: state.app.language,
     };
 };
 

@@ -30,6 +30,8 @@
             "manage-user":"Người dùng",
             "manage-doctor":"Quản lý bác sĩ",
             "manage-admin":"Quản lý admin",
+            "patient":"Bệnh nhân",
+            "manage-feedback":"Quản lý đánh giá",
             "crud":"CRUD user",
             "crud-redux":"CRUD redux",
             "clinic":"Phòng khám",

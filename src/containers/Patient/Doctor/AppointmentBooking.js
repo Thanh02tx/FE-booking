@@ -46,7 +46,7 @@ class AppointmentBooking extends Component {
             reasonSignIn: '',
             showModal: false,
             book_ok: true,
-            errMesSignIn:''
+            errMesSignIn: ''
         }
     }
     async componentDidMount() {
@@ -58,14 +58,14 @@ class AppointmentBooking extends Component {
                 })
             }
         }
-        if (this.props.user) {
-            if (this.props.user.id) {
-                let res = await getAllPatientRecord(this.props.user.id)
-                if (res && res.errCode === 0) {
-                    this.setState({
-                        listPatient: res.data
-                    })
-                }
+        let { user } = this.props;
+        if (user && user.token) {
+            let res = await getAllPatientRecord(user.token)
+            if (res && res.errCode === 0) {
+                this.setState({
+                    listPatient: res.data
+                })
+
             }
 
         }
@@ -118,8 +118,8 @@ class AppointmentBooking extends Component {
             })
         }
         if (this.props.user !== prevProps.user) {
-            if (this.props.user.id) {
-                let res = await getAllPatientRecord(this.props.user.id)
+            if (this.props.user&&this.props.user.token) {
+                let res = await getAllPatientRecord(this.props.user.token)
                 if (res && res.errCode === 0) {
                     this.setState({
                         listPatient: res.data
@@ -239,40 +239,40 @@ class AppointmentBooking extends Component {
     }
     HandleBookAppointment = async () => {
         this.setState({
-            errMesSignIn:''
+            errMesSignIn: ''
         })
-        let message='';
-        
-        let { dataTime, reasonSignIn,selectedPatient } = this.state;
-        let {language} = this.props;
-        if(!selectedPatient){
-            message= language===LANGUAGES.VI?'Vui lòng chọn người khám.':'Please select a patient to book an appointment.'
+        let message = '';
+
+        let { dataTime, reasonSignIn, selectedPatient } = this.state;
+        let { language } = this.props;
+        if (!selectedPatient) {
+            message = language === LANGUAGES.VI ? 'Vui lòng chọn người khám.' : 'Please select a patient to book an appointment.'
         }
         else {
-            if(!reasonSignIn){
-                message= language===LANGUAGES.VI?'Vui lòng điền lý do khám.':'Please provide a reason for the appointment.'
+            if (!reasonSignIn) {
+                message = language === LANGUAGES.VI ? 'Vui lòng điền lý do khám.' : 'Please provide a reason for the appointment.'
             }
-            else{
-                let res =await postPatientBookAppointment({
+            else {
+                let res = await postPatientBookAppointment({
                     reason: reasonSignIn,
                     schedule: dataTime,
                     patientId: selectedPatient.id
                 })
-                console.log('é',res)
+                console.log('é', res)
                 if (res && res.errCode === 0) {
                     toast.success('succed')
                     this.setState({
                         reasonSignIn: '',
-                        selectedPatient:''
+                        selectedPatient: ''
                     })
                 } else {
                     toast.error("error")
                 }
             }
         }
-        
+
         this.setState({
-            errMesSignIn:message
+            errMesSignIn: message
         })
     }
 
@@ -332,7 +332,7 @@ class AppointmentBooking extends Component {
         this.setState({ selectedPatient: patient });
     };
     render() {
-        let { dataTime, listProvince, listDistrict, listWard, showModal, book_ok, listPatient, selectedPatient,errMesSignIn } = this.state;
+        let { dataTime, listProvince, listDistrict, listWard, showModal, book_ok, listPatient, selectedPatient, errMesSignIn } = this.state;
         let { isLoggedIn, language } = this.props;
         let doctorId = dataTime && !_.isEmpty(dataTime) ? dataTime.doctorId : '';
         return (
@@ -473,7 +473,7 @@ class AppointmentBooking extends Component {
                         </>
                         :
                         <div className=' pt-3 '>
-                            
+
                             <div className='d-flex flex-wrap'>
                                 {listPatient.length > 0 && listPatient.map((item, index) => {
                                     let nameVi = `${item.lastName} ${item.firstName}`;
@@ -518,7 +518,7 @@ class AppointmentBooking extends Component {
                             >
                                 <i className="far fa-calendar-check"> Đặt lịch</i>
                             </button>
-                            
+
                         </div>
                     }
                 </div>

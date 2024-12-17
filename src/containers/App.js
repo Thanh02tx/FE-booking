@@ -33,6 +33,8 @@ import OutStandingDoctor from './Patient/Doctor/OutStandingDoctor.js';
 import Patient_Record from './Patient/Account/Patient_Record.js';
 import AppointmentBooking from './Patient/Doctor/AppointmentBooking.js';
 import NoAccessPage from './Auth/NoAccessPage.js';
+import MedicalHistory from './Patient/Account/MedicalHistory.js';
+import VerticalNav from './Header/VerticalNav.js';
 class App extends Component {
 
     handlePersistorState = () => {
@@ -90,6 +92,8 @@ class App extends Component {
                                     <Route path={path.VERIFY_EMAIL_BOOKING} component={VerifyEmail} />
                                     <Route path={path.REGISTER} component={Register} />
                                     <Route path={path.FORGOT_PASSWORD} component={ForgotPassword} />
+                                    <Route path={path.HISTORY_BOOKING} component={MedicalHistory} />
+                                    <Route path='/nav-ss' component={VerticalNav} />
                                 </Switch>
                             </CustomScrollbars>
                         </div>

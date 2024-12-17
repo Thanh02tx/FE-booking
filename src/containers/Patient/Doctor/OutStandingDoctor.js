@@ -49,7 +49,7 @@ class OutStandingDoctor extends Component {
                                 className="fas fa-home"
                                 onClick={() => this.returnHome()}
                             ></i>
-                            <span> /Bác sĩ nổi bật</span>
+                            <span> /{language===LANGUAGES.VI?'Bác sĩ nổi bật':'Outstanding Doctor'}</span>
                         </p>
                     </div>
                     <div className='content'>

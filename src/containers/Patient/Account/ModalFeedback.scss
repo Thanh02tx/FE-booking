@@ -1,0 +1,26 @@
+.modal-feedback-container {
+    margin-top: 70px;
+    .star-rating {
+        display: flex;
+        gap: 5px;
+        font-size: 2rem;
+        cursor: pointer;
+
+        .star {
+            color: #ccc;
+            transition: color 0.2s ease-in-out;
+
+            &.filled {
+                color: #ffcc00;
+                /* Màu vàng cho ngôi sao được chọn */
+            }
+        }
+        i{
+            font-size: 14px;
+            align-self: center;
+        }
+    }
+    .modal-header{
+        padding: 5px 16px;
+    }
+}

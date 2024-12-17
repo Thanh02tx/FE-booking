@@ -27,6 +27,8 @@
             "manage-user": "Users system",
             "manage-doctor": "Manage doctors",
             "manage-admin": "Manage admins",
+            "patient":"Patient",
+            "manage-feedback":"Feedback Management",
             "crud": "CRUD user",
             "crud-redux": "CRUD redux",
             "clinic": "Clinic",

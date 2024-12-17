@@ -36,7 +36,7 @@ class Header extends Component {
         }
     }
     render() {
-        console.log('asdaa',this.props.menu)
+        console.log('asdaa', this.props.menu)
         const { processLogout, language, userInfo } = this.props;
 
         return (

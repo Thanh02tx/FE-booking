@@ -28,7 +28,7 @@ class RemedyModal extends Component {
         this.buildData()
     }
     buildData=async()=>{
-        if (this.props.userInfo.token && this.props.idBooking) {
+        if (this.props.userInfo&&this.props.userInfo.token && this.props.idBooking) {
             let res = await getBookingById(this.props.idBooking, this.props.userInfo.token)
             if (res && res.errCode === 0) {
                 this.setState({

@@ -32,6 +32,7 @@ class AllSpecialty extends Component {
         this.props.history.push(path.HOMEPAGE)
     }
     render() {
+        let {language} = this.props
         let {listSpecialty} = this.state
         return (
             <div className='all-specialty-container'>
@@ -43,7 +44,7 @@ class AllSpecialty extends Component {
                                 className="fas fa-home"
                                 onClick={()=>this.returnHome()}
                             ></i>
-                            <span> /Khám chuyên khoa</span>
+                            <span> /{language===LANGUAGES.VI?'Khám chuyên khoa':'Specialist Consultation'}</span>
                         </p>
                     </div>
                     <div className='row'>

@@ -1,0 +1,23 @@
+.system-container {
+    display: flex; // Sử dụng Flexbox để tạo bố cục ngang
+
+    .vertical-nav {
+        position: fixed; // Cố định menu dọc
+        top: 0;
+        left: 0;
+        width: 200px; // Chiều rộng cố định
+        min-height: 100vh; // Chiều cao toàn màn hình
+        background-color: black; // Màu nền cho menu
+        color: whitesmoke; // Màu chữ
+    }
+
+    .content {
+        margin-left: 200px;
+        height: 100vh;
+        flex: 1; // Chiếm phần còn lại của chiều ngang
+        padding: 20px; // Khoảng cách bên trong
+        box-sizing: border-box;
+        background-color: #e7e7e7; // Màu nền nội dung
+        overflow: auto; // Thêm cuộn khi nội dung vượt quá chiều cao
+    }
+}
