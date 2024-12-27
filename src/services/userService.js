@@ -60,9 +60,6 @@ const getInforDoctorById = (inputId) => {
 const getDetailInforDoctor = (inputId) => {
     return axios.get(`/api/get-detail-doctor-by-id?id=${inputId}`)
 }
-const saveBulkScheduleDoctor = (data) => {
-    return axios.post(`/api/bulk-create-schedule`, data)
-}
 
 const getScheduleDoctorByDate = (doctorId, date) => {
     return axios.get(`/api/get-schedule-doctor-by-date?doctorId=${doctorId}&date=${date}`)
@@ -215,8 +212,8 @@ const updatePatientRecord = (data) => {
     return axios.put('/api/update-patient-record', data)
 }
 
-const getAllBookingAdmin = (token) => {
-    return axios.get('/api/get-all-booking-admin', {
+const getAllBookingAdmin = (data,token) => {
+    return axios.post('/api/get-all-booking-admin',data, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -264,6 +261,60 @@ const getHistoryById = (id,token) => {
         }
     });
 }
+const getAllUpcomingAppointment = (token) => {
+    return axios.get(`/api/get-all-upcoming-appointment`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
+const cancelAppointment = (data,token) => {
+    return axios.put(`/api/cancel-appointment`,data, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
+const allScheduleDoctorByDate = (date,token) => {
+    return axios.get(`/api/all-schedule-doctor-by-date?date=${date}`,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
+const saveDoctorScheduleByDate = (data,token) => {
+    return axios.post(`/api/save-doctor-schedule-by-date`,data,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
+const allScheduleByDateAndDoctorId = (data,token) => {
+    return axios.get(`/api/all-schedule-by-date-and-doctorid?date=${data.date}&doctorId=${data.doctorId}`,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
+const saveScheduleByDateAndDoctorId = (data,token) => {
+    return axios.post(`/api/save-schedule-by-date-and-doctorid`,data,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
+const getCommentsByDoctorId = (data) => {
+    return axios.get(`/api/get-comments-by-doctor-id?doctorId=${data.doctorId}`);
+}
+const postCreateComment = (data,token) => {
+    return axios.post(`/api/post-create-comment`,data,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
+
+
 export {
     checkRole,
     checkRoleAdmin,
@@ -283,7 +334,6 @@ export {
     saveDetailDoctor,
     getInforDoctorById,
     getDetailInforDoctor,
-    saveBulkScheduleDoctor,
     getScheduleDoctorByDate,
     getScheduleByToken,
     getExtraInforDoctorById,
@@ -322,5 +372,13 @@ export {
     putPatientFeedback,
     getFeedbackAdmin,
     putApproveFeedback,
-    getHistoryById
+    getHistoryById,
+    getAllUpcomingAppointment,
+    cancelAppointment,
+    allScheduleDoctorByDate,
+    saveDoctorScheduleByDate,
+    allScheduleByDateAndDoctorId,
+    saveScheduleByDateAndDoctorId,
+    getCommentsByDoctorId,
+    postCreateComment
 }

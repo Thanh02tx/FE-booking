@@ -197,8 +197,8 @@ class MedicalHistory extends Component {
                                 <>
                                     {listBooking.Bookings.length > 0 ?
                                         listBooking.Bookings.map((item, index) => {
-                                            let date = moment(new Date(Number(item.Schedule.date)).getTime()).locale('vi').format('DD/MM/YYYY')
-                                            let specicalty = item.Schedule.doctorData.Doctor_Infor.Specialty
+                                            let date =item.Schedule? moment(new Date(Number(item.Schedule.date)).getTime()).locale('vi').format('DD/MM/YYYY'):'';
+                                            let specicalty =item.Schedule? item.Schedule.doctorData.Doctor_Infor.Specialty:''
                                             return (
                                                 <div className='child p-2' key={`booking-${index}`}>
                                                     <div className='status'>
@@ -206,8 +206,8 @@ class MedicalHistory extends Component {
                                                         <i>{item.History&&item.History.status === 2 && language === LANGUAGES.VI ? '-Đã đánh giá' : ''}</i>
                                                         <i>{item.History&&item.History.status === 2 && language === LANGUAGES.EN ? '-Reviewed' : ''}</i>
                                                     </div>
-                                                    <p className='mb-0'>{item.Schedule.doctorData.Doctor_Infor.Clinic.name}</p>
-                                                    <p className='mb-0'>{language===LANGUAGES.VI?specicalty.nameVi:specicalty.nameEn}</p>
+                                                    <p className='mb-0'>{item.Schedule?item.Schedule.doctorData.Doctor_Infor.Clinic.name:''}</p>
+                                                    <p className='mb-0'>{language===LANGUAGES.VI?`Chuyên khoa: ${specicalty.nameVi}`:specicalty.nameEn}</p>
                                                     <p className='mb-0'>{date}</p>
                                                     <div className='mt-2'>
                                                         {item.History&&item.statusId === 'S4' &&
@@ -256,6 +256,7 @@ class MedicalHistory extends Component {
                     idBooking={idBooking}
                     isOpenModalDetailBooking={isOpenModalDetailBooking}
                     closeDetailBookingModal={this.closeDetailBookingModal}
+                    hideCancel={false}
                     // handlePatientFeedback={this.handlePatientFeedback}
                 />
                 {/* Lightbox for Image */}

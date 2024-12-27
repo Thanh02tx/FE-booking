@@ -37,7 +37,9 @@
             "manage-specialty": "Manage specialties",
             "handbook": "Handbook",
             "manage-handbook": "Manage Handbooks",
-            "manage-booking":"Appointment Management"
+            "manage-booking":"Appointment Management",
+            "appointment-approval-management":"Approve appointment",
+            "new-appointment":"New Appointment"
         },
         "doctor": {
             "manage-schedule": "Manage Doctor's schedule",

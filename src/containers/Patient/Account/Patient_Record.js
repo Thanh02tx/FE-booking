@@ -426,8 +426,8 @@ class Patient_Record extends Component {
                 <div >
                     <Modal isOpen={showModal}
                         // toggle={() => this.toggle()}
-                        // size='sm'
-                        // centered
+                        size='lg'
+                        centered
                         className='patient-record-modal'
                     >
                         <ModalHeader>{language === LANGUAGES.VI ? 'Thêm thành viên:' : 'Add a member:'}</ModalHeader>

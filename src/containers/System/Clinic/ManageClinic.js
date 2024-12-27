@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { FormattedMessage } from 'react-intl';
 import { LANGUAGES, CommonUtils } from '../../../utils';
-import NumberFormat from 'react-number-format';
 import * as actions from '../../../store/actions';
+import { Modal, ModalBody, ModalHeader, Button, ModalFooter } from 'reactstrap';
 import './ManageClinic.scss';
 import { toast } from 'react-toastify';
 import { createNewClinic, getAllCodeService, getAllClinic, editClinic, deleteClinic } from '../../../services/userService';
@@ -17,6 +17,8 @@ class ManageClinic extends Component {
         super(props);
         this.state = {
             listClinic: [],
+            listClinicApi: [],
+            search: '',
             id: '',
             name: '',
             address: '',
@@ -28,8 +30,12 @@ class ManageClinic extends Component {
             descriptionMarkdownEn: '',
             listProvince: '',
             selectedProvince: '',
+            isOpenModal: false,
+            isOpenModalDelete:false,
             isShow: false,
             isCreate: true,
+            nameDelete:'',
+            errMessage:''
 
         }
     }
@@ -41,6 +47,7 @@ class ManageClinic extends Component {
         let res = await getAllClinic();
         if (res && res.errCode === 0) {
             this.setState({
+                listClinicApi: res.data,
                 listClinic: res.data
             })
         }
@@ -103,35 +110,47 @@ class ManageClinic extends Component {
         }
     }
     handleAddNewClinic = async () => {
-        let res = await createNewClinic({
-            name: this.state.name,
-            address: this.state.address,
-            addressMap: this.state.addressMap,
-            imageBase64: this.state.imageBase64,
-            descriptionHTMLVi: this.state.descriptionHTMLVi,
-            descriptionHTMLEn: this.state.descriptionHTMLEn,
-            descriptionMarkdownVi: this.state.descriptionMarkdownVi,
-            descriptionMarkdownEn: this.state.descriptionMarkdownEn,
-            provinceId: this.state.selectedProvince.value
+        this.setState({
+            errMessage:''
         })
-        if (res && res.errCode === 0) {
-            this.getAllDataClinic()
-            toast.success("Add new specialty succeed!")
+        let{language} = this.props
+        let {name,address,addressMap,imageBase64,descriptionMarkdownEn,descriptionMarkdownVi,descriptionHTMLEn,descriptionHTMLVi,selectedProvince}= this.state
+        if(!name||!address||!addressMap||!imageBase64||!descriptionMarkdownEn||!descriptionMarkdownVi||!selectedProvince){
             this.setState({
-                name: '',
-                address: '',
-                addressMap: '',
-                imageBase64: '',
-                descriptionHTMLVi: '',
-                descriptionMarkdownVi: '',
-                descriptionHTMLEn: '',
-                descriptionMarkdownEn: '',
-                selectedProvince: '',
-                isShow: false
+                errMessage:language===LANGUAGES.VI?'Vui lòng nhập đủ thông tin':'Please provide complete information'
             })
-        } else {
-            toast.error("Something wrongs....")
+        }else{
+            let res = await createNewClinic({
+                name: this.state.name,
+                address: this.state.address,
+                addressMap: this.state.addressMap,
+                imageBase64: this.state.imageBase64,
+                descriptionHTMLVi: this.state.descriptionHTMLVi,
+                descriptionHTMLEn: this.state.descriptionHTMLEn,
+                descriptionMarkdownVi: this.state.descriptionMarkdownVi,
+                descriptionMarkdownEn: this.state.descriptionMarkdownEn,
+                provinceId: this.state.selectedProvince.value
+            })
+            if (res && res.errCode === 0) {
+                this.getAllDataClinic()
+                toast.success("Add new specialty succeed!")
+                this.setState({
+                    name: '',
+                    address: '',
+                    addressMap: '',
+                    imageBase64: '',
+                    descriptionHTMLVi: '',
+                    descriptionMarkdownVi: '',
+                    descriptionHTMLEn: '',
+                    descriptionMarkdownEn: '',
+                    selectedProvince: '',
+                    isOpenModal:false
+                })
+            } else {
+                toast.error("Something wrongs....")
+            }
         }
+        
 
     }
     handleChangeSelectedProvince = (selectedOption) => {
@@ -142,6 +161,19 @@ class ManageClinic extends Component {
     handleShow = () => {
         this.setState({
             isShow: !this.state.isShow
+        })
+    }
+    closeModalClinic = () => {
+        this.setState({
+            isOpenModal: false,
+            isCreate: true,
+            name: '',
+            address: '',
+            addressMap: '',
+            imageBase64: '',
+            descriptionMarkdownVi: '',
+            descriptionMarkdownEn: '',
+            selectedProvince: '',
         })
     }
     handleCancel = () => {
@@ -165,7 +197,7 @@ class ManageClinic extends Component {
             return proItem && proItem.value === provinceId
         })
         this.setState({
-            isShow: true,
+            isOpenModal: true,
             isCreate: false,
             id: item.id,
             name: item.name,
@@ -180,173 +212,124 @@ class ManageClinic extends Component {
         })
     }
     handleSaveClinic = async () => {
-        let res = await editClinic({
-            id: this.state.id,
-            name: this.state.name,
-            address: this.state.address,
-            addressMap: this.state.addressMap,
-            imageBase64: this.state.imageBase64,
-            descriptionHTMLVi: this.state.descriptionHTMLVi,
-            descriptionMarkdownVi: this.state.descriptionMarkdownVi,
-            descriptionHTMLEn: this.state.descriptionHTMLEn,
-            descriptionMarkdownEn: this.state.descriptionMarkdownEn,
-            provinceId: this.state.selectedProvince.value,
+        this.setState({
+            errMessage:''
         })
-        if (res && res.errCode === 0) {
-            this.getAllDataClinic()
-            toast.success("edit succeed!")
+        let{language} = this.props
+        let {id,name,address,addressMap,imageBase64,descriptionMarkdownEn,descriptionMarkdownVi,selectedProvince,descriptionHTMLEn,descriptionHTMLVi}= this.state
+        if(!name||!address||!addressMap||!imageBase64||!descriptionMarkdownEn||!descriptionMarkdownVi||!selectedProvince){
             this.setState({
-                id: '',
-                name: '',
-                address: '',
-                addressMap: '',
-                imageBase64: '',
-                descriptionHTMLVi: '',
-                descriptionMarkdownVi: '',
-                descriptionHTMLEn: '',
-                descriptionMarkdownEn: '',
-                selectedProvince: '',
-                isShow: false,
-                isCreate: true
+                errMessage:language===LANGUAGES.VI?'Vui lòng nhập đủ thông tin':'Please provide complete information'
             })
-        } else {
-            toast.error("Something wrongs....")
+        }else {
+            let res = await editClinic({
+                id: id,
+                name: name,
+                address: address,
+                addressMap: addressMap,
+                imageBase64: imageBase64,
+                descriptionHTMLVi: descriptionHTMLVi,
+                descriptionMarkdownVi:descriptionMarkdownVi,
+                descriptionHTMLEn:descriptionHTMLEn,
+                descriptionMarkdownEn:descriptionMarkdownEn,
+                provinceId:selectedProvince.value,
+            })
+            if (res && res.errCode === 0) {
+                this.getAllDataClinic()
+                toast.success("edit succeed!")
+                this.setState({
+                    id: '',
+                    name: '',
+                    address: '',
+                    addressMap: '',
+                    imageBase64: '',
+                    descriptionHTMLVi: '',
+                    descriptionMarkdownVi: '',
+                    descriptionHTMLEn: '',
+                    descriptionMarkdownEn: '',
+                    selectedProvince: '',
+                    isOpenModal: false,
+                    isCreate: true
+                })
+            } else {
+                toast.error("Something wrongs....")
+            }
         }
+        
     }
     handleDeleteClinic = async (item) => {
-        let res = await deleteClinic(item.id)
+        
+        this.setState({
+            isOpenModalDelete:true,
+            id:item.id,
+            nameDelete:item.name
+
+        })
+    }
+    handleConfirmDeleteClinic=async()=>{
+        let res = await deleteClinic(this.state.id)
         if (res && res.errCode === 0) {
             this.getAllDataClinic();
+            this.setState({
+                isOpenModalDelete:false,
+                nameDelete:'',
+                id:''
+            })
             toast.success('delete clinic succed')
         }
         else {
             toast.error("error")
         }
     }
+    addClinic = () => {
+        this.setState({
+            isOpenModal: true,
+        })
+    }
+    closeModalDeleteClinic=()=>{
+        this.setState({
+            isOpenModalDelete:false
+        })
+    }
     render() {
-        let { isShow, isCreate, listClinic} = this.state;
-        let {intl} = this.props;
+        let { isCreate, listClinic, listClinicApi, search, isOpenModal,nameDelete,isOpenModalDelete ,errMessage} = this.state;
+        let { intl, language } = this.props;
         let namePlaceHolder = intl.formatMessage({ id: 'admin.manage-clinic.clinic-name' });
         let addressPlaceHolder = intl.formatMessage({ id: 'admin.manage-clinic.clinic-address' });
         let addressMapPlaceHolder = intl.formatMessage({ id: 'admin.manage-clinic.clinic-address-map' });
         let enterPlaceHolder = intl.formatMessage({ id: 'admin.manage-clinic.enter' });
+        listClinic = listClinicApi.filter(item =>
+            item.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(
+                search.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+            )
+        );
+        let seachPlaceholder = language === LANGUAGES.VI ? 'Nhập tên phòng khám để tìm kiếm' : 'Enter clinic name to search'
         return (
             <div className='mange-clinic-contianer container'>
                 <div className='ms-title'><FormattedMessage id="admin.manage-clinic.title" /></div>
-                <div>
+                <div className='d-flex justify-content-between align-items-center'>
+                    <input
+                        className='form-control search'
+                        value={search}
+                        onChange={(event) => this.handleOnChangeInput(event, 'search')}
+                        placeholder={seachPlaceholder}
+                    />
                     <button
                         className='btn btn-primary px-3 my-3'
-                        onClick={() => this.handleShow()}
+                        onClick={() => this.addClinic()}
                     >
-                        <FormattedMessage id="admin.manage-clinic.add-clinic"/>
+                        <FormattedMessage id="admin.manage-clinic.add-clinic" />
                     </button>
                 </div>
-                {isShow &&
-                    <div className='add-new-specialty row'>
-                        <div className='col-md-6 form-group'>
-                            <label><FormattedMessage id="admin.manage-clinic.clinic-name" /></label>
-                            <input className='form-control' type='text'
-                                onChange={(event) => this.handleOnChangeInput(event, 'name')}
-                                value={this.state.name}
-                                placeholder={namePlaceHolder}
-                            />
-                        </div>
-
-                        <div className='col-md-6 form-group'>
-                            <label><FormattedMessage id="admin.manage-clinic.clinic-province" /></label>
-                            <Select
-                                value={this.state.selectedProvince}
-                                onChange={this.handleChangeSelectedProvince}
-                                options={this.state.listProvince}
-                                placeholder={<FormattedMessage id="admin.manage-clinic.clinic-province" />}
-                            />
-                        </div>
-
-                        
-                        <div className='col-md-6 form-group'>
-                            <label><FormattedMessage id="admin.manage-clinic.clinic-address" /></label>
-                            <input className='form-control' type='text'
-                                onChange={(event) => this.handleOnChangeInput(event, 'address')}
-                                value={this.state.address}
-                                placeholder={addressPlaceHolder}
-                            />
-                        </div>
-                        <div className='col-md-6 form-group'>
-                            <label><FormattedMessage id="admin.manage-clinic.clinic-image" /></label>
-                            <input className='form-control-file' type="file"
-                                onChange={(event) => this.handleOnChangeImage(event)}
-                            />
-                        </div>
-
-
-                        <div className='col-12 form-group'>
-                            <label><FormattedMessage id="admin.manage-clinic.clinic-address-map" /></label>
-                            <textarea className='form-control' type='text'
-                                onChange={(event) => this.handleOnChangeInput(event, 'addressMap')}
-                                value={this.state.addressMap}
-                                placeholder={addressMapPlaceHolder}
-                            />
-                        </div>
-
-                        <div className='col-12'>
-                            <label><FormattedMessage id="admin.manage-clinic.description-VI" /></label>
-                            <MdEditor
-                                style={{ minHeight: '100px' }}
-                                renderHTML={text => mdParser.render(text)}
-                                onChange={this.handleEditorChangeVi}
-                                value={this.state.descriptionMarkdownVi}
-                                placeholder={enterPlaceHolder}
-                            />
-                        </div>
-
-                        <div className='col-12'>
-                            <label><FormattedMessage id="admin.manage-clinic.description-EN" /></label>
-                            <MdEditor
-                                style={{ minHeight: '100px' }}
-                                renderHTML={text => mdParser.render(text)}
-                                onChange={this.handleEditorChangeEn}
-                                value={this.state.descriptionMarkdownEn}
-                                placeholder={enterPlaceHolder}
-                            />
-                        </div>
-
-                        <div className='col-12'>
-                            {isCreate ?
-                                <button
-                                    className='btn btn-success px-3 my-3'
-                                    onClick={() => this.handleAddNewClinic()}
-                                >
-                                    <FormattedMessage id="admin.manage-clinic.add-clinic"/>
-                                </button>
-                                :
-                                <div>
-
-                                    <button
-                                        className='btn btn-success px-3 my-3'
-                                        onClick={() => this.handleSaveClinic()}
-                                    >
-                                        <FormattedMessage id="admin.manage-clinic.save"/>
-                                    </button>
-                                    <button
-                                        className='btn btn-dark px-3 m-3'
-                                        onClick={() => this.handleCancel()}
-                                    >
-                                       <FormattedMessage id="admin.manage-clinic.cancel"/>
-                                    </button>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                }
 
                 <div >
-                    <table className='table' style={{width:'100%'}}>
+                    <table className='table' style={{ width: '100%' }}>
                         <thead>
                             <tr>
-                                <th><FormattedMessage id="admin.manage-clinic.serial-number"/> </th>
-                                <th><FormattedMessage id="admin.manage-clinic.clinic-name"/></th>
-                                <th><FormattedMessage id="admin.manage-clinic.clinic-address"/></th>
-                                <th><FormattedMessage id="admin.manage-clinic.action"/></th>
+                                <th><FormattedMessage id="admin.manage-clinic.serial-number" /> </th>
+                                <th><FormattedMessage id="admin.manage-clinic.clinic-name" /></th>
+                                <th><FormattedMessage id="admin.manage-clinic.clinic-address" /></th>
+                                <th><FormattedMessage id="admin.manage-clinic.action" /></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -377,12 +360,158 @@ class ManageClinic extends Component {
 
                                 :
                                 <tr>
-                                    <td colSpan={'4'}><FormattedMessage id="admin.manage-clinic.no-data"/></td>
+                                    <td colSpan={'4'} className='text-center'><FormattedMessage id="admin.manage-clinic.no-data" /></td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
+                <Modal
+                    isOpen={isOpenModal}
+                    // className="modal-feedback-container"
+                    size="lg"
+                    centered
+                >
+                    <div className="modal-header">
+                        <h5 className="modal-title">{language === LANGUAGES.VI ? 'Thêm Phòng khám' : 'Add Clinic'}</h5>
+                        <button
+                            type="button"
+                            className="close"
+                            onClick={() => this.closeModalClinic()}
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                    <ModalBody>
+                        <div className='content-modal pl-2 pb-0'>
+                            <div className='add-new-specialty row'>
+                                <div className='col-md-6 form-group'>
+                                    <label><FormattedMessage id="admin.manage-clinic.clinic-name" /></label>
+                                    <input className='form-control' type='text'
+                                        onChange={(event) => this.handleOnChangeInput(event, 'name')}
+                                        value={this.state.name}
+                                        placeholder={namePlaceHolder}
+                                    />
+                                </div>
+
+                                <div className='col-md-6 form-group'>
+                                    <label><FormattedMessage id="admin.manage-clinic.clinic-province" /></label>
+                                    <Select
+                                        value={this.state.selectedProvince}
+                                        onChange={this.handleChangeSelectedProvince}
+                                        options={this.state.listProvince}
+                                        placeholder={<FormattedMessage id="admin.manage-clinic.clinic-province" />}
+                                    />
+                                </div>
+
+
+                                <div className='col-md-6 form-group'>
+                                    <label><FormattedMessage id="admin.manage-clinic.clinic-address" /></label>
+                                    <input className='form-control' type='text'
+                                        onChange={(event) => this.handleOnChangeInput(event, 'address')}
+                                        value={this.state.address}
+                                        placeholder={addressPlaceHolder}
+                                    />
+                                </div>
+                                <div className='col-md-6 form-group'>
+                                    <label><FormattedMessage id="admin.manage-clinic.clinic-image" /></label>
+                                    <input className='form-control-file' type="file"
+                                        onChange={(event) => this.handleOnChangeImage(event)}
+                                    />
+                                </div>
+
+
+                                <div className='col-12 form-group'>
+                                    <label><FormattedMessage id="admin.manage-clinic.clinic-address-map" /></label>
+                                    <textarea className='form-control' type='text'
+                                        onChange={(event) => this.handleOnChangeInput(event, 'addressMap')}
+                                        value={this.state.addressMap}
+                                        placeholder={addressMapPlaceHolder}
+                                    />
+                                </div>
+
+                                <div className='col-12'>
+                                    <label><FormattedMessage id="admin.manage-clinic.description-VI" /></label>
+                                    <MdEditor
+                                        style={{ minHeight: '100px' }}
+                                        renderHTML={text => mdParser.render(text)}
+                                        onChange={this.handleEditorChangeVi}
+                                        value={this.state.descriptionMarkdownVi}
+                                        placeholder={enterPlaceHolder}
+                                    />
+                                </div>
+
+                                <div className='col-12'>
+                                    <label><FormattedMessage id="admin.manage-clinic.description-EN" /></label>
+                                    <MdEditor
+                                        style={{ minHeight: '100px' }}
+                                        renderHTML={text => mdParser.render(text)}
+                                        onChange={this.handleEditorChangeEn}
+                                        value={this.state.descriptionMarkdownEn}
+                                        placeholder={enterPlaceHolder}
+                                    />
+                                </div>
+
+                            </div>
+                            <p className='text-danger m-0'>{errMessage}</p>
+                        </div>
+                    </ModalBody>
+                    <ModalFooter>
+                        {isCreate ?
+                            <button
+                                className='btn btn-success px-3 my-3'
+                                onClick={() => this.handleAddNewClinic()}
+                            >
+                                <FormattedMessage id="admin.manage-clinic.add-clinic" />
+                            </button>
+                            :
+
+
+                            <button
+                                className='btn btn-success px-3 my-3'
+                                onClick={() => this.handleSaveClinic()}
+                            >
+                                <FormattedMessage id="admin.manage-clinic.save" />
+                            </button>
+                        }
+                        <Button color="secondary" onClick={() => this.closeModalClinic()}>
+                            {language === LANGUAGES.VI ? 'Đóng' : 'Close'}
+                        </Button>
+                    </ModalFooter>
+                </Modal>
+                <Modal
+                    isOpen={isOpenModalDelete}
+                    // className="modal-feedback-container"
+                    size="lg"
+                    centered
+                >
+                    <div className="modal-header">
+                        <h5 className="modal-title">{language === LANGUAGES.VI ? 'Xoá Phòng khám' : 'Delete Clinic'}</h5>
+                        <button
+                            type="button"
+                            className="close"
+                            onClick={() => this.closeModalDeleteClinic()}
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                    <ModalBody>
+                        {language === LANGUAGES.VI
+                            ? `Bạn chắc chắn muốn xoá phòng khám: ${nameDelete}?`
+                            : `Are you sure you want to delete the clinic: ${nameDelete}?`
+                        }
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="success" onClick={() => this.handleConfirmDeleteClinic()}>
+                            {language === LANGUAGES.VI ? 'Xoá' : 'Delete'}
+                        </Button>
+                        <Button color="secondary" onClick={() => this.closeModalDeleteClinic()}>
+                            {language === LANGUAGES.VI ? 'Đóng' : 'Close'}
+                        </Button>
+                    </ModalFooter>
+                </Modal>
             </div>
 
         );

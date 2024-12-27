@@ -1,4 +1,4 @@
-.manage-schedule-container{
+.manage-schedule-doctor-container{
     min-height: 100vh;
     .m-s-title{
         text-transform: uppercase;
@@ -8,8 +8,8 @@
         
     }
     .pick-hour-container{
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
         display: flex;
         gap: 20px;
         flex-wrap: wrap;

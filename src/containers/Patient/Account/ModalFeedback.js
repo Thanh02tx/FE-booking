@@ -187,10 +187,10 @@ class ModalFeedback extends Component {
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={() => this.handleSendFeedback()}>
-                        Send
+                        Gửi
                     </Button>
                     <Button color="secondary" onClick={closeFeedbackModal}>
-                        Cancel
+                        Đóng
                     </Button>
                 </ModalFooter>
             </Modal>

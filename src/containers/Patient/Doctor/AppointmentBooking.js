@@ -183,6 +183,10 @@ class AppointmentBooking extends Component {
             } else {
                 mes = 'Please enter all required information.'
             }
+            this.setState({
+                errMessage:mes
+            })
+            return;
         }
 
         let res = await postBookAppointmentNoSignIn({
@@ -332,7 +336,7 @@ class AppointmentBooking extends Component {
         this.setState({ selectedPatient: patient });
     };
     render() {
-        let { dataTime, listProvince, listDistrict, listWard, showModal, book_ok, listPatient, selectedPatient, errMesSignIn } = this.state;
+        let { dataTime, listProvince, listDistrict, listWard, showModal, book_ok, listPatient, selectedPatient,errMessage, errMesSignIn } = this.state;
         let { isLoggedIn, language } = this.props;
         let doctorId = dataTime && !_.isEmpty(dataTime) ? dataTime.doctorId : '';
         return (
@@ -461,6 +465,7 @@ class AppointmentBooking extends Component {
                                 </div>
 
                                 <div className='col-12'>
+                                    <p>{errMessage}</p>
                                     <button
                                         onClick={() => this.handleBookingNoSignIn()}
                                         className='btn btn-success my-2'
@@ -524,7 +529,7 @@ class AppointmentBooking extends Component {
                 </div>
                 <Modal isOpen={showModal}
                     toggle={() => this.toggle()}
-                    size='sm'
+                    size='md'
                     centered
                 >
                     <ModalHeader>{language === LANGUAGES.VI ? 'Thông báo:' : 'Message:'}</ModalHeader>

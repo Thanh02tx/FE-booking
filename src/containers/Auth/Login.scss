@@ -12,11 +12,11 @@
             .text-login{
                 text-align: center;
                 font-weight: 600px;
-                font-size: 24px;
+                font-size: 35px;
                 padding-top: 10px;
             }
             .login-input{
-                margin: 7px 0;
+                // margin: 7px 0;
                 .custom-input-password{
                     position: relative;
                     i{
@@ -30,7 +30,8 @@
             .btn-login{
                 width: 100%;
                 margin: 10px 0;
-                height: 30px;
+                padding: 10px 0;
+                height: 40px;
                 border-radius: 15px;
                 outline: none;
                 border: none;

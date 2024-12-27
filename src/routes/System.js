@@ -8,13 +8,14 @@ import ManageDoctor from '../containers/System/Admin/ManageDoctor';
 import ManageSpecialty from '../containers/System/Specialty/ManageSpecialty';
 import ManageClinic from '../containers/System/Clinic/ManageClinic';
 import ManageHandbook from '../containers/System/Handbook/ManageHandbook';
-import ManageBooking from '../containers/System/Admin/ManageBooking';
+import ManageNewAppointment from '../containers/System/Admin/ManageNewAppointment';
 import ManageSchedule from '../containers/System/Doctor/ManageSchedule';
 import { adminMenu } from '../containers/Header/menuApp';
 import { checkRole } from '../services/userService';
 import VerticalNav from '../containers/Header/VerticalNav';
 import ManageFeedback from '../containers/System/Admin/ManageFeedback';
 import './System.scss';
+import ManageBooking from '../containers/System/Admin/ManageBooking';
 
 class System extends Component {
     state = {
@@ -94,6 +95,7 @@ class System extends Component {
                                 <Route path="/system/manage-clinic" component={ManageClinic} />
                                 <Route path="/system/manage-handbook" component={ManageHandbook} />
                                 <Route path="/system/manage-booking" component={ManageBooking} />
+                                <Route path="/system/manage-new-appointment" component={ManageNewAppointment} />
                                 <Route component={() => <Redirect to={systemMenuPath} />} />
                             </Switch>
                         </div>

@@ -81,7 +81,7 @@ class ManageFeedback extends Component {
         return (
             <div className='manage-feedback-container container'>
                 <div className='title'>
-                    QUản lý phản hồi
+                    {language===LANGUAGES.VI?'Quản lý Đánh giá':'Feedback Management'}
                 </div>
                 <table className='table' style={{ width: '100%' }}>
                     <thead>

@@ -111,7 +111,7 @@ class DetailClinic extends Component {
                             ></i>
                             <span
                                 onClick={() => this.returnAllHandbook()}
-                            > /Cơ sở y tế</span>
+                            > /{language===LANGUAGES.VI?'Cơ sở y tế':'Medical facility'}</span>
                         </p>
                     </div>
                 </div>

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { Modal, ModalBody, ModalHeader, Button, ModalFooter } from 'reactstrap';
 import { LANGUAGES } from '../../../utils';
 import './ManageHandbook.scss';
 import { createNewHandbook } from '../../../services/userService';
@@ -11,6 +12,7 @@ import { CommonUtils } from '../../../utils';
 import { getAllHandbook, putEditHandbook, deleteHandbook } from '../../../services/userService';
 import { FormattedMessage } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { lang } from 'moment';
 const mdParser = new MarkdownIt();
 
 class ManageHandbook extends Component {
@@ -19,6 +21,7 @@ class ManageHandbook extends Component {
         this.state = {
             id: '',
             listHandbook: [],
+            listHandbookApi: [],
             nameVi: '',
             nameEn: '',
             headingVi: '',
@@ -28,9 +31,16 @@ class ManageHandbook extends Component {
             contentHTMLEn: '',
             contnetMarkdownEn: '',
             listHeading: [],
+            errMessageHeading: '',
+            errMessageHandbook: '',
             isShow: false,
-            isCreate: true,
-            editingIndex: ''
+            isCreateHandbook: true,
+            isCreateHeading: true,
+            editingIndex: '',
+            search: '',
+            isOpenModalHandbook: false,
+            showFormHeading: false
+
         };
     }
     async componentDidMount() {
@@ -40,7 +50,8 @@ class ManageHandbook extends Component {
         let res = await getAllHandbook();
         if (res && res.errCode === 0) {
             this.setState({
-                listHandbook: res.data
+                listHandbook: res.data,
+                listHandbookApi: res.data
             })
         }
     }
@@ -71,25 +82,38 @@ class ManageHandbook extends Component {
 
     handleAddToList = () => {
         const { headingVi, headingEn, contentMarkdownVi, contentMarkdownEn, contentHTMLVi, contentHTMLEn } = this.state;
-        const newItem = {
-            headingVi: headingVi,
-            headingEn: headingEn,
-            contentMarkdownVi: contentMarkdownVi,
-            contentMarkdownEn: contentMarkdownEn,
-            contentHTMLVi: contentHTMLVi,
-            contentHTMLEn: contentHTMLEn
-        };
+        let { language } = this.props;
+        this.setState({
+            errMessageHeading: ''
+        })
+        if (!headingEn || !headingVi || !contentMarkdownEn || !contentMarkdownVi) {
+            this.setState({
+                errMessageHeading: language === LANGUAGES.VI ? 'Vui lòng nhập đủ thông tin' : 'Please provide complete information'
+            })
+        } else {
+            const newItem = {
+                headingVi: headingVi,
+                headingEn: headingEn,
+                contentMarkdownVi: contentMarkdownVi,
+                contentMarkdownEn: contentMarkdownEn,
+                contentHTMLVi: contentHTMLVi,
+                contentHTMLEn: contentHTMLEn
+            };
 
-        // Thêm đối tượng vào mảng và reset lại các trường
-        this.setState(prevState => ({
-            listHeading: [...prevState.listHeading, newItem],
-            headingVi: '',
-            headingEn: '',
-            contentMarkdownVi: '',
-            contentMarkdownEn: '',
-            contentHTMLVi: '',
-            contentHTMLEn: ''
-        }));
+            // Thêm đối tượng vào mảng và reset lại các trường
+            this.setState(prevState => ({
+                listHeading: [...prevState.listHeading, newItem],
+                headingVi: '',
+                headingEn: '',
+                contentMarkdownVi: '',
+                contentMarkdownEn: '',
+                contentHTMLVi: '',
+                contentHTMLEn: '',
+                isCreateHeading: true,
+                showFormHeading: false
+            }));
+        }
+
     }
 
     // Hàm xử lý khi kéo thả thay đổi vị trí
@@ -119,10 +143,12 @@ class ManageHandbook extends Component {
             contentHTMLVi: itemToEdit.contentHTMLVi,
             contentHTMLEn: itemToEdit.contentHTMLEn,
             editingIndex: index,
-            isCreate: false,
+            isCreateHeading: false,
+            showFormHeading: true
         });
     }
     handleSaveItem = () => {
+
         if (this.state.editingIndex !== '') {
             let updatedList = [...this.state.listHeading]; // Tạo bản sao của listHeading
 
@@ -144,32 +170,46 @@ class ManageHandbook extends Component {
                 contentHTMLVi: '',
                 contentHTMLEn: '',
                 editingIndex: '',
-                isCreate: true
+                isCreateHeading: true,
+                showFormHeading: false
             });
         }
     }
 
     handleAddnewHandbook = async () => {
-        let res = await createNewHandbook({
-            nameVi: this.state.nameVi,
-            nameEn: this.state.nameEn,
-            image: this.state.image,
-            listHeading: this.state.listHeading
+        let { nameVi, nameEn, image, listHeading } = this.state;
+        let { language } = this.props;
+        this.setState({
+            errMessageHandbook: ''
         })
-        if (res && res.errCode === 0) {
-            this.getAllDataHandbook()
+        if (!nameEn || !nameVi || !image || !listHeading) {
             this.setState({
-                nameVi: '',
-                nameEn: '',
-                image: '',
-                listHeading: [],
-                isShow: false
+                errMessageHandbook: language === LANGUAGES.VI ? 'Vui lòng nhập đủ thông tin cẩm nang' : 'Please provide complete handbook information'
             })
-            toast.success('Succed!')
+        } else {
+            let res = await createNewHandbook({
+                nameVi: nameVi,
+                nameEn: nameEn,
+                image: image,
+                listHeading: listHeading
+            })
+            if (res && res.errCode === 0) {
+                this.getAllDataHandbook()
+                this.setState({
+                    nameVi: '',
+                    nameEn: '',
+                    image: '',
+                    listHeading: [],
+                    isOpenModalHandbook: false,
+
+                })
+                toast.success('Succed!')
+            }
+            else {
+                toast.error('Error!')
+            }
         }
-        else {
-            toast.error('Error!')
-        }
+
 
     }
     handleShow = () => {
@@ -188,8 +228,9 @@ class ManageHandbook extends Component {
             nameVi: item.nameVi,
             nameEn: item.nameEn,
             listHeading: item.Handbook_Contents,
-            isCreate: false,
-            isShow: true,
+            isOpenModalHandbook: true,
+            isCreateHandbook: false
+
         })
     }
     handleSaveHandbook = async () => {
@@ -208,7 +249,8 @@ class ManageHandbook extends Component {
                 nameEn: '',
                 image: '',
                 listHeading: [],
-                isShow: false
+                isOpenModalHandbook: false,
+                isCreateHandbook: true
             })
             toast.success('Succed!')
         }
@@ -226,6 +268,15 @@ class ManageHandbook extends Component {
             toast.error('Error!')
         }
     }
+    closeModalHandbook = () => {
+        this.setState({
+            isOpenModalHandbook: false,
+            image: '',
+            nameVi: '',
+            nameEn: '',
+            listHeading: []
+        })
+    }
     handleCancel = () => {
         this.setState({
             nameVi: '',
@@ -236,180 +287,58 @@ class ManageHandbook extends Component {
             isShow: false
         })
     }
+    handleCancelEditItem = () => {
+        this.setState({
+            isCreateHeading: true,
+            showFormHeading: false
+        })
+    }
+    addHandbook = () => {
+        this.setState({
+            isOpenModalHandbook: true,
+            showFormHeading:false
+        })
+    }
+    addHeading = () => {
+        this.setState({
+            showFormHeading: true
+        })
+    }
     render() {
-        let { language ,intl} = this.props;
-        let { isShow, isCreate, listHandbook, nameVi, nameEn } = this.state;
+        let { language, intl } = this.props;
+        let { isShow, isCreate, listHandbook, listHandbookApi, nameVi, nameEn, search, isCreateHandbook, showFormHeading, isCreateHeading, isOpenModalHandbook, errMessageHeading, errMessageHandbook } = this.state;
         let nameViPlaceHolder = intl.formatMessage({ id: 'admin.manage-handbook.name-VI' });
         let nameEnPlaceHolder = intl.formatMessage({ id: 'admin.manage-handbook.name-EN' });
-        let headingViPlaceHolder= intl.formatMessage({ id: 'admin.manage-handbook.heading-VI' });
-        let headingEnPlaceHolder= intl.formatMessage({ id: 'admin.manage-handbook.heading-EN' });
-        let contentPlaceHolder= intl.formatMessage({ id: 'admin.manage-handbook.enter' });
+        let headingViPlaceHolder = intl.formatMessage({ id: 'admin.manage-handbook.heading-VI' });
+        let headingEnPlaceHolder = intl.formatMessage({ id: 'admin.manage-handbook.heading-EN' });
+        let contentPlaceHolder = intl.formatMessage({ id: 'admin.manage-handbook.enter' });
+        let seachPlaceholder = language === LANGUAGES.VI ? 'Nhập tên cẩm nang để tìm kiếm' : 'Enter handbook name to search'
+        listHandbook = listHandbookApi.filter(item =>
+            item.nameVi.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(
+                search.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+            ) || item.nameEn.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(
+                search.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+            )
+        );
         return (
             <div className='manage-handbook-container container'>
                 <div className='title'>
-                <FormattedMessage id="admin.manage-handbook.title" />
+                    <FormattedMessage id="admin.manage-handbook.title" />
                 </div>
-                <button
-                    className='btn  btn-primary px-3 my-3'
-                    onClick={() => this.handleShow()}
-                >
-                    <FormattedMessage id="admin.manage-handbook.add-handbook" />
-                </button>
-                {isShow === true &&
-
-                    <div>
-                        <div className='row'>
-                            <div className='col-md-4  form-group'>
-                                <label><FormattedMessage id="admin.manage-handbook.name-VI" /></label>
-                                <input
-                                    className='form-control'
-                                    type='text'
-                                    onChange={(event) => this.handleInputChange(event, 'nameVi')}
-                                    value={nameVi}
-                                    placeholder={nameViPlaceHolder}
-                                />
-                            </div>
-                            <div className='col-md-4 form-group'>
-                                <label><FormattedMessage id="admin.manage-handbook.name-EN" /></label>
-                                <input
-                                    className='form-control'
-                                    type='text'
-                                    value={nameEn}
-                                    onChange={(event) => this.handleInputChange(event, 'nameEn')}
-                                    placeholder={nameEnPlaceHolder}
-                                />
-                            </div>
-                            <div className='col-md-4 form-group'>
-                                <label><FormattedMessage id="admin.manage-handbook.image" /></label>
-                                <input
-                                    className='form-control'
-                                    type='file'
-                                    onChange={(event) => this.handleOnChangeImage(event)}
-                                    
-                                />
-                            </div>
-                        </div>
-                        <div className='nhap row'>
-                            <div className='col-sm-6'>
-                                <label><FormattedMessage id="admin.manage-handbook.heading-VI" /></label>
-                                <input
-                                    className='form-control'
-                                    type='text'
-                                    value={this.state.headingVi}
-                                    onChange={(event) => this.handleInputChange(event, 'headingVi')}
-                                    placeholder={headingViPlaceHolder}
-                                />
-                            </div>
-                            <div className='col-sm-6'>
-                                <label><FormattedMessage id="admin.manage-handbook.heading-EN" /></label>
-                                <input
-                                    className='form-control'
-                                    type='text'
-                                    value={this.state.headingEn}
-                                    onChange={(event) => this.handleInputChange(event, 'headingEn')}
-                                    placeholder={headingEnPlaceHolder}
-                                />
-                            </div>
-                            <div className='col-12'>
-                                <label><FormattedMessage id="admin.manage-handbook.content-VI" /></label>
-                                <MdEditor
-                                    style={{ height: '150px' }}
-                                    renderHTML={text => mdParser.render(text)}
-                                    onChange={this.handleEditorChange('contentHTMLVi', 'contentMarkdownVi')}
-                                    value={this.state.contentMarkdownVi}
-                                    placeholder={contentPlaceHolder}
-                                />
-                            </div>
-                            <div className='col-12'>
-                                <label><FormattedMessage id="admin.manage-handbook.content-EN" /></label>
-                                <MdEditor
-                                    style={{ height: '150px' }}
-                                    renderHTML={text => mdParser.render(text)}
-                                    onChange={this.handleEditorChange('contentHTMLEn', 'contentMarkdownEn')}
-                                    value={this.state.contentMarkdownEn}
-                                    placeholder={contentPlaceHolder}
-                                />
-                            </div>
-                        </div>
-
-                        <button 
-                            className='btn btn-light my-2' 
-                            onClick={this.handleAddToList}
-                        >
-                            <FormattedMessage id="admin.manage-handbook.add" />
-                        </button>
-                        <div className='xy-list'>
-                            <h5>Danh sách các đề mục</h5>
-
-
-                            <DragDropContext onDragEnd={this.handleOnDragEnd}>
-                                <Droppable droppableId="xyList">
-                                    {(provided) => (
-                                        <ul className='list-group' {...provided.droppableProps} ref={provided.innerRef}>
-                                            {this.state.listHeading.map((item, index) => (
-                                                <Draggable key={index} draggableId={`item-${index}`} index={index}>
-                                                    {(provided) => (
-                                                        <li
-                                                            className='list-group-item'
-                                                            ref={provided.innerRef}
-                                                            {...provided.draggableProps}
-                                                            {...provided.dragHandleProps}
-                                                        >
-                                                            <div>{item.headingVi}</div>
-                                                            <div dangerouslySetInnerHTML={{ __html: language === LANGUAGES.VI ? item.contentHTMLVi : item.contentHTMLEn }} />
-
-                                                            <div>
-                                                                <button
-                                                                    className='btn btn-danger mx-3'
-                                                                    onClick={() => this.handleDeleteItem(index)}
-                                                                >
-                                                                    Xóa
-                                                                </button>
-
-                                                                <button
-                                                                    className='btn btn-warning'
-                                                                    onClick={() => this.handleUpdateItem(index)}
-                                                                >
-                                                                    Sửa
-                                                                </button>
-                                                            </div>
-                                                        </li>
-                                                    )}
-                                                </Draggable>
-                                            ))}
-                                            {provided.placeholder}
-                                        </ul>
-                                    )}
-                                </Droppable>
-                            </DragDropContext>
-                        </div>
-                        <div>
-                            {isCreate === true ?
-                                <button
-                                    className='btn btn-success m-3 px-4'
-                                    onClick={this.handleAddnewHandbook}
-                                >
-                                    <FormattedMessage id="admin.manage-handbook.add-handbook" />
-                                </button> :
-                                <>
-                                    <button
-                                        className='btn btn-dark m-3 px-3'
-                                        onClick={this.handleSaveHandbook}
-                                    >
-                                        <FormattedMessage id="admin.manage-handbook.save" />
-                                    </button>
-                                    <button
-                                        className='btn btn-warning my--3 px-3'
-                                        onClick={() => this.handleCancel()}
-                                    >
-                                        <FormattedMessage id="admin.manage-handbook.cancel" />
-                                    </button>
-                                </>
-                            }
-
-                        </div>
-                    </div>
-                }
+                <div className='d-flex justify-content-between align-items-center'>
+                    <input
+                        className='form-control search'
+                        value={search}
+                        onChange={(event) => this.handleInputChange(event, 'search')}
+                        placeholder={seachPlaceholder}
+                    />
+                    <button
+                        className='btn  btn-primary px-3 my-3'
+                        onClick={() => this.addHandbook()}
+                    >
+                        <FormattedMessage id="admin.manage-handbook.add-handbook" />
+                    </button>
+                </div>
                 <div className='tb-handbook mt-3'>
                     <table className='table  '>
                         <tr>
@@ -418,7 +347,7 @@ class ManageHandbook extends Component {
                             <th><FormattedMessage id="admin.manage-handbook.name-EN" /></th>
                             <th><FormattedMessage id="admin.manage-handbook.action" /></th>
                         </tr>
-                        {listHandbook.length > 0 &&
+                        {listHandbook.length > 0 ?
                             listHandbook.map((item, index) => {
                                 return (
                                     <tr key={`handbook-${index}`}>
@@ -442,10 +371,220 @@ class ManageHandbook extends Component {
                                     </tr>
                                 )
                             })
+                            :
+                            <tr>
+                                <td colSpan={4} className='text-center'>{language === LANGUAGES.VI ? 'Không có dữ liệu' : 'No data'}</td>
+                            </tr>
 
                         }
                     </table>
                 </div>
+                <Modal
+                    isOpen={isOpenModalHandbook}
+                    className="modal-feedback-container"
+                    size="lg"
+                    centered
+                >
+                    <div className="modal-header">
+                        <h5 className="modal-title">{language === LANGUAGES.VI ? 'Thêm cẩm nang' : 'Add handbook'}</h5>
+                        <button
+                            type="button"
+                            className="close"
+                            onClick={() => this.closeModalHandbook()}
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                    <ModalBody>
+                        <div className='content-modal pl-2 pb-0'>
+                            <div>
+                                <div className='row'>
+                                    <div className='col-md-4  form-group'>
+                                        <label><FormattedMessage id="admin.manage-handbook.name-VI" /></label>
+                                        <input
+                                            className='form-control'
+                                            type='text'
+                                            onChange={(event) => this.handleInputChange(event, 'nameVi')}
+                                            value={nameVi}
+                                            placeholder={nameViPlaceHolder}
+                                        />
+                                    </div>
+                                    <div className='col-md-4 form-group'>
+                                        <label><FormattedMessage id="admin.manage-handbook.name-EN" /></label>
+                                        <input
+                                            className='form-control'
+                                            type='text'
+                                            value={nameEn}
+                                            onChange={(event) => this.handleInputChange(event, 'nameEn')}
+                                            placeholder={nameEnPlaceHolder}
+                                        />
+                                    </div>
+                                    <div className='col-md-4 form-group'>
+                                        <label><FormattedMessage id="admin.manage-handbook.image" /></label>
+                                        <input
+                                            className='form-control'
+                                            type='file'
+                                            onChange={(event) => this.handleOnChangeImage(event)}
+
+                                        />
+                                    </div>
+                                </div>
+                                <div className='py-2 border-top border-bottom'>
+                                    {isCreateHeading ?
+                                        <button
+                                            className='btn btn-secondary'
+                                            onClick={() => this.addHeading()}
+                                        >
+                                            {language === LANGUAGES.VI ? 'Thêm đề mục' : 'Add heading'}
+                                        </button>
+                                        :
+                                        <p>{language === LANGUAGES.VI ? 'Sửa đề mục' : 'Edit heading'}</p>
+                                    }
+
+                                    {showFormHeading &&
+                                        <div className='content-modal pl-2 pb-0'>
+                                            <div className='nhap row'>
+                                                <div className='col-sm-6'>
+                                                    <label><FormattedMessage id="admin.manage-handbook.heading-VI" /></label>
+                                                    <input
+                                                        className='form-control'
+                                                        type='text'
+                                                        value={this.state.headingVi}
+                                                        onChange={(event) => this.handleInputChange(event, 'headingVi')}
+                                                        placeholder={headingViPlaceHolder}
+                                                    />
+                                                </div>
+                                                <div className='col-sm-6'>
+                                                    <label><FormattedMessage id="admin.manage-handbook.heading-EN" /></label>
+                                                    <input
+                                                        className='form-control'
+                                                        type='text'
+                                                        value={this.state.headingEn}
+                                                        onChange={(event) => this.handleInputChange(event, 'headingEn')}
+                                                        placeholder={headingEnPlaceHolder}
+                                                    />
+                                                </div>
+                                                <div className='col-12'>
+                                                    <label><FormattedMessage id="admin.manage-handbook.content-VI" /></label>
+                                                    <MdEditor
+                                                        style={{ height: '150px' }}
+                                                        renderHTML={text => mdParser.render(text)}
+                                                        onChange={this.handleEditorChange('contentHTMLVi', 'contentMarkdownVi')}
+                                                        value={this.state.contentMarkdownVi}
+                                                        placeholder={contentPlaceHolder}
+                                                    />
+                                                </div>
+                                                <div className='col-12'>
+                                                    <label><FormattedMessage id="admin.manage-handbook.content-EN" /></label>
+                                                    <MdEditor
+                                                        style={{ height: '150px' }}
+                                                        renderHTML={text => mdParser.render(text)}
+                                                        onChange={this.handleEditorChange('contentHTMLEn', 'contentMarkdownEn')}
+                                                        value={this.state.contentMarkdownEn}
+                                                        placeholder={contentPlaceHolder}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <p className='text-danger m-0'>{errMessageHeading}</p>
+                                            {isCreateHeading ?
+                                                <button
+                                                    className='btn btn-light my-2'
+                                                    onClick={() => this.handleAddToList()}
+                                                >
+                                                    <FormattedMessage id="admin.manage-handbook.add" />
+                                                </button> :
+                                                <>
+                                                    <button
+                                                        className='btn btn-light my-2'
+                                                        onClick={() => this.handleSaveItem()}
+                                                    >
+                                                        {language === LANGUAGES.VI ? 'Lưu đề mục' : 'Save heading'}
+                                                    </button>
+                                                    <button
+                                                        className='btn btn-light my-2'
+                                                        onClick={() => this.handleCancelEditItem()}
+                                                    >
+                                                        {language === LANGUAGES.VI ? 'Huỷ' : 'Cancel'}
+                                                    </button>
+                                                </>
+
+                                            }
+
+
+                                        </div>
+                                    }
+                                </div>
+                                <div className='xy-list'>
+                                    <h5>Danh sách các đề mục</h5>
+
+
+                                    <DragDropContext onDragEnd={this.handleOnDragEnd}>
+                                        <Droppable droppableId="xyList">
+                                            {(provided) => (
+                                                <ul className='list-group' {...provided.droppableProps} ref={provided.innerRef}>
+                                                    {this.state.listHeading.map((item, index) => (
+                                                        <Draggable key={index} draggableId={`item-${index}`} index={index}>
+                                                            {(provided) => (
+                                                                <li
+                                                                    className='list-group-item'
+                                                                    ref={provided.innerRef}
+                                                                    {...provided.draggableProps}
+                                                                    {...provided.dragHandleProps}
+                                                                >
+                                                                    <div>{language === LANGUAGES.VI ? item.headingVi : item.headingEn}</div>
+                                                                    <div dangerouslySetInnerHTML={{ __html: language === LANGUAGES.VI ? item.contentHTMLVi : item.contentHTMLEn }} />
+
+                                                                    <div>
+                                                                        <button
+                                                                            className='btn btn-danger mx-3'
+                                                                            onClick={() => this.handleDeleteItem(index)}
+                                                                        >
+                                                                            Xóa
+                                                                        </button>
+
+                                                                        <button
+                                                                            className='btn btn-warning'
+                                                                            onClick={() => this.handleUpdateItem(index)}
+                                                                        >
+                                                                            Sửa
+                                                                        </button>
+                                                                    </div>
+                                                                </li>
+                                                            )}
+                                                        </Draggable>
+                                                    ))}
+                                                    {provided.placeholder}
+                                                </ul>
+                                            )}
+                                        </Droppable>
+                                    </DragDropContext>
+                                </div>
+
+                            </div>
+                            <p className='text-danger m-0'>{errMessageHandbook}</p>
+
+                        </div>
+                    </ModalBody>
+                    <ModalFooter>
+                        {isCreateHandbook ?
+                            <Button
+                                onClick={() => this.handleAddnewHandbook()}
+                            >
+                                {language === LANGUAGES.VI ? 'Thêm mới' : 'Add new'}
+                            </Button>
+                            :
+                            <Button
+                                onClick={() => this.handleSaveHandbook()}
+                            >
+                                {language === LANGUAGES.VI ? 'Lưu cẩm nang' : 'save handbook'}
+                            </Button>
+                        }
+                        <Button color="secondary" onClick={() => this.closeModalHandbook()}>
+                            {language === LANGUAGES.VI ? 'Đóng' : 'Close'}
+                        </Button>
+                    </ModalFooter>
+                </Modal>
             </div>
         );
     }

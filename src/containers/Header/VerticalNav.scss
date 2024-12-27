@@ -43,77 +43,54 @@
         color: #ff4d4d;
     }
 
-    .menu-item {
-        margin-bottom: 10px;
-
-        .menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            padding: 10px;
-            transition: background-color 0.3s ease;
-            &:hover{
-                background-color: gray;
-            }
-            &.open {
-                background-color: #ff4d4d;
-                /* Màu đỏ khi mở */
-                color: white;
-            }
-        }
-
-        .menu-sub {
-            margin-top: 5px;
-            padding-left: 15px;
-            list-style: none;
-
-            .menu-link {
-                margin-bottom: 5px;
-
-                a {
-                    text-decoration: none;
-                    color: #c7b7b7;
-                    font-size: 14px;
-
-                    &:hover {
-                        color: #007bff;
-                    }
-                }
-            }
-        }
-
-        .single-link {
-            text-decoration: none;
-            color: whitesmoke;
-            padding: 10px;
-            display: block;
-            font-weight: bold;
-            font-size: 16px;
-
+    .menu-list {
+        // padding: 10px;
+      
+        .menu-item {
+          margin-bottom: 10px;
+      
+          .menu-link {
+            text-decoration: none; /* Loại bỏ gạch chân */
+            color: whitesmoke; /* Màu chữ */
+            display: block; /* Hiển thị toàn dòng */
+            font-size: 16px; /* Cỡ chữ */
+            font-weight: bold; /* In đậm chữ */
+            padding: 10px; /* Khoảng cách trong */
+            border-radius: 4px; /* Bo góc nhẹ */
+            transition: background-color 0.3s, color 0.3s; /* Hiệu ứng chuyển màu */
+      
             &:hover {
-                background-color: #444;
-                color: white;
+              background-color: gray; /* Màu nền khi hover */
+              color: white; /* Màu chữ khi hover */
             }
+      
+            &.active {
+              background-color: #ff4d4d; /* Màu nền khi được chọn */
+              color: white; /* Màu chữ khi được chọn */
+            }
+          }
         }
-    }
-    .btn-logout {
-        display: flex; // Sử dụng Flexbox
-        justify-content: center; // Căn giữa theo chiều ngang
-        align-items: center; // Căn giữa theo chiều dọc
-        cursor: pointer; // Hiển thị con trỏ chuột
-        margin: 0; // Loại bỏ khoảng cách mặc định của thẻ <p>
-        transition: background-color 0.3s ease; // Hiệu ứng chuyển màu nền
+      }
+      
+      .btn-logout {
+        display: flex; /* Sử dụng Flexbox */
+        justify-content: center; /* Căn giữa theo chiều ngang */
+        align-items: center; /* Căn giữa theo chiều dọc */
+        cursor: pointer; /* Hiển thị con trỏ chuột */
+        padding: 10px; 
+        border-radius: 4px; /* Bo góc */
+        // background-color: #ff4d4d;
+        color: white; /* Màu chữ mặc định */
+        transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu nền */
+      
         &:hover {
-            background-color: #d43a3a; // Màu nền khi hover
+          background-color: #d43a3a; /* Màu nền khi hover */
         }
-    
+      
         i {
-            font-size: 30px; // Kích thước icon
-            color: white; // Màu icon
+          font-size: 24px; /* Kích thước icon */
         }
-    }
+      }
+      
     
 }

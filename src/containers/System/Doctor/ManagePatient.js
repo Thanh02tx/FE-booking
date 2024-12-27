@@ -134,16 +134,17 @@ class ManagePatient extends Component {
                                                 let name = LANGUAGES.EN === language ? `${item.Patient_Record.firstName} ${item.Patient_Record.lastName}` :
                                                     `${item.Patient_Record.lastName} ${item.Patient_Record.firstName}`
                                                 let time = language === LANGUAGES.VI ? item.Schedule.timeTypeData.valueVi : item.Schedule.timeTypeData.valueEn
+                                                
                                                 return (
                                                     <tr key={index}>
                                                         <td>{index + 1}</td>
                                                         <td>{time}</td>
                                                         <td>{name}</td>
-                                                        <td>{item.Patient_Record.dateOfBirth}</td>
+                                                        <td>{moment(new Date(Number(item.Patient_Record.dateOfBirth))).format('DD/MM/YYYY')}</td>
                                                         <td>{item.reason}</td>
                                                         <td>
                                                             <button className='mp-btn-confirm'
-                                                                onClick={() => this.handleBtnConfirm(item.id)}>Xác nhận</button>
+                                                                onClick={() => this.handleBtnConfirm(item.id)}>Tạo Kết quả</button>
             
                                                         </td>
                                                     </tr>

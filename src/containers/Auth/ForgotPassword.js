@@ -98,25 +98,32 @@ class ForgotPassword extends Component {
             errMessage: ""
         })
         let userCheck = await checkUserByEmail(this.state.email)
+
         if (userCheck && userCheck.errCode === 0 && !userCheck.check) {
-            let res = await sendMailOtp({
-                email: this.state.email,
-                language: this.props.language
-            })
-            if (res && res.errCode === 0) {
-                this.setState({
-                    otpcheck: res.data,
-                    isShowOtp: true
+            this.setState({
+                isShowOtp:true
+            },async()=>{
+                let res = await sendMailOtp({
+                    email: this.state.email,
+                    language: this.props.language
                 })
-            }
-            setTimeout(() => {
-                this.setState({
-                    otp: '',
-                    otpcheck: '',
-                    isShowOtp: true,
-                    errMessage: this.props.language === LANGUAGES.VI ? 'Mã OTP đã hết hiệu lực' : 'The OTP code has expired'
-                });
-            }, 120000);
+                if (res && res.errCode === 0) {
+                    this.setState({
+                        otpcheck: res.data,
+                    })
+                }
+                this.timeoutId = setTimeout(() => {
+                    this.setState({
+                        otp: '',
+                        otpcheck: '',
+                        isShowOtp: true,
+                        errMessage: this.props.language === LANGUAGES.VI ? 
+                            'Mã OTP đã hết hiệu lực' : 
+                            'The OTP code has expired'
+                    });
+                }, 120000);
+            })
+            
         } else {
             this.setState({
                 errMessage: this.props.language === LANGUAGES.VI ? 'Email này chưa được đăng ký tài khoản. Vui lòng kiểm tra lại '
@@ -127,6 +134,10 @@ class ForgotPassword extends Component {
     handleConfrim = () => {
         let { otp, otpcheck } = this.state;
         if (otpcheck != '' && otpcheck == otp) {
+            if (this.timeoutId) {
+                clearTimeout(this.timeoutId);
+                this.timeoutId = null; 
+            }
             this.setState({
                 isShowOtp:false,
                 isShowConfirm: true

@@ -1,9 +1,21 @@
-.manage-booking-container{
+.manage-approval-container{
+    min-height: 100vh;
+    .content{
+        width: 50%;
+        margin: auto;
+        padding-bottom: 20px;
+        .child{
+            margin-top : 15px;
+            padding: 5px 8px;
+            border-radius: 10px;
+            background-color: aliceblue;
+        }
+    }
     .search{
-        margin: 0 5px;
         width: 300px;
-        border: 1px solid gray;
+        border: 1px solid Gray;
         border-radius: 5px;
+        margin:10px  5px;
     }
     .title{
         font-size: 30px;
@@ -46,5 +58,4 @@
             outline: none;
         }
     }
-
 }

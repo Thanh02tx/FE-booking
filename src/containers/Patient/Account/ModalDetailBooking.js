@@ -40,18 +40,18 @@ class ModalDetailBooking extends Component {
     }
 
     render() {
-        let { isOpenModalDetailBooking, closeDetailBookingModal, language } = this.props
+        let { isOpenModalDetailBooking, closeDetailBookingModal, language,hideCancel } = this.props
         let { dataBooking } = this.state;
         let nameClinic = dataBooking && dataBooking.Schedule ? dataBooking.Schedule.doctorData.Doctor_Infor.Clinic.name : '';
         let addressClinic = dataBooking && dataBooking.Schedule ? dataBooking.Schedule.doctorData.Doctor_Infor.Clinic.address : '';
         let nameVi = dataBooking && dataBooking.Schedule ? `${dataBooking.Schedule.doctorData.Doctor_Infor.positionData.valueVi} ${dataBooking.Schedule.doctorData.lastName} ${dataBooking.Schedule.doctorData.firstName}` : '';
         let nameEn = dataBooking && dataBooking.Schedule ? `${dataBooking.Schedule.doctorData.Doctor_Infor.positionData.valueEn} ${dataBooking.Schedule.doctorData.firstName} ${dataBooking.Schedule.doctorData.lastName}` : '';
-        let timeVi = dataBooking && dataBooking.Schedule ? dataBooking.Schedule.timeTypeData.valueVi:'';
-        let timeEn = dataBooking && dataBooking.Schedule ? dataBooking.Schedule.timeTypeData.valueEn:'';
-        let speVi = dataBooking && dataBooking.Schedule ? dataBooking.Schedule.doctorData.Doctor_Infor.Specialty.nameVi:'';
-        let speEn = dataBooking && dataBooking.Schedule ? dataBooking.Schedule.doctorData.Doctor_Infor.Specialty.nameEn:'';
-        let date =dataBooking && dataBooking.Schedule? moment(new Date(Number(dataBooking.Schedule.date)).getTime()).locale('vi').format('DD/MM/YYYY'):''
-        let reason = dataBooking? dataBooking.reason:'';
+        let timeVi = dataBooking && dataBooking.Schedule ? dataBooking.Schedule.timeTypeData.valueVi : '';
+        let timeEn = dataBooking && dataBooking.Schedule ? dataBooking.Schedule.timeTypeData.valueEn : '';
+        let speVi = dataBooking && dataBooking.Schedule ? dataBooking.Schedule.doctorData.Doctor_Infor.Specialty.nameVi : '';
+        let speEn = dataBooking && dataBooking.Schedule ? dataBooking.Schedule.doctorData.Doctor_Infor.Specialty.nameEn : '';
+        let date = dataBooking && dataBooking.Schedule ? moment(new Date(Number(dataBooking.Schedule.date)).getTime()).locale('vi').format('DD/MM/YYYY') : ''
+        let reason = dataBooking ? dataBooking.reason : '';
         console.log('sfss', dataBooking)
         return (
             <Modal
@@ -79,11 +79,16 @@ class ModalDetailBooking extends Component {
                         </div>
                         <div>
                             <p className='m-0'>{language === LANGUAGES.VI ? `Bác sĩ: ${nameVi}` : `Doctor: ${nameEn}`}</p>
-                            <p className='m-0'>{language === LANGUAGES.VI ? `Chuyên khoa: ${speVi}`:`Specialty: ${speEn}`}</p>
-                            <p className='m-0'>{language===LANGUAGES.VI?`Thời gian: ${timeVi} - ${date}`:`Appointment Time: ${timeEn} - ${date} ` }</p>
-                            <p className='mb-4'>{language===LANGUAGES.VI?'Lý do: ' :'Reason: '} {reason}</p>   
-                            <p className='m-0 text-center'>{language===LANGUAGES.VI?'Vui lòng đảm bảo đến đúng giờ theo lịch hẹn của bạn':'Please make sure to attend your appointment on time.'}</p>
-                            <p className='text-center m-0'><i>{language===LANGUAGES.VI?'(Nếu bạn muốn hủy lịch hẹn, vui lòng liên hệ: xxxxxxxxxxx)':'(If you wish to cancel your appointment, please contact: xxxxxxxxxxx)'}</i></p>
+                            <p className='m-0'>{language === LANGUAGES.VI ? `Chuyên khoa: ${speVi}` : `Specialty: ${speEn}`}</p>
+                            <p className='m-0'>{language === LANGUAGES.VI ? `Thời gian: ${timeVi} - ${date}` : `Appointment Time: ${timeEn} - ${date} `}</p>
+                            <p className='mb-4'>{language === LANGUAGES.VI ? 'Lý do: ' : 'Reason: '} {reason}</p>
+                            {!hideCancel &&
+                                <>
+                                    <p className='m-0 text-center'>{language === LANGUAGES.VI ? 'Vui lòng đảm bảo đến đúng giờ theo lịch hẹn của bạn' : 'Please make sure to attend your appointment on time.'}</p>
+                                    <p className='text-center m-0'><i>{language === LANGUAGES.VI ? '(Nếu bạn muốn hủy lịch hẹn, vui lòng liên hệ: xxxxxxxxxxx)' : '(If you wish to cancel your appointment, please contact: xxxxxxxxxxx)'}</i></p>
+                                </>
+                            }
+
                         </div>
 
                     </div>

@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { emitter } from "../../utils/emitter";
 import _ from 'lodash';
+import { LANGUAGES } from '../../utils';
+import { lang } from 'moment';
 
 class ModalEditUser extends Component {
 
@@ -68,6 +70,7 @@ class ModalEditUser extends Component {
     }
 
     render() {
+        let {language}= this.props;
         return (
             <Modal
                 isOpen={this.props.isOpen} toggle={this.toggle}
@@ -75,7 +78,7 @@ class ModalEditUser extends Component {
                 size='lg'
 
             >
-                <ModalHeader toggle={this.toggle}> Edit user</ModalHeader>
+                <ModalHeader toggle={this.toggle}>{language===LANGUAGES.VI?'Sửa Người dùng':'Edit User'}</ModalHeader>
                 <ModalBody>
                     <div className='modal-user-body'>
                         <div className='input-container'>
@@ -85,18 +88,18 @@ class ModalEditUser extends Component {
                             />
                         </div>
                         <div className='input-container'>
-                            <label>Password</label>
+                            <label>{language===LANGUAGES.VI?'Mật khẩu':'Password'}</label>
                             <input type='password' onChange={(event) => { this.handleOnChangeInput(event, "password") }}
                                 value={this.state.password}  disabled/>
                         </div>
                         <div className='input-container'>
-                            <label>FirstName</label>
+                            <label>{language===LANGUAGES.VI?'Tên':'FirstName'}</label>
                             <input type='text' onChange={(event) => { this.handleOnChangeInput(event, "firstName") }}
                                 value={this.state.firstName}
                             />
                         </div>
                         <div className='input-container'>
-                            <label>Lastname</label>
+                            <label>{language===LANGUAGES.VI?'Họ':'Lastname'}</label>
                             <input type='text' onChange={(event) => { this.handleOnChangeInput(event, "lastName") }}
                                 value={this.state.lastName}
                             />
@@ -106,8 +109,8 @@ class ModalEditUser extends Component {
 
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" className='px-3' onClick={() => { this.handleSaveUser() }}>Save</Button>
-                    <Button color="secondary" className='px-3' onClick={this.toggle}>Close</Button>
+                    <Button color="primary" className='px-3' onClick={() => { this.handleSaveUser() }}>{language===LANGUAGES.VI?'Lưu':'Save'}</Button>
+                    <Button color="secondary" className='px-3' onClick={this.toggle}>{language===LANGUAGES.VI?'Đóng':'Close'}</Button>
                 </ModalFooter>
             </Modal>
         )
@@ -117,6 +120,8 @@ class ModalEditUser extends Component {
 
 const mapStateToProps = state => {
     return {
+        language: state.app.language,
+        userInfo: state.user.userInfo,
     };
 };
 

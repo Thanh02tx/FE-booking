@@ -77,14 +77,14 @@ class DetailHandbook extends Component {
                                 </p> */}
                             </div>
                             <div className='m-3'>
-                                <h4 >{dataDetailHandbook.nameVi}</h4>
+                                <h4 >{language===LANGUAGES.VI?dataDetailHandbook.nameVi:dataDetailHandbook.nameEn}</h4>
                                 {listHeading.length > 0 &&
                                     listHeading.map((item, index) => {
                                         return (
                                             <div key={`l-${index}`}>
-                                                <div className='title-heading' id={`heading-${item.id}`}>{item.headingVi}</div>
+                                                <div className='title-heading' id={`heading-${item.id}`}>{language===LANGUAGES.VI?item.headingVi:item.headingEn}</div>
                                                 <div
-                                                    dangerouslySetInnerHTML={{ __html: item.contentHTMLVi }}
+                                                    dangerouslySetInnerHTML={{ __html: language===LANGUAGES.VI?item.contentHTMLVi:item.contentHTMLEn }}
                                                 />
                                             </div>
                                         )
@@ -96,12 +96,12 @@ class DetailHandbook extends Component {
                         <div className='hide col-md-1'></div>
                         <div className=' bg-white content-right col-md-3 mb-4'>
                             <div className='m-1'>
-                                <div className='my-2'><p className='title-right'>Nội dung chính</p></div>
+                                <div className='my-2'><p className='title-right'>{language===LANGUAGES.VI?'Nội dung chính':'Main content'}</p></div>
                                 {listHeading.length > 0 &&
                                     listHeading.map((item, index) => {
                                         return (
                                             <div className='mb-1' key={`r-${index}`}>
-                                                <a href={`#heading-${item.id}`} > {item.headingVi}</a>
+                                                <a href={`#heading-${item.id}`} > {language===LANGUAGES.VI?item.headingVi:item.headingEn}</a>
 
                                             </div>
                                         )

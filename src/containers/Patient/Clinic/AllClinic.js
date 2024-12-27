@@ -44,7 +44,7 @@ class AllClinic extends Component {
                                 className="fas fa-home"
                                 onClick={()=>this.returnHome()}
                             ></i>
-                            <span> /{language===LANGUAGES.VI?'Cơ sở y tế':'Healthcare Facility'}</span>
+                            <span> /{language===LANGUAGES.VI?'Cơ sở y tế':'Medical facility'}</span>
                         </p>
                     </div>
                     <div className='row'>

@@ -112,7 +112,7 @@ class ModalUser extends Component {
                 size='lg'
 
             >
-                <ModalHeader toggle={this.toggle}>Thêm/Sửa user</ModalHeader>
+                <ModalHeader toggle={this.toggle}>Thêm người dùng</ModalHeader>
                 <ModalBody>
                     <div className='modal-user-body'>
                         <div className='input-container'>
@@ -151,8 +151,8 @@ class ModalUser extends Component {
 
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" className='px-3' onClick={() => { this.handleAddNewUser() }}>Add new</Button>
-                    <Button color="secondary" className='px-3' onClick={this.toggle}>Close</Button>
+                    <Button color="primary" className='px-3' onClick={() => { this.handleAddNewUser() }}>Thêm mới</Button>
+                    <Button color="secondary" className='px-3' onClick={this.toggle}>Huỷ</Button>
                 </ModalFooter>
             </Modal>
         )

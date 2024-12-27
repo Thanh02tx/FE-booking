@@ -179,6 +179,7 @@ class Register extends Component {
 
     render() {
         let { isSignUp } = this.state;
+        let {language} = this.props
         return (
             <div className="register-background">
                 <HomeHeader
@@ -221,21 +222,23 @@ class Register extends Component {
                         <div className='col-6 '>
 
                             <div className='register-content row'>
-                                <div className='col-12 text-center text-login'>Register</div>
+                                <div className='col-12 text-center text-login'>{language===LANGUAGES.VI?'Đăng kí':'Register'}</div>
                                 <div className='col-12 form-group content-input'>
-                                    <label>FirstName:</label>
+                                    <label>{language===LANGUAGES.VI?'Tên':'FirstName'}:</label>
                                     <input
 
                                         value={this.state.firstName}
-                                        className='form-control' placeholder='Eff'
+                                        className='form-control' 
+                                        placeholder='Nhập tên'
                                         onChange={(event) => this.handleOnChangeInput(event, 'firstName')}
                                     />
                                 </div>
                                 <div className='col-12 form-group content-input'>
-                                    <label>LastName:</label>
+                                    <label>{language===LANGUAGES.VI?'Họ':'LastName'}:</label>
                                     <input
 
-                                        className='form-control' placeholder='Eff'
+                                        className='form-control'
+                                        placeholder='Nhập họ'
                                         value={this.state.lastName}
                                         onChange={(event) => this.handleOnChangeInput(event, 'lastName')}
 
@@ -245,15 +248,17 @@ class Register extends Component {
                                     <label>Email:</label>
                                     <input
                                         className='form-control'
+                                        placeholder='Nhập email'
                                         onChange={(event) => this.handleOnChangeInput(event, 'email')}
                                         value={this.state.email}
                                     />
                                 </div>
                                
                                 <div className='col-md-6 form-group content-input'>
-                                    <label>Password:</label>
+                                    <label>{language===LANGUAGES.VI?'Mật khẩu':"Password"}:</label>
                                     <div className='custom-input-password'>
-                                        <input className='form-control' type={this.state.isShowPassword ? 'text' : 'password'} placeholder='Enter your password'
+                                        <input className='form-control' type={this.state.isShowPassword ? 'text' : 'password'} 
+                                            placeholder='Nhập mật khẩu'
                                             value={this.state.password}
                                             onChange={(event) => this.handleOnChangeInput(event, 'password')}
                                         />
@@ -264,9 +269,10 @@ class Register extends Component {
                                 </div>
 
                                 <div className='col-md-6 form-group content-input'>
-                                    <label>Password:</label>
+                                    <label>{language===LANGUAGES.VI?'Xác nhận mật khẩu':"Confirm Password"}:</label>
                                     <div className='custom-input-password'>
-                                        <input className='form-control' type={this.state.isShowPassword ? 'text' : 'password'} placeholder='Enter your password'
+                                        <input className='form-control' type={this.state.isShowPassword ? 'text' : 'password'} 
+                                            placeholder='Nhập lại mật khẩu'
                                             value={this.state.confirmPassword}
                                             onChange={(event) => this.handleOnChangeInput(event, 'confirmPassword')}
                                         />
@@ -280,7 +286,7 @@ class Register extends Component {
                                         <label>OTP(có giá trị trong 120s):</label>
                                         <input
                                             className='form-control'
-                                            placeholder='Eff'
+                                            placeholder='Nhập OTP'
                                             value={this.state.otp}
                                             onChange={(event) => this.handleOnChangeInput(event, 'otp')}
                                         />
@@ -289,9 +295,9 @@ class Register extends Component {
                                 <div className='col-12' style={{ color: 'red' }}> {this.state.errMessage}</div>
                                 <div className='col-12 '>
                                     {isSignUp ?
-                                        <button className='btn-login' onClick={this.handleSignUp}>Sign Up</button>
+                                        <button className='btn-login' onClick={this.handleSignUp}>{language===LANGUAGES.VI?'Đăng kí':'Sign Up'}</button>
                                         :
-                                        <button className='btn-login' onClick={this.handleConfirm} >Confrim</button>
+                                        <button className='btn-login' onClick={this.handleConfirm} >{language===LANGUAGES.VI?'Xác nhận':'Confirm'}</button>
                                     }
                                 </div>
                                 <div className='col-6 '>
@@ -299,7 +305,7 @@ class Register extends Component {
                                         // className='forgot-password'
                                         onClick={this.handleLoginClick}
                                     >
-                                        Đăng nhập
+                                        {language===LANGUAGES.VI?'Đăng nhập':'Login'}
                                     </span>
                                 </div>
 

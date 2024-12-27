@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import './ManageSchedule.scss';
+import './ManageScheduleDoctor.scss';
 import { FormattedMessage } from 'react-intl';
 import Select from 'react-select';
 import * as actions from '../../../store/actions';
@@ -10,8 +10,8 @@ import moment from 'moment';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
 import FormattedDate from '../../../components/Formating/FormattedDate';
-import { saveScheduleByDateAndDoctorId, allScheduleByDateAndDoctorId } from '../../../services/userService';
-class ManageSchedule extends Component {
+import { saveDoctorScheduleByDate ,allScheduleDoctorByDate} from '../../../services/userService';
+class ManageScheduleDoctor extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -56,24 +56,41 @@ class ManageSchedule extends Component {
                 rangeTime: data
             })
         }
-        if (prevProps.language !== this.props.language) {
-            let dataSelect = this.buildDataInputSelect(this.props.allDoctors);
-            console.log('dss', dataSelect)
-            this.setState({
-                listDoctors: dataSelect
-            })
-        }
-    }
-    handleChangeSelect = async (selectedOption) => {
-        this.setState({ selectedDoctor: selectedOption });
-
+        // if (prevProps.language !== this.props.language) {
+        //     let dataSelect = this.buildDataInputSelect(this.props.allDoctors);
+        //     this.setState({
+        //         listDoctors: dataSelect
+        //     })
+        // }
     }
     handleOnChangeDatePicker = (date) => {
         this.setState({
             currentDate: date[0],
-
-        })
-    }
+        }, async () => {
+            let res = await allScheduleDoctorByDate(this.state.currentDate.getTime(), this.props.userInfo.token);
+            if (res && res.errCode === 0) {
+                let listSchedule = res.data;
+    
+                // Tạo bản sao mới để tránh sửa đổi trực tiếp state
+                let updatedRangeTime = this.state.rangeTime.map((item) => {
+                    // So sánh với các phần tử trong listSchedule
+                    let matched = listSchedule.some(schedule => schedule.timeType === item.keyMap);
+                    return {
+                        ...item,
+                        isSelected: matched, // Cập nhật isSelected nếu trùng khớp
+                    };
+                });
+    
+                // Cập nhật state với dải thời gian mới
+                this.setState({
+                    rangeTime: updatedRangeTime,
+                });
+            }
+        });
+    
+        console.log('ssf', this.state.currentDate.getTime());
+    };
+    
     handleClickBtnTime = (time) => {
         let { rangeTime } = this.state;
         if (rangeTime && rangeTime.length > 0) {
@@ -87,88 +104,61 @@ class ManageSchedule extends Component {
             rangeTime: rangeTime
         })
     }
-    handleSaveSchedule = async () => {
+    handleSaveSchedule = async() => {
         let result = [];
-        let { rangeTime, selectedDoctor, currentDate } = this.state;
+        let { rangeTime, currentDate } = this.state;
         if (!currentDate) {
             toast.error("Invalid date!");
-            return;
-        }
-        if (!selectedDoctor && _.isEmpty(selectedDoctor)) {
-            toast.error("Invalid selected doctor!");
             return;
         }
         let formatedDate = new Date(currentDate).getTime();
         if (rangeTime && rangeTime.length > 0) {
             let selectedTime = rangeTime.filter(item => item.isSelected === true);
             if (selectedTime && selectedTime.length > 0) {
-                selectedTime.map(schedule => {
-                    let object = {};
+                selectedTime.map(schedule=>{
+                    let object={};
                     object.date = formatedDate;
                     object.timeType = schedule.keyMap;
                     result.push(object);
                 })
-
+                
             } else {
                 toast.error("Invalid selected time!");
                 return;
             }
         }
-        let res = await saveScheduleByDateAndDoctorId({
-            arrSchedule: result,
-            doctorId: selectedDoctor.value,
-            date: formatedDate
+        let res = await saveDoctorScheduleByDate({
+            arrSchedule:result,
+            date:formatedDate
         },this.props.userInfo.token)
-        if (res && res.errCode === 0) {
+        if(res&& res.errCode===0){
             toast.success("Save Infor Succeed!")
-            let listTime = this.state.rangeTime.map((item) => {
-                return {
-                    ...item,
-                    isSelected: false,
-                };
-            });
-            this.setState({
-                currentDate:'',
-                selectedDoctor:{},
-                rangeTime: listTime,
-            })
-        } else {
+            // let listTime = rangeTime.map(item => ({
+            //     ...item,       
+            //     isSelected: false, 
+            // }));
+            // this.setState({
+            //     rangeTime:listTime,
+            //     currentDate:''
+            // })
+        }else{
             toast.error("error saveBulkScheduleDoctor")
-        }
-    }
-    handleSearch = async () => {
-        let { selectedDoctor, currentDate } = this.state;
-        let res = await allScheduleByDateAndDoctorId({
-            doctorId: selectedDoctor.value,
-            date: new Date(currentDate).getTime()
-        }, this.props.userInfo.token)
-        if (res && res.errCode === 0) {
-            let listSchedule = res.data;
-            let updatedRangeTime = this.state.rangeTime.map((item) => {
-                let matched = listSchedule.some(schedule => schedule.timeType === item.keyMap);
-                return {
-                    ...item,
-                    isSelected: matched,
-                };
-            });
-
-            this.setState({
-                rangeTime: updatedRangeTime,
-            });
         }
     }
     render() {
         let { rangeTime } = this.state;
         let { language } = this.props;
-        let yesterday = new Date(new Date().setDate(new Date().getDate() - 1))
+        let yesterday= new Date(new Date().setDate(new Date().getDate()-1))
+        let today = new Date()
+        console.log('as',this.props.allScheduleTime)
         return (
-            <div className='manage-schedule-container'>
+            <div className='manage-schedule-doctor-container'>
                 <div className='m-s-title'>
                     <FormattedMessage id="manage-schedule.title" />
                 </div>
                 <div className='container'>
                     <div className='row'>
-                        <div className='col-6 form-group'>
+                        {/* <div className='col-6 form-group'>
                             <label><FormattedMessage id="manage-schedule.choose-doctor" /></label>
                             <Select
                                 value={this.state.selectedDoctor}
@@ -176,25 +166,17 @@ class ManageSchedule extends Component {
                                 options={this.state.listDoctors}
 
                             />
-                        </div>
-                        <div className='col-4 form-group'>
+                        </div> */}
+                        <div className='col-4 form-group '>
                             <label><FormattedMessage id="manage-schedule.choose-date" /></label>
                             <DatePicker
                                 onChange={this.handleOnChangeDatePicker}
                                 className='form-control'
                                 selected={this.state.currentDate}
-                                minDate={yesterday}
+                                minDate={today}
                             />
                         </div>
-                        <div className='col-2 form-group'>
-                            <label className='text-white'>.</label>
-                            <button className='btn btn-primary form-control'
-                                onClick={() => this.handleSearch()}
-                            >
-                                Search
-                            </button>
-                        </div>
-                        <div className='col-12 pick-hour-container'>
+                        <div className='col-12 pick-hour-container my-0'>
                             {rangeTime && rangeTime.length > 0 &&
                                 rangeTime.map((item, index) => {
                                     return (
@@ -238,4 +220,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageSchedule);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageScheduleDoctor);
