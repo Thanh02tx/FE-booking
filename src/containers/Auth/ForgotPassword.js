@@ -101,8 +101,8 @@ class ForgotPassword extends Component {
 
         if (userCheck && userCheck.errCode === 0 && !userCheck.check) {
             this.setState({
-                isShowOtp:true
-            },async()=>{
+                isShowOtp: true
+            }, async () => {
                 let res = await sendMailOtp({
                     email: this.state.email,
                     language: this.props.language
@@ -117,13 +117,13 @@ class ForgotPassword extends Component {
                         otp: '',
                         otpcheck: '',
                         isShowOtp: true,
-                        errMessage: this.props.language === LANGUAGES.VI ? 
-                            'Mã OTP đã hết hiệu lực' : 
+                        errMessage: this.props.language === LANGUAGES.VI ?
+                            'Mã OTP đã hết hiệu lực' :
                             'The OTP code has expired'
                     });
                 }, 120000);
             })
-            
+
         } else {
             this.setState({
                 errMessage: this.props.language === LANGUAGES.VI ? 'Email này chưa được đăng ký tài khoản. Vui lòng kiểm tra lại '
@@ -136,12 +136,18 @@ class ForgotPassword extends Component {
         if (otpcheck != '' && otpcheck == otp) {
             if (this.timeoutId) {
                 clearTimeout(this.timeoutId);
-                this.timeoutId = null; 
+                this.timeoutId = null;
             }
             this.setState({
-                isShowOtp:false,
+                isShowOtp: false,
                 isShowConfirm: true
             })
+        }else{
+            if(otpcheck != ''&&otpcheck!=otp){
+                this.setState({
+                    errMessage: this.props.language === LANGUAGES.VI ? 'OTP không khớp' : 'OTP do not match'
+                })
+            }
         }
     }
     handleNewPassword = async () => {
@@ -160,6 +166,7 @@ class ForgotPassword extends Component {
                     confirmPassword: '',
                     isShowOtp: false,
                     isShowConfirm: false,
+                    errMessage:''
                 })
             } else {
                 toast.error("error")
@@ -171,11 +178,16 @@ class ForgotPassword extends Component {
             })
         }
     }
-    handleLoginClick=()=>{
+    handleLoginClick = () => {
         this.props.history.push('/login');
     }
     render() {
         let { isShowOtp, isShowConfirm } = this.state
+        let { language } = this.props
+        let plEmail = language === LANGUAGES.VI ? 'Nhập Email' : 'Enter your Email'
+        let plPassword = language === LANGUAGES.VI ? 'Nhập mật khẩu' : 'Enter your password';
+        let plCfPassword = language === LANGUAGES.VI ? 'Nhập lại mật khẩu' : 'Confirm your password';
+        let plOtp = language===LANGUAGES.VI?'Nhập otp ':'Enter your otp'
         return (
             <div className="login-background">
                 <HomeHeader
@@ -217,18 +229,20 @@ class ForgotPassword extends Component {
                         </div>
                         <div className='col-md-6  '>
                             <div className='login-content row'>
-                                <div className='col-12 text-center text-login'>Forgot Password</div>
+                                <div className='col-12 text-center text-login'>{language === LANGUAGES.VI ? 'Quên mật khẩu' : 'Forgot password'}</div>
                                 <div className='col-12 form-group login-input'>
                                     <label>Email:</label>
-                                    <input type='text' className='form-control' placeholder='Enter your username'
+                                    <input type='text' className='form-control'
+                                        placeholder={plEmail}
                                         value={this.state.email}
                                         onChange={(event) => this.handleOnChangeText(event, 'email')}
                                     />
                                 </div>
                                 {isShowOtp &&
                                     <div className='col-12 form-group login-input'>
-                                        <label>OTP(có hiệu lực trong 120s):</label>
-                                        <input type='text' className='form-control' placeholder='Enter your username'
+                                        <label>{language===LANGUAGES.VI?'OTP(có hiệu lực trong 120s)':"OTP (valid for 120 seconds)"}:</label>
+                                        <input type='text' className='form-control' 
+                                            placeholder={plOtp}
                                             value={this.state.otp}
                                             onChange={(event) => this.handleOnChangeText(event, 'otp')}
                                         />
@@ -237,12 +251,12 @@ class ForgotPassword extends Component {
                                 {isShowConfirm &&
                                     <>
                                         <div className='col-12 form-group login-input'>
-                                            <label>Password:</label>
+                                            <label>{language === LANGUAGES.VI ? 'Mật khẩu' : 'Password'}:</label>
                                             <div className='custom-input-password'>
                                                 <input
                                                     className='form-control'
                                                     type={this.state.isShowPassword ? 'text' : 'password'}
-                                                    placeholder='Enter your password'
+                                                    placeholder={plPassword}
                                                     value={this.state.password}
                                                     onChange={(event) => this.handleOnChangeText(event, 'password')}
                                                 />
@@ -252,12 +266,12 @@ class ForgotPassword extends Component {
                                             </div>
                                         </div>
                                         <div className='col-12 form-group login-input'>
-                                            <label>Confirm Password:</label>
+                                            <label>{language === LANGUAGES.VI ? 'Xác nhận mật khẩu' : 'Confirm password'}</label>
                                             <div className='custom-input-password'>
                                                 <input
                                                     className='form-control'
                                                     type={this.state.isShowPassword ? 'text' : 'password'}
-                                                    placeholder='Enter your password'
+                                                    placeholder={plCfPassword}
                                                     value={this.state.confirmPassword}
                                                     onChange={(event) => this.handleOnChangeText(event, 'confirmPassword')}
                                                 />
@@ -271,12 +285,12 @@ class ForgotPassword extends Component {
                                 <div className='col-12' style={{ color: 'red' }}> {this.state.errMessage}</div>
                                 <div className='col-12 '>
                                     {isShowConfirm ?
-                                        <button className='btn-login' onClick={this.handleNewPassword}>Đặt lại mật khẩu</button>
+                                        <button className='btn-login' onClick={this.handleNewPassword}>{language===LANGUAGES.VI?'Đặt lại mật khẩu':'Reset password'}</button>
                                         : <>
                                             {isShowOtp ?
-                                                <button className='btn-login' onClick={this.handleConfrim}>Xác Nhận</button>
+                                                <button className='btn-login' onClick={this.handleConfrim}>{language === LANGUAGES.VI ? 'Xác nhận' : 'Confirm'}</button>
                                                 :
-                                                <button className='btn-login' onClick={this.handleForgotPassword}>Quên Mật khẩu</button>
+                                                <button className='btn-login' onClick={this.handleForgotPassword}>{language === LANGUAGES.VI ? 'Quên mật khẩu' : 'Forgot password'}</button>
                                             }
                                         </>
                                     }
@@ -286,7 +300,7 @@ class ForgotPassword extends Component {
                                         className='forgot-password'
                                         onClick={this.handleLoginClick}
                                     >
-                                        Đăng nhập
+                                        {language === LANGUAGES.VI ? 'Đăng nhập' : 'Login'}
                                     </span>
                                 </div>
                             </div>

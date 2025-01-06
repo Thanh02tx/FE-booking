@@ -39,7 +39,9 @@ class ManageHandbook extends Component {
             editingIndex: '',
             search: '',
             isOpenModalHandbook: false,
-            showFormHeading: false
+            isOpenModalDelete:false,
+            showFormHeading: false,
+            nameDelete:''
 
         };
     }
@@ -259,11 +261,20 @@ class ManageHandbook extends Component {
         }
 
     }
-    handleDeleteHandbook = async (item) => {
-        let res = await deleteHandbook(item.id)
+    handleDeleteHandbook=(item)=>{
+        let {language}= this.props
+        this.setState({
+            isOpenModalDelete:true,
+            nameDelete:language===LANGUAGES.VI?item.nameVi:item.nameEn,
+            id:item.id
+        })
+    }
+    handleConfirmDeleteHandbook=async()=>{
+        let res = await deleteHandbook(this.state.id)
         if (res && res.errCode === 0) {
             this.getAllDataHandbook()
             toast.success('Succed!')
+            this.closeModalDeleteHandbook()
         } else {
             toast.error('Error!')
         }
@@ -275,6 +286,12 @@ class ManageHandbook extends Component {
             nameVi: '',
             nameEn: '',
             listHeading: []
+        })
+    }
+    closeModalDeleteHandbook=()=>{
+        this.setState({
+            isOpenModalDelete:false,
+            nameDelete:''
         })
     }
     handleCancel = () => {
@@ -306,7 +323,7 @@ class ManageHandbook extends Component {
     }
     render() {
         let { language, intl } = this.props;
-        let { isShow, isCreate, listHandbook, listHandbookApi, nameVi, nameEn, search, isCreateHandbook, showFormHeading, isCreateHeading, isOpenModalHandbook, errMessageHeading, errMessageHandbook } = this.state;
+        let { isShow, isCreate,isOpenModalDelete,nameDelete, listHandbook, listHandbookApi, nameVi, nameEn, search, isCreateHandbook, showFormHeading, isCreateHeading, isOpenModalHandbook, errMessageHeading, errMessageHandbook } = this.state;
         let nameViPlaceHolder = intl.formatMessage({ id: 'admin.manage-handbook.name-VI' });
         let nameEnPlaceHolder = intl.formatMessage({ id: 'admin.manage-handbook.name-EN' });
         let headingViPlaceHolder = intl.formatMessage({ id: 'admin.manage-handbook.heading-VI' });
@@ -581,6 +598,38 @@ class ManageHandbook extends Component {
                             </Button>
                         }
                         <Button color="secondary" onClick={() => this.closeModalHandbook()}>
+                            {language === LANGUAGES.VI ? 'Đóng' : 'Close'}
+                        </Button>
+                    </ModalFooter>
+                </Modal>
+                <Modal
+                    isOpen={isOpenModalDelete}
+                    // className="modal-feedback-container"
+                    size="lg"
+                    centered
+                >
+                    <div className="modal-header">
+                        <h5 className="modal-title">{language === LANGUAGES.VI ? 'Xoá cẩm nang' : 'Delete Handbook'}</h5>
+                        <button
+                            type="button"
+                            className="close"
+                            onClick={() => this.closeModalDeleteHandbook()}
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                    <ModalBody>
+                        {language === LANGUAGES.VI
+                            ? `Bạn chắc chắn muốn xoá cẩm nang: ${nameDelete}?`
+                            : `Are you sure you want to delete the handbook: ${nameDelete}?`
+                        }
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="success" onClick={() => this.handleConfirmDeleteHandbook()}>
+                            {language === LANGUAGES.VI ? 'Xoá' : 'Delete'}
+                        </Button>
+                        <Button color="secondary" onClick={() => this.closeModalDeleteHandbook()}>
                             {language === LANGUAGES.VI ? 'Đóng' : 'Close'}
                         </Button>
                     </ModalFooter>

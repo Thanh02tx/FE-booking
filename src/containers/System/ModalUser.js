@@ -6,6 +6,7 @@ import { emitter } from "../../utils/emitter";
 import { getAllCodeService } from '../../services/userService';
 import {LANGUAGES}from '../../utils';
 import Select from 'react-select';
+import { injectIntl } from 'react-intl';
 class ModalUser extends Component {
 
     constructor(props) {
@@ -105,6 +106,11 @@ class ModalUser extends Component {
         })
     }
     render() {
+        let {language,intl} = this.props
+        let title = language===LANGUAGES.VI? "Thêm người dùng":'Add new user'
+        let firstNamePlaceHolder = intl.formatMessage({ id: 'manage-user.first-name' });
+        let lastNamePlaceHolder = intl.formatMessage({ id: 'manage-user.last-name' });
+        let passwordPlaceHolder = intl.formatMessage({ id: 'manage-user.password' });
         return (
             <Modal
                 isOpen={this.props.isOpen} toggle={this.toggle}
@@ -112,30 +118,35 @@ class ModalUser extends Component {
                 size='lg'
 
             >
-                <ModalHeader toggle={this.toggle}>Thêm người dùng</ModalHeader>
+                <ModalHeader toggle={this.toggle}>{title}</ModalHeader>
                 <ModalBody>
                     <div className='modal-user-body'>
                         <div className='input-container'>
                             <label>Email</label>
                             <input type='text' onChange={(event) => { this.handleOnChangeInput(event, "email") }}
                                 value={this.state.email}
+                                placeholder='Email'
                             />
                         </div>
                         <div className='input-container'>
-                            <label>Password</label>
+                            <label><FormattedMessage id="manage-user.password" /></label>
                             <input type='text' onChange={(event) => { this.handleOnChangeInput(event, "password") }}
-                                value={this.state.password} />
+                                value={this.state.password} 
+                                placeholder={passwordPlaceHolder}
+                            />
                         </div>
                         <div className='input-container'>
-                            <label>FirstName</label>
+                            <label><FormattedMessage id="manage-user.first-name" /></label>
                             <input type='text' onChange={(event) => { this.handleOnChangeInput(event, "firstName") }}
                                 value={this.state.firstName}
+                                placeholder={firstNamePlaceHolder}
                             />
                         </div>
                         <div className='input-container'>
-                            <label>Lastname</label>
+                            <label><FormattedMessage id="manage-user.last-name" /></label>
                             <input type='text' onChange={(event) => { this.handleOnChangeInput(event, "lastName") }}
                                 value={this.state.lastName}
+                                placeholder={lastNamePlaceHolder}
                             />
                         </div>
                         <div className='input-container'>
@@ -172,4 +183,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalUser);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ModalUser));

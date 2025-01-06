@@ -196,6 +196,7 @@ class ManageClinic extends Component {
         let selectedProvince = this.state.listProvince.find(proItem => {
             return proItem && proItem.value === provinceId
         })
+        console.log('ea',item)
         this.setState({
             isOpenModal: true,
             isCreate: false,

@@ -138,19 +138,19 @@ class Register extends Component {
 
     }
     handleConfirm = async () => {
-        if (this.state.otp&&this.state.otp == this.state.otpcheck) {
+        if (this.state.otp && this.state.otp == this.state.otpcheck) {
 
-            let res=await createNewUserService({
+            let res = await createNewUserService({
                 email: this.state.email,
                 password: this.state.password,
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 roleId: 'R3',
             })
-            if(res&&res.errCode===0){
+            if (res && res.errCode === 0) {
                 toast.success("create new user succed")
                 this.handleLoginClick()
-            }else {
+            } else {
                 toast.error("error")
             }
         }
@@ -179,7 +179,12 @@ class Register extends Component {
 
     render() {
         let { isSignUp } = this.state;
-        let {language} = this.props
+        let { language } = this.props;
+        let plFirstname = language === LANGUAGES.VI ? 'Nhập tên' : 'Enter your first name';
+        let plLastname = language === LANGUAGES.VI ? 'Nhập họ' : 'Enter your last name';
+        let plPassword = language === LANGUAGES.VI ? 'Nhập mật khẩu' : 'Enter your password';
+        let plCfPassword = language === LANGUAGES.VI ? 'Nhập lại mật khẩu' : 'Confirm your password';
+        let plEmail = language === LANGUAGES.VI? 'Nhập email': 'Enter your email'
         return (
             <div className="register-background">
                 <HomeHeader
@@ -222,23 +227,23 @@ class Register extends Component {
                         <div className='col-6 '>
 
                             <div className='register-content row'>
-                                <div className='col-12 text-center text-login'>{language===LANGUAGES.VI?'Đăng kí':'Register'}</div>
+                                <div className='col-12 text-center text-login'>{language === LANGUAGES.VI ? 'Đăng kí' : 'Sign up'}</div>
                                 <div className='col-12 form-group content-input'>
-                                    <label>{language===LANGUAGES.VI?'Tên':'FirstName'}:</label>
+                                    <label>{language === LANGUAGES.VI ? 'Tên' : 'FirstName'}:</label>
                                     <input
 
                                         value={this.state.firstName}
-                                        className='form-control' 
-                                        placeholder='Nhập tên'
+                                        className='form-control'
+                                        placeholder={plFirstname}
                                         onChange={(event) => this.handleOnChangeInput(event, 'firstName')}
                                     />
                                 </div>
                                 <div className='col-12 form-group content-input'>
-                                    <label>{language===LANGUAGES.VI?'Họ':'LastName'}:</label>
+                                    <label>{language === LANGUAGES.VI ? 'Họ' : 'LastName'}:</label>
                                     <input
 
                                         className='form-control'
-                                        placeholder='Nhập họ'
+                                        placeholder={plLastname}
                                         value={this.state.lastName}
                                         onChange={(event) => this.handleOnChangeInput(event, 'lastName')}
 
@@ -248,17 +253,17 @@ class Register extends Component {
                                     <label>Email:</label>
                                     <input
                                         className='form-control'
-                                        placeholder='Nhập email'
+                                        placeholder={plEmail}
                                         onChange={(event) => this.handleOnChangeInput(event, 'email')}
                                         value={this.state.email}
                                     />
                                 </div>
-                               
+
                                 <div className='col-md-6 form-group content-input'>
-                                    <label>{language===LANGUAGES.VI?'Mật khẩu':"Password"}:</label>
+                                    <label>{language === LANGUAGES.VI ? 'Mật khẩu' : "Password"}:</label>
                                     <div className='custom-input-password'>
-                                        <input className='form-control' type={this.state.isShowPassword ? 'text' : 'password'} 
-                                            placeholder='Nhập mật khẩu'
+                                        <input className='form-control' type={this.state.isShowPassword ? 'text' : 'password'}
+                                            placeholder={plPassword}
                                             value={this.state.password}
                                             onChange={(event) => this.handleOnChangeInput(event, 'password')}
                                         />
@@ -269,10 +274,10 @@ class Register extends Component {
                                 </div>
 
                                 <div className='col-md-6 form-group content-input'>
-                                    <label>{language===LANGUAGES.VI?'Xác nhận mật khẩu':"Confirm Password"}:</label>
+                                    <label>{language === LANGUAGES.VI ? 'Xác nhận mật khẩu' : "Confirm Password"}:</label>
                                     <div className='custom-input-password'>
-                                        <input className='form-control' type={this.state.isShowPassword ? 'text' : 'password'} 
-                                            placeholder='Nhập lại mật khẩu'
+                                        <input className='form-control' type={this.state.isShowPassword ? 'text' : 'password'}
+                                            placeholder={plCfPassword}
                                             value={this.state.confirmPassword}
                                             onChange={(event) => this.handleOnChangeInput(event, 'confirmPassword')}
                                         />
@@ -295,9 +300,9 @@ class Register extends Component {
                                 <div className='col-12' style={{ color: 'red' }}> {this.state.errMessage}</div>
                                 <div className='col-12 '>
                                     {isSignUp ?
-                                        <button className='btn-login' onClick={this.handleSignUp}>{language===LANGUAGES.VI?'Đăng kí':'Sign Up'}</button>
+                                        <button className='btn-login' onClick={this.handleSignUp}>{language === LANGUAGES.VI ? 'Đăng kí' : 'Sign Up'}</button>
                                         :
-                                        <button className='btn-login' onClick={this.handleConfirm} >{language===LANGUAGES.VI?'Xác nhận':'Confirm'}</button>
+                                        <button className='btn-login' onClick={this.handleConfirm} >{language === LANGUAGES.VI ? 'Xác nhận' : 'Confirm'}</button>
                                     }
                                 </div>
                                 <div className='col-6 '>
@@ -305,7 +310,7 @@ class Register extends Component {
                                         // className='forgot-password'
                                         onClick={this.handleLoginClick}
                                     >
-                                        {language===LANGUAGES.VI?'Đăng nhập':'Login'}
+                                        {language === LANGUAGES.VI ? 'Đăng nhập' : 'Login'}
                                     </span>
                                 </div>
 

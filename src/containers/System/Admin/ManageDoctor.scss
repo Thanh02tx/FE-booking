@@ -1,5 +1,42 @@
 .manage-doctor-container{
     padding: 5px;
+    table {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        .detail{
+            width: 35%;
+        }
+        td,th {
+            border: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        th {
+            text-align: center;
+            vertical-align: middle;
+            background-color: #04AA6D;
+            color: white;
+        }
+        td{
+            padding: 6px 12px;
+            vertical-align: middle;
+        }
+        button {
+            padding: 0 12px;
+            border: 1px solid gray;
+            margin-right: 10px;
+            border-radius: 8px;
+            outline: none;
+        }
+    }
     .manage-doctor-title{
         text-align: center;
         margin: 15px 0;

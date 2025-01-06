@@ -160,10 +160,10 @@ class DoctorSchedule extends Component {
                                             return (
                                                 <button
                                                     key={index}
-                                                    className={`${language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'} ${item.enough ? 'btn-disabled' : ''}`}
+                                                    className={`${language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'} ${item.currentNumber>=item.maxNumber ? 'btn-disabled' : ''}`}
                                                     // 
-                                                    onClick={item.enough ? null : () => this.returnScheduleTime(item)}
-                                                    disabled={item.enough} // Vô hiệu hóa nút nếu enough === true
+                                                    onClick={item.currentNumber>=item.maxNumber ? null : () => this.returnScheduleTime(item)}
+                                                    disabled={item.currentNumber>=item.maxNumber} // Vô hiệu hóa nút nếu enough === true
                                                 >{timeDisplay}
                                                 </button>
                                             )

@@ -6,7 +6,7 @@ import './Login.scss';
 import { FormattedMessage } from 'react-intl';
 import { handleLoginApi, checkRole } from '../../services/userService';
 import HomeHeader from '../HomePage/HomeHeader';
-import { path } from '../../utils';
+import { LANGUAGES, path } from '../../utils';
 
 class Login extends Component {
     constructor(props) {
@@ -143,6 +143,9 @@ class Login extends Component {
         this.props.history.push(path.FORGOT_PASSWORD);
     }
     render() {
+        let {language}= this.props
+        let plEmail= language===LANGUAGES.VI?'Nhập Email':'Enter your Email'
+        let plPassword = language===LANGUAGES.VI?'Nhập mật khẩu':'Enter your Password'
         return (
             <div className="login-background">
                 <HomeHeader
@@ -184,10 +187,11 @@ class Login extends Component {
                         </div>
                         <div className='col-md-6 '>
                             <div className='login-content row'>
-                                <div className='col-12 text-center text-login'>Login</div>
+                                <div className='col-12 text-center text-login'>{language===LANGUAGES.VI?'Đăng nhập':'Login'}</div>
                                 <div className='col-12 form-group login-input'>
                                     <label>Email:</label>
-                                    <input type='text' className='form-control' placeholder='Enter your username'
+                                    <input type='text' className='form-control' 
+                                        placeholder={plEmail}
                                         value={this.state.username}
                                         onChange={(event) => this.handleOnChangeUsername(event,)}
                                     />
@@ -195,7 +199,10 @@ class Login extends Component {
                                 <div className='col-12 form-group login-input'>
                                     <label>Password:</label>
                                     <div className='custom-input-password'>
-                                        <input className='form-control' type={this.state.isShowPassword ? 'text' : 'password'} placeholder='Enter your password'
+                                        <input 
+                                            className='form-control' 
+                                            type={this.state.isShowPassword ? 'text' : 'password'} 
+                                            placeholder={plPassword}
                                             value={this.state.password}
                                             onChange={(event) => this.handleOnChangePassword(event)}
                                             onKeyDown={(event) => this.handleKeyDown(event)} />
@@ -213,7 +220,7 @@ class Login extends Component {
                                         className='forgot-password'
                                         onClick={this.handleForgotPassword}
                                     >
-                                        Quên mật khẩu
+                                       {language === LANGUAGES.VI ? 'Quên mật khẩu' : 'Forgot password'}
                                     </span>
                                 </div>
                                 <div className='col-6 text-right'>
@@ -221,16 +228,16 @@ class Login extends Component {
                                         className='forgot-password'
                                         onClick={this.handleRegisterClick}
                                     >
-                                        Đăng kí
+                                         {language === LANGUAGES.VI ? 'Đăng ký' : 'Register'}
                                     </span>
                                 </div>
-                                <div className='col-12 text-center'>
+                                {/* <div className='col-12 text-center'>
                                     <span className='text-other-login mt-3'>Or Login with: </span>
                                 </div>
                                 <div className='col-12 social-login'>
                                     <i className="fab fa-google-plus-g google"></i>
                                     <i className="fab fa-facebook-f facebook"></i>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -242,7 +249,7 @@ class Login extends Component {
 
 const mapStateToProps = state => {
     return {
-        lang: state.app.language,
+        language: state.app.language,
         isLoggedIn: state.user.isLoggedIn,
         userInfo: state.user.userInfo,
     };

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './UserManager.scss';
+import { Modal, ModalBody, ModalHeader, Button, ModalFooter } from 'reactstrap';
 import { getAllUsers, createNewUserService, deleteUserService, editUserService } from '../../services/userService';
 import ModalUser from './ModalUser';
 import ModalEditUser from './ModalEditUser';
@@ -15,10 +16,12 @@ class UserManage extends Component {
         this.state = {
             arrUsersAPi: [],
             arrUsers: [],
+            userDelete:{},
             isOpenModalUser: false,
             isOpenModalEditUser: false,
             userEdit: {},
-            search: ''
+            search: '',
+            isOpenModalDelete:false
         }
     }
 
@@ -68,19 +71,31 @@ class UserManage extends Component {
             console.log(e)
         }
     }
-
-    handleDeleteUser = async (user) => {
+    closeModalDelete=()=>{
+        this.setState({
+            isOpenModalDelete:false
+        })
+    }
+    handleConfirmDelete=async()=>{
         try {
-            let res = await deleteUserService(user.id);
+            let res = await deleteUserService(this.state.userDelete.id);
             if (res && res.errCode === 0) {
                 await this.getAllUsersFromReact();
+                this.closeModalDelete()
+                toast.success('success')
             } else {
-                alert(res.errMessage);
+                toast.error('error')
             }
         }
         catch (e) {
             console.log(e);
         }
+    }
+    handleDeleteUser = async (user) => {
+        this.setState({
+            isOpenModalDelete:true,
+            userDelete:user
+        })
     }
     handleEditUser = async (user) => {
         this.setState({
@@ -109,7 +124,7 @@ class UserManage extends Component {
         })
     }
     render() {
-        let { search, arrUsers, arrUsersAPi } = this.state;
+        let { search,userDelete, arrUsers, arrUsersAPi,isOpenModalDelete } = this.state;
         let {language}= this.props;
         arrUsers = arrUsersAPi.filter(item =>
             item.email.toLowerCase().includes(search.toLowerCase())
@@ -184,6 +199,38 @@ class UserManage extends Component {
 
                     </table>
                 </div>
+                <Modal
+                    isOpen={isOpenModalDelete}
+                    // className="modal-feedback-container"
+                    size="lg"
+                    centered
+                >
+                    <div className="modal-header">
+                        <h5 className="modal-title">{language === LANGUAGES.VI ? 'Xoá cẩm nang' : 'Delete Handbook'}</h5>
+                        <button
+                            type="button"
+                            className="close"
+                            onClick={() => this.closeModalDeleteHandbook()}
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                    <ModalBody>
+                        {language === LANGUAGES.VI
+                            ? `Bạn chắc chắn muốn xoá người dùng: ${userDelete.lastName} ${userDelete.firstName} - ${userDelete.email} ?`
+                            : `Are you sure you want to delete the user: ${userDelete.firstName} ${userDelete.lastName} - ${userDelete.email}?`
+                        }
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="success" onClick={() => this.handleConfirmDelete()}>
+                            {language === LANGUAGES.VI ? 'Xoá' : 'Delete'}
+                        </Button>
+                        <Button color="secondary" onClick={() => this.closeModalDelete()}>
+                            {language === LANGUAGES.VI ? 'Đóng' : 'Close'}
+                        </Button>
+                    </ModalFooter>
+                </Modal>
             </div>
         );
     }

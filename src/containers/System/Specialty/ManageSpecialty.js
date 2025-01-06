@@ -110,8 +110,9 @@ class ManageSpecialty extends Component {
         })
     }
     handleEditSpecialty = async (item) => {
+        // console.log('ssa',item)
         this.handleShow()
-        let imageBase64 = new Buffer.from(item.image, 'base64').toString('binary');
+        // let imageBase64 = new Buffer(item.image, 'base64').toString('binary')
         this.setState({
             id: item.id,
             nameVi: item.nameVi,
@@ -120,7 +121,7 @@ class ManageSpecialty extends Component {
             descriptionHTMLVi: item.descriptionHTMLVi,
             descriptionMarkdownVi: item.descriptionMarkdownVi,
             descriptionMarkdownEn: item.descriptionMarkdownEn,
-            image: imageBase64,
+            image: item.image,
             isOpenModal: true,
             isCreate: false
         })

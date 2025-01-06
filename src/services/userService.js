@@ -219,8 +219,8 @@ const getAllBookingAdmin = (data,token) => {
         }
     })
 }
-const confirmAppointment = (id, token) => {
-    return axios.put('/api/confirm-appointment', { id: id }, {
+const confirmAppointment = (data, token) => {
+    return axios.put('/api/confirm-appointment', data, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -313,8 +313,28 @@ const postCreateComment = (data,token) => {
         }
     });
 }
+const postChangeActiveDoctor = (data,token) => {
+    return axios.post(`/api/post-change-active-doctor`,data,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
+const postCreateDoctorInfor = (data,token) => {
+    return axios.post(`/api/post-create-infor-doctor`,data,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
 
-
+const postUpdateDoctorInfor = (data,token) => {
+    return axios.post(`/api/post-update-infor-doctor`,data,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
 export {
     checkRole,
     checkRoleAdmin,
@@ -380,5 +400,8 @@ export {
     allScheduleByDateAndDoctorId,
     saveScheduleByDateAndDoctorId,
     getCommentsByDoctorId,
-    postCreateComment
+    postCreateComment,
+    postChangeActiveDoctor,
+    postCreateDoctorInfor,
+    postUpdateDoctorInfor
 }
